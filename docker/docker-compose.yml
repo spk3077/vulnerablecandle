@@ -1,0 +1,42 @@
+# Main Docker-Compose File
+# Authors: Sean Kells <spk3077@rit.edu>
+version: "3"
+
+services:
+  # Web Server
+  webserver:
+    image: httpd:latest
+    hostname: webserver
+    volumes:
+    - ../webserver:/usr/local/apache2/htdocs/
+    ports:
+      - 80:80
+      - 443:443
+
+  # Database
+  # db:
+  #   hostname: db
+  #   image: mysql
+  #   restart: always
+  #   command: --init-file /data/application/init.sql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: secret
+  #     MYSQL_DATABASE: armbook
+  #     MYSQL_USER: armbook
+  #     MYSQL_PASSWORD: secret
+
+  # PHPMYADMIN Interface
+  # phpmyadmin:
+  #   hostname: phpmyadmin
+  #   image: phpmyadmin/phpmyadmin
+  #   restart: always
+  #   environment:
+  #     PMA_HOST: db
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - 8080:80
+
+
+
+ 
