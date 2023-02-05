@@ -4,14 +4,20 @@ version: "3"
 
 services:
   # Web Server
-  webserver:
+  react_app:
     image: httpd:latest
-    hostname: webserver
+    hostname: react_app
     volumes:
-    - ../webserver:/usr/local/apache2/htdocs/
+    - ../react_app:/usr/local/apache2/htdocs/
     ports:
       - 80:80
       - 443:443
+
+  # Maven Backend
+  # backend:
+    # hostname: backend
+    # build: ./backend
+    
 
   # Database
   # db:
@@ -21,8 +27,8 @@ services:
   #   command: --init-file /data/application/init.sql
   #   environment:
   #     MYSQL_ROOT_PASSWORD: secret
-  #     MYSQL_DATABASE: armbook
-  #     MYSQL_USER: armbook
+  #     MYSQL_DATABASE: candle
+  #     MYSQL_USER: candle_admin
   #     MYSQL_PASSWORD: secret
 
   # PHPMYADMIN Interface
