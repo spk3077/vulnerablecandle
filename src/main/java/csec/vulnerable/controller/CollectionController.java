@@ -13,41 +13,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import csec.vulnerable.beans.Product;
+import csec.vulnerable.beans.Collection;
 import csec.vulnerable.http.Response;
-import csec.vulnerable.service.ProductService;
+import csec.vulnerable.service.CollectionService;
 
 @RestController()
-@RequestMapping("/products")
-public class ProductController {
+@RequestMapping("/collections")
+public class CollectionController {
 	@Autowired
-	ProductService productService;
+	CollectionService collectionService;
 	
 	@GetMapping("/{id}")
-	public Product getProduct(@PathVariable int id) {
-		return productService.getProduct(id);
+	public Collection getCollection(@PathVariable int id) {
+		return collectionService.getCollection(id);
 	}
 	
 	@GetMapping
-	public List<Product> getProducts(){
-		return productService.getProducts();
+	public List<Collection> getCollections(){
+		return collectionService.getCollections();
 	}
 	
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 	@PostMapping
-	public Response addProduct(@RequestBody Product product){
-		return productService.addProduct(product);
+	public Response addCollection(@RequestBody Collection collection){
+		return collectionService.addCollection(collection);
 	}
 	
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 	@PutMapping
-	public Response changeProduct(@RequestBody Product product) {
-		return productService.changeProduct(product);
+	public Response changeCollection(@RequestBody Collection collection) {
+		return collectionService.changeCollection(collection);
 	}
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
-	public Response deleteProduct(@PathVariable int id) {
-		return productService.deleteProduct(id);
+	public Response deleteCollection(@PathVariable int id) {
+		return collectionService.deleteCollection(id);
 	}
 	
 }

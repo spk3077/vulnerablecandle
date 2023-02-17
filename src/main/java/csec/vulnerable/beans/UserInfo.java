@@ -1,5 +1,8 @@
 package csec.vulnerable.beans;
 
+import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -38,9 +41,30 @@ public class UserInfo {
 	String state;
 	@Column
 	String zip;
+	@Column
+	String picture;
+	@Column
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Date create_date;
 	public UserInfo() {
 		super();
 	}
+	
+	public UserInfo(User user, int id, String name, String phone, String email, String address, String city,
+			String state, String zip, String picture, Date create_date) {
+		this.user = user;
+		this.id = id;
+		this.name = name;
+		this.phone = phone;
+		this.email = email;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.picture = picture;
+		this.create_date = create_date;
+	}
+
 	public UserInfo(User user, String name, String phone, String email, String address, String city, String state,
 			String zip) {
 		super();
@@ -124,11 +148,25 @@ public class UserInfo {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	public Date getCreate_date() {
+		return create_date;
+	}
+	public void setCreate_date(Date create_date) {
+		this.create_date = create_date;
+	}
 	@Override
 	public String toString() {
-		return "UserInfo [user=" + user + ", name=" + name + ", phone=" + phone + ", email=" + email + ", address="
-				+ address + ", city=" + city + ", state=" + state + ", zip=" + zip + "]";
+		return "UserInfo [user=" + user + ", id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email
+				+ ", address=" + address + ", city=" + city + ", state=" + state + ", zip=" + zip + ", picture="
+				+ picture + ", create_date=" + create_date + "]";
 	}
+	
 	
 	
 	

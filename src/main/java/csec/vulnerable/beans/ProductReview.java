@@ -1,5 +1,8 @@
 package csec.vulnerable.beans;
 
+import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -32,6 +35,9 @@ public class ProductReview {
 	private int grade;
     @Column
     private String comment;
+    @Column
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private Date review_date;
     
     
     public User getUser() {
@@ -70,6 +76,20 @@ public class ProductReview {
     }
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Date getReview_date() {
+        return review_date;
+    }
+
+    public void setReview_date(Date review_date) {
+        this.review_date = review_date;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductReview [id=" + id + ", product=" + product + ", user=" + user + ", grade=" + grade + ", comment="
+                + comment + ", review_date=" + review_date + "]";
     }
 
 }

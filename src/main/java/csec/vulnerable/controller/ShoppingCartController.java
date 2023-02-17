@@ -23,31 +23,31 @@ public class ShoppingCartController {
 	@Autowired
 	ShoppingCartService shoppingCartService;
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/{id}")
 	public ShoppingCart getProduct(@PathVariable int id) {
 		return shoppingCartService.getShoppingCart(id);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping
 	public List<ShoppingCart> getShoppingCarts() {
 		return shoppingCartService.getShoppingCarts();
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PostMapping
 	public Response addShoppingCart(@RequestBody ShoppingCart ShoppingCart) {
 		return shoppingCartService.addShoppingCart(ShoppingCart);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping
 	public Response changeShoppingCart(@RequestBody ShoppingCart ShoppingCart) {
 		return shoppingCartService.changeShoppingCart(ShoppingCart);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@DeleteMapping("/{id}")
 	public Response deleteShoppingCart(@PathVariable int id) {
 		return shoppingCartService.deleteShoppingCart(id);
