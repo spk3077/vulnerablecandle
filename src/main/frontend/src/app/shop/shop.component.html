@@ -1,3 +1,97 @@
-<main class="container">
-    <p> dog </p>
+<main>    
+    <!-- ========================= SECTION CONTENT ========================= -->
+    <section class="section-content padding-y">
+        <div class="container">
+        
+        <div class="row">
+            <aside class="col-md-3">
+                
+        <div class="card">
+            <article class="filter-group">
+                <header class="card-header">
+                    <a role="button" data-bs-toggle="collapse" href="#collapse_1" aria-expanded="true" aria-controls="collapse_1">
+                        <fa-icon class="fa" [icon]="faChevronDown"></fa-icon>
+                        <h6 class="title">Search Bar</h6>
+                    </a>
+                </header>
+                <div class="filter-content collapse show" id="collapse_1">
+                    <div class="card-body">
+                        <form class="pb-3">
+                            <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                            <button id="filter_search" class="btn btn-light" type="button">
+                                <fa-icon class="fa" [icon]="faMagnifyingGlass"></fa-icon>
+                            </button>
+                            </div>
+                        </form>
+                    </div> <!-- card-body.// -->
+                </div>
+            </article> <!-- filter-group  .// -->
+            <article class="filter-group">
+                <header class="card-header">
+                    <a role="button" data-bs-toggle="collapse" href="#collapse_2" aria-expanded="true" aria-controls="collapse_2">
+                        <fa-icon class="fa" [icon]="faChevronDown"></fa-icon>
+                        <h6 class="title">Brands </h6>
+                    </a>
+                </header>
+                <div class="filter-content collapse show" id="collapse_2">
+                    <div class="card-body">
+                        <label class="custom-control custom-checkbox">
+                          <input type="checkbox" checked="" class="custom-control-input">
+                          <div class="custom-control-label">Mercedes  
+                              <b class="badge badge-pill badge-light float-right">120</b>  </div>
+                        </label>
+                        <label class="custom-control custom-checkbox">
+                          <input type="checkbox" checked="" class="custom-control-input">
+                          <div class="custom-control-label">Toyota 
+                              <b class="badge badge-pill badge-light float-right">15</b>  </div>
+                        </label>
+                        <label class="custom-control custom-checkbox">
+                          <input type="checkbox" checked="" class="custom-control-input">
+                          <div class="custom-control-label">Mitsubishi 
+                              <b class="badge badge-pill badge-light float-right">35</b> </div>
+                        </label>
+                        <label class="custom-control custom-checkbox">
+                          <input type="checkbox" checked="" class="custom-control-input">
+                          <div class="custom-control-label">Nissan 
+                              <b class="badge badge-pill badge-light float-right">89</b> </div>
+                        </label>
+                        <label class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input">
+                          <div class="custom-control-label">Honda 
+                              <b class="badge badge-pill badge-light float-right">30</b>  </div>
+                        </label>
+            </div> <!-- card-body.// -->
+                </div>
+            </article> <!-- filter-group .// -->
+            <article class="filter-group">
+                <header class="card-header">
+                    <a role="button" data-bs-toggle="collapse" href="#collapse_3" aria-expanded="true" aria-controls="collapse_3">
+                        <fa-icon class="fa" [icon]="faChevronDown"></fa-icon>
+                        <h6 class="title">Price range </h6>
+                    </a>
+                </header>
+                <div class="filter-content collapse show" id="collapse_3">
+                    <div class="card-body">
+                        <input type="range" class="custom-range" min="0" max="100" name="">
+                        <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label>Min</label>
+                          <input class="form-control" placeholder="$0" type="number">
+                        </div>
+                        <div class="form-group text-right col-md-6">
+                          <label>Max</label>
+                          <input class="form-control" placeholder="$1,0000" type="number">
+                        </div>
+                        </div> <!-- form-row.// -->
+                        <button class="btn btn-block btn-primary">Apply</button>
+                    </div><!-- card-body.// -->
+                </div>
+            </article> <!-- filter-group .// -->
+        </div>
+    </aside>
+    </div>
+    </div>
+    </section>
+
 </main>

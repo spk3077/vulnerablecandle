@@ -12,6 +12,7 @@ import { CollectionsComponent } from './collections/collections.component';
 import { UsersComponent } from './admin/users/users.component';
 import { ProductsComponent } from './admin/products/products.component';
 import { LoginComponent } from './login/login.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

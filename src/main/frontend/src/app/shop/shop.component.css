@@ -1,0 +1,67 @@
+/* ====SITE WIDE==== */
+html {
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+  }
+.fa {
+    font-weight: 900;
+    font-family: "Font Awesome 5 Free";
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    margin-top: 5px;
+    float: right;
+    font-size: 80%;
+}
+
+/* ====FILTER GROUP==== */
+/*==HEADER==*/
+.card-header {
+    background-color: white;
+}
+header > a {
+    text-decoration: none;
+    color: rgb(25, 102, 204);
+    text-shadow: 0.75px 0 rgb(25, 102, 204);
+    letter-spacing:0.25px;
+    font-weight:bolder;
+}
+.filter-group {
+    border-bottom: 1px solid #e4e4e4;
+}
+.filter-group .card-header {
+border-bottom: 0;
+}
+.filter-group:last-child {
+border-bottom: 0;
+}
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+}
+.form-row > .col,
+.form-row > [class*=col-] {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.card-header .title {
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+/* ==Search Button== */
+#filter_search {
+    border: 1px solid #ced4da;
+}
+
+/* ==Checkboxes== */
+.custom-control {
+    
+}
+
+
+
+
