@@ -1,3 +1,4 @@
+html, body {margin: 0; height: 100%; overflow: hidden}
 .login {
     min-height: 100vh;
   }
@@ -18,3 +19,4 @@
     letter-spacing: 0.05rem;
     padding: 0.75rem 1rem;
   }
+  

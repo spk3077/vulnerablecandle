@@ -3,6 +3,9 @@ html {
     font-family: "Inter", sans-serif;
     font-size: 15px;
   }
+.main-content {
+    padding-top: 1rem;
+}
 .fa {
     font-weight: 900;
     font-family: "Font Awesome 5 Free";
@@ -13,6 +16,19 @@ html {
     margin-top: 5px;
     float: right;
     font-size: 80%;
+}
+
+/* ====HEADER PAGETOP==== */
+.section-pagetop {
+    padding: 1.5rem 0;
+    background-color: #f8f9fa;
+}
+.title-page {
+ color: #212529;
+ font-weight: bold;
+}
+.navbar {
+    background-color:lightgrey;
 }
 
 /* ====FILTER GROUP==== */
@@ -58,10 +74,22 @@ border-bottom: 0;
 }
 
 /* ==Checkboxes== */
-.custom-control {
-    
+.badge-light {
+    color: #212529;
+    background-color: #e4e4e4;
 }
+.card-product-grid {
+    box-shadow: 0 1px 2px rgba(51, 51, 51, .07);
+    margin-bottom: 1.5rem;
+}
+.mt-n5 {
+    margin-top: -2rem !important;
+}
+.card-title > a{
+    font-weight: 600;
+    text-decoration: none;
 
+}
 
 
 
