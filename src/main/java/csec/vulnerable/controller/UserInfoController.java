@@ -31,25 +31,25 @@ public class UserInfoController {
 		return userInfoService.getUserInfos();
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/{id}")
 	public UserInfo getUserInfo(@PathVariable int id) {
 		return userInfoService.getUserInfo(id);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PostMapping
 	public Response addUserInfo(@RequestBody UserInfo userInfo,Authentication authentication) {
 		return userInfoService.addUserInfo(userInfo,authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping
 	public Response changeUserInfo(@RequestBody UserInfo userInfo, Authentication authentication) {
 		return userInfoService.changeUserInfo(userInfo, authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@DeleteMapping("/{id}")
 	public Response deleteUserDetail(@PathVariable int id) {
 		return userInfoService.deleteUserInfo(id);

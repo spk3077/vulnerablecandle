@@ -57,7 +57,7 @@ public class UserController {
 		return userService.changePassword(user, authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping("/authorization")
 	public Response beSeller(@RequestBody User user,Authentication authentication) {
 		return userService.beSeller(user, authentication);

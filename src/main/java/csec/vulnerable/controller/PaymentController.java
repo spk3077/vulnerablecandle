@@ -24,31 +24,31 @@ public class PaymentController {
 	@Autowired
 	PaymentService paymentService;
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/{id}")
 	public Payment getProduct(@PathVariable int id) {
 		return paymentService.getPayment(id);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping
 	public List<Payment> getPayments() {
 		return paymentService.getPayments();
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PostMapping
 	public Response addPayment(@RequestBody Payment payment,Authentication authentication) {
 		return paymentService.addPayment(payment,authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping
 	public Response changePayment(@RequestBody Payment payment,Authentication authentication) {
 		return paymentService.changePayment(payment, authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@DeleteMapping("/{id}")
 	public Response deletePayment(@PathVariable int id,Authentication authentication) {
 		return paymentService.deletePayment(id, authentication);

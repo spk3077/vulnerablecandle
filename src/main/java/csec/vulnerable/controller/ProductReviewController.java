@@ -24,31 +24,31 @@ public class ProductReviewController {
 	@Autowired
 	ProductReviewService productReviewService;
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/{id}")
 	public ProductReview getProduct(@PathVariable int id) {
 		return productReviewService.getProductReview(id);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping
 	public List<ProductReview> getProductReviews() {
 		return productReviewService.getProductReviews();
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PostMapping
 	public Response addProductReview(@RequestBody ProductReview productReview,Authentication authentication) {
 		return productReviewService.addProductReview(productReview,authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping
 	public Response changeProductReview(@RequestBody ProductReview productReview,Authentication authentication) {
 		return productReviewService.changeProductReview(productReview,authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@DeleteMapping("/{id}")
 	public Response deleteProductReview(@PathVariable int id,Authentication authentication) {
 		return productReviewService.deleteProductReview(id, authentication);

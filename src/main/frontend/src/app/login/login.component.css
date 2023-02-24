@@ -1,0 +1,22 @@
+html, body {margin: 0; height: 100%; overflow: hidden}
+.login {
+    min-height: 100vh;
+  }
+  
+  .bg-image {
+    background-image: url("../../assets/images/login_picture.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  /*https://source.unsplash.com/WEQbe2jBg40/600x1200*/
+  .login-heading {
+    font-weight: 300;
+  }
+  
+  .btn-login {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+  }
+  

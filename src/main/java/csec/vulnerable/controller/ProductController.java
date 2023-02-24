@@ -23,30 +23,28 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
-	//@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
 	@GetMapping("/{id}")
 	public Product getProduct(@PathVariable int id) {
 		return productService.getProduct(id);
 	}
 	
-	//@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER','ROLE_SELLER')")
 	@GetMapping
 	public List<Product> getProducts(){
 		return productService.getProducts();
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 	@PostMapping
 	public Response addProduct(@RequestBody Product product){
 		return productService.addProduct(product);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 	@PutMapping
 	public Response changeProduct(@RequestBody Product product) {
 		return productService.changeProduct(product);
 	}
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_SELLER')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
 	public Response deleteProduct(@PathVariable int id) {
 		return productService.deleteProduct(id);

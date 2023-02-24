@@ -5,10 +5,8 @@ version: "3"
 services:
   # Web Server
   react_app:
-    image: httpd:latest
     hostname: react_app
-    volumes:
-    - ../react_app:/usr/local/apache2/htdocs/
+    build: ./frontend
     ports:
       - 80:80
       - 443:443
@@ -27,9 +25,9 @@ services:
   #   command: --init-file /data/application/init.sql
   #   environment:
   #     MYSQL_ROOT_PASSWORD: secret
-  #     MYSQL_DATABASE: candle
-  #     MYSQL_USER: candle_admin
-  #     MYSQL_PASSWORD: secret
+  #     MYSQL_DATABASE: csec
+  #     MYSQL_USER: root
+  #     MYSQL_PASSWORD: csec77499981
 
   # PHPMYADMIN Interface
   # phpmyadmin:

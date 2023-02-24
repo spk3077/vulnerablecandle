@@ -14,6 +14,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -42,9 +44,13 @@ public class Product {
 	private String image;
 	@Column
 	private String description;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "collection_id")
+	Collection collection;
 	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<ProductReview> reviews;
-
+	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<Tag> tags;
 	public Product(int id) {
 		super();
 		this.id = id;
@@ -52,8 +58,6 @@ public class Product {
 	public Product() {
 		super();
 	}
-
-
 	public Product(int id, @NotEmpty String name, @NotEmpty String brand, @NotNull @Positive int price,
 			@NotNull @PositiveOrZero int stock, String image,String description) {
 		super();
@@ -145,10 +149,24 @@ public class Product {
 		this.reviews = reviews;
 	}
 	
+	
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", brand=" + brand + ", price=" + price + ", stock=" + stock
-				+ ", image=" + image + ", description=" + description + ", reviews=" + reviews + "]";
+				+ ", image=" + image + ", description=" + description + ", collection=" + collection + ", reviews="
+				+ reviews + ", tags=" + tags + "]";
+	}
+	public List<Tag> getTags() {
+		return tags;
+	}
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+	public Collection getCollection() {
+		return collection;
+	}
+	public void setCollection(Collection collection) {
+		this.collection = collection;
 	}
 	
 	
