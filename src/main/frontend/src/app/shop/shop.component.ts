@@ -14,22 +14,64 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./shop.component.css']
 })
 export class ShopComponent implements OnInit {
+  // Title of Page
+  title: string = "Our Shop";
+  
+  // Products
+  products: Product[] = [];
+
+  filterSearch!: string;
+  filters = {
+    popular: false,
+    cute: false,
+    trending: false,
+    car: false,
+    unique: false,
+    price1: false,
+    price2: false,
+    price3: false,
+    price4: false,
+    };
+
   // Font Awesome Exports
   faMagnifyingGlass = faMagnifyingGlass;
   faChevronDown = faChevronDown;
-  
-  // Products
-  products: Product[] = []
 
   constructor(private httpService: HttpClientService) { }
 
   ngOnInit(): void {
-    this.getHeroes();
+    this.getProducts();
   }
-
-  getHeroes(): void {
+  
+  // Retrieve Products
+  getProducts(): void {
     this.httpService.getProducts()
       .subscribe(products => this.products = products);
+  }
+
+  // Retrieve Count by Filter for Badge
+  getFilterCount(type: number): number {
+    switch ( type ) {
+      case 1:
+        return this.products.reduce((acc, obj) => obj.tags.includes("isPopular") ? acc += 1 : acc, 0);
+      case 2:
+        return this.products.reduce((acc, obj) => obj.tags.includes("isCute") ? acc += 1 : acc, 0);
+      case 3:
+        return this.products.reduce((acc, obj) => obj.tags.includes("isTrending") ? acc += 1 : acc, 0);
+      case 4:
+        return this.products.reduce((acc, obj) => obj.tags.includes("isForCar") ? acc += 1 : acc, 0);
+      case 5:
+        return this.products.reduce((acc, obj) => obj.tags.includes("isUnique") ? acc += 1 : acc, 0);
+      case 6:
+        return this.products.reduce((acc, obj) => obj.price < 10 ? acc += 1 : acc, 0);
+      case 7:
+        return this.products.reduce((acc, obj) => obj.price >= 10 && obj.price < 20 ? acc += 1 : acc, 0);
+      case 8:
+        return this.products.reduce((acc, obj) => obj.price >= 20 && obj.price <= 30 ? acc += 1 : acc, 0);
+      case 9:
+        return this.products.reduce((acc, obj) => obj.price > 30 ? acc += 1 : acc, 0);
+    }
+    return 0;
   }
 
   // Get the Tags formatted for HTML
