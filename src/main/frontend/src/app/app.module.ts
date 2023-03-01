@@ -18,6 +18,7 @@ import { ProductsComponent } from './admin/products/products.component';
 import { LoginComponent } from './login/login.component';
 import { SubmenuComponent } from './submenu/submenu.component';
 import { ProductsPipe } from './shop/products.pipe';
+import { SignupComponent } from './signup/signup.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ProductsPipe } from './shop/products.pipe';
     ProductsComponent,
     LoginComponent,
     SubmenuComponent,
-    ProductsPipe
+    ProductsPipe,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
