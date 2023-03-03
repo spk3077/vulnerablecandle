@@ -53,7 +53,7 @@ export const PRODUCTS: Product[] = [
     id: 3,
     name: 'Banana Candle',
     brand: 'Heavenly',
-    tags: ['IsUnique'],
+    tags: ['isUnique'],
     price: 5,
     stock: 10,
     imageUrls: ['assets/images/candle3.png', 'assets/images/candle1.png', 'assets/images/candle2.png'],

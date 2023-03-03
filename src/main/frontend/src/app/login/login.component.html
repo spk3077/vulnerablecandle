@@ -6,7 +6,8 @@
           <div class="container">
             <div class="row">
               <div class="col-md-9 col-lg-8 mx-auto">
-                <h3 class="login-heading mb-4">Welcome back!</h3>
+                <h3 class="login-heading">Welcome back!</h3>
+                <p class="mb-4">Don’t have an account? <a routerLink="/signup">Create a free account</a></p>
   
                 <!-- Sign In Form -->
                 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
@@ -28,18 +29,14 @@
   
                   <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
-                    <label class="form-check-label" for="rememberPasswordCheck">
-                      Remember password
-                    </label>
-                  </div>
-  
-                  <div class="d-grid">
-                    <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Sign in</button>
-                    <div class="text-center">
-                      <a class="small" href="#">Forgot password?</a>
+                    <div class="password-div">
+                      <label class="form-check-label" for="rememberPasswordCheck">Remember password</label>
+                      <a class="small" routerLink="">Forgot password?</a>
                     </div>
                   </div>
-  
+                  <div class="d-grid">
+                    <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Sign in</button>
+                  </div>
                 </form>
               </div>
             </div>
