@@ -1,0 +1,143 @@
+package csec.vulnerable.beans;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+
+
+@Entity
+@Table(name = "ecom_user")
+public class User implements UserDetails{
+private static final long serialVersionUID = 1L;
+	@Id //primary key
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "USER_SEQ")
+	@SequenceGenerator(name = "USER_SEQ",sequenceName = "ECOM_USER_SEQ",allocationSize = 1)
+	private int id;
+	@Column(name = "username",unique = true,nullable = false)
+	private String username;
+	
+	@Column(name = "password",nullable = false)
+	private String password;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "c_user_c_user_profile",joinColumns = {
+			@JoinColumn(name = "user_id",referencedColumnName = "id")},inverseJoinColumns = {
+				@JoinColumn(name = "user_profile_id",referencedColumnName = "id")})
+	private List<UserProfile> profiles = new ArrayList<UserProfile>();
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	private UserInfo userInfo;
+
+	@OneToMany(mappedBy = "user")
+	private List<ProductReview> myreviews;
+
+	@OneToMany(mappedBy = "user")
+	private List<Payment> mypayments;
+			
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
+		return profiles;
+	}
+	@Override
+	public String getPassword() {
+
+		return password;
+	}
+	@Override
+	public String getUsername() {
+		
+		return username;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", profiles=" + profiles
+				+ ", userInfo=" + userInfo + ", myreviews=" + myreviews + "]";
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public List<UserProfile> getProfiles() {
+		return profiles;
+	}
+	public void setProfiles(List<UserProfile> profiles) {
+		this.profiles = profiles;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public User(int id, String username, String password, List<UserProfile> profiles) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.profiles = profiles;
+	}
+	public User() {
+		super();
+	}
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+	public List<ProductReview> getMyreviews() {
+		return myreviews;
+	}
+	public void setMyreviews(List<ProductReview> myreviews) {
+		this.myreviews = myreviews;
+	}
+	public List<Payment> getMypayments() {
+		return mypayments;
+	}
+	public void setMypayments(List<Payment> mypayments) {
+		this.mypayments = mypayments;
+	}
+}
