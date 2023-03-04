@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import csec.vulnerable.beans.Collection;
+import csec.vulnerable.beans.Product;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.CollectionService;
 
@@ -32,6 +33,12 @@ public class CollectionController {
 	public List<Collection> getCollections(){
 		return collectionService.getCollections();
 	}
+
+	@GetMapping("/{collectionId}/products")
+    public List<Product> getProductsByCollectionId(@PathVariable Integer collectionId) {
+        List<Product> products = collectionService.getProductsByCollectionId(collectionId);
+        return products;
+    }
 	
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 	@PostMapping

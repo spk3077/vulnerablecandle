@@ -41,7 +41,7 @@ public class ProductService {
 		p.setName(product.getName());
 		p.setStock(product.getStock());
 		p.setDescription(product.getDescription());
-		p.setReviews(product.getReviews());
+		/* p.setReviews(product.getReviews()); */
 		p.setCollection(product.getCollection());
 		p.setTags(product.getTags());
 		productDao.save(p);

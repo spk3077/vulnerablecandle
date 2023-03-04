@@ -1,8 +1,7 @@
 package csec.vulnerable.beans;
 
-import java.util.Set;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,21 +24,21 @@ public class Collection {
 	private String name;
     @Column
 	private String description;
-    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Product> products;
+    @OneToMany(mappedBy = "collection")
+	private List<Product> products;
     
     
     public Collection() {
     }
 
-    public Collection(int id, @NotEmpty String name, String description, Set<Product> products) {
+    public Collection(int id, @NotEmpty String name, String description, List<Product> products) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.products = products;
     }
     
-    public Collection(@NotEmpty String name, String description, Set<Product> products) {
+    public Collection(@NotEmpty String name, String description, List<Product> products) {
         this.name = name;
         this.description = description;
         this.products = products;
@@ -70,10 +69,10 @@ public class Collection {
                 + "]";
     }
     
-    public Set<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
-    public void setProducts(Set<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
     

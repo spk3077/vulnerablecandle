@@ -1,6 +1,6 @@
 package csec.vulnerable.controller;
 
-import java.util.List;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,12 +25,12 @@ public class ProductReviewController {
 	ProductReviewService productReviewService;
 	
 	@GetMapping("/{id}")
-	public ProductReview getProductReview(@PathVariable int id) {
+	public HashMap<Integer,String> getProductReview(@PathVariable int id) {
 		return productReviewService.getProductReview(id);
 	}
 	
 	@GetMapping
-	public List<ProductReview> getProductReviews() {
+	public HashMap<Integer,HashMap<Integer,String>> getProductReviews() {
 		return productReviewService.getProductReviews();
 	}
 	

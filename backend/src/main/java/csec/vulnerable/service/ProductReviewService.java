@@ -1,7 +1,7 @@
 package csec.vulnerable.service;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,14 +26,21 @@ public class ProductReviewService {
 	@Autowired
 	ProductReviewDao productReviewDao;
 	
-	public ProductReview getProductReview(int id) {
-		return productReviewDao.findById(id).get();
+	public HashMap<Integer,String> getProductReview(int id) {
+		HashMap<Integer,String> review = new HashMap<>();
+		review.put(productReviewDao.findById(id).get().getGrade(), productReviewDao.findById(id).get().getComment());
+		return review;
 	}
 	
-	public List<ProductReview> getProductReviews() {
-		return productReviewDao.findAll();
+	public HashMap<Integer,HashMap<Integer,String>> getProductReviews() {
+		HashMap<Integer,HashMap<Integer,String>> reviews = new HashMap<>();
+		for(ProductReview pr : productReviewDao.findAll()){
+			HashMap<Integer,String> review = new HashMap<>();
+			review.put(pr.getGrade(), pr.getComment());
+			reviews.put(pr.getId(), review);
+		}
+		return reviews;
 	}
-
     //post
 	public Response addProductReview(ProductReview productReview,org.springframework.security.core.Authentication authentication) {
         productReview.setUser(userDao.findByUsername(authentication.getName()));

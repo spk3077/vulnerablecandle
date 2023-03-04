@@ -22,6 +22,8 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity
@@ -46,6 +48,7 @@ private static final long serialVersionUID = 1L;
 	private UserInfo userInfo;
 
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<ProductReview> myreviews;
 
 	@OneToMany(mappedBy = "user")
@@ -89,7 +92,7 @@ private static final long serialVersionUID = 1L;
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", profiles=" + profiles
-				+ ", userInfo=" + userInfo + ", myreviews=" + myreviews + "]";
+				+ ", userInfo=" + userInfo + "]";
 	}
 	public int getId() {
 		return id;

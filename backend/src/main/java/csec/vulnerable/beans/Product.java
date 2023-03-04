@@ -22,6 +22,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity 
 @Table(name = "ecom_product")
@@ -49,8 +51,10 @@ public class Product {
 	private String description;
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collection_id")
+	@JsonIgnore
     private Collection collection;
 	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<ProductReview> reviews;
 	@ManyToMany(mappedBy = "products")
     private Set<Tag> tags = new HashSet<>();
@@ -95,7 +99,7 @@ public class Product {
 		this.image = image;
 		this.description = description;
 		this.collection = collection;
-		this.reviews = reviews;
+		/* this.reviews = reviews; */
 		this.tags = tags;
 	}
 	/**

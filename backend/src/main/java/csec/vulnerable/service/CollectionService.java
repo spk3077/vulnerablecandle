@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import csec.vulnerable.beans.Collection;
+import csec.vulnerable.beans.Product;
 import csec.vulnerable.dao.CollectionDao;
 import csec.vulnerable.dao.ProductDao;
 import csec.vulnerable.dao.UserDao;
@@ -31,6 +32,10 @@ public class CollectionService {
 	public List<Collection> getCollections() {
 		return collectionDao.findAll();
 	}
+
+	public List<Product> getProductsByCollectionId(int collectionId) {
+        return productDao.findByCollectionId(collectionId);
+    }
 
     //post
 	public Response addCollection(Collection collection) {
