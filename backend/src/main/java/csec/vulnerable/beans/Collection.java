@@ -28,6 +28,10 @@ public class Collection {
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Product> products;
     
+    
+    public Collection() {
+    }
+
     public Collection(int id, @NotEmpty String name, String description, Set<Product> products) {
         this.id = id;
         this.name = name;

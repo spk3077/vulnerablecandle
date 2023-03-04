@@ -31,6 +31,8 @@ public class Tag {
         inverseJoinColumns = @JoinColumn(name = "product_id"))
     private Set<Product> products = new HashSet<>();
 	
+	public Tag() {
+	}
 	public Tag(int id, String name, Set<Product> products) {
 		this.id = id;
 		this.name = name;

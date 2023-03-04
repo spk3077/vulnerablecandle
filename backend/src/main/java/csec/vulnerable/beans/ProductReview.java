@@ -42,6 +42,10 @@ public class ProductReview {
 	private Date review_date;
     
     
+    
+    public ProductReview() {
+    }
+
     public User getUser() {
         return user;
     }
