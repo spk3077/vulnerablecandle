@@ -17,6 +17,10 @@ html, body {
   margin-top: revert;
   margin-bottom: 0.2rem;
 }
+.alert-msg {
+  color: #ff0000;
+  font-size: 95%;
+}
 .btn-login {
   font-size: 0.9rem;
   letter-spacing: 0.05rem;

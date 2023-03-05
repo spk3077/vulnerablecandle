@@ -4,17 +4,17 @@ version: "3"
 
 services:
   # Web Server
-  react_app:
-    hostname: react_app
+  node_app:
+    hostname: node_app
     build: ./frontend
     ports:
       - 80:80
       - 443:443
 
-  # Maven Backend
-  # backend:
-    # hostname: backend
-    # build: ./backend
+  # Maven SpringBoot
+  # api:
+    # hostname: api
+    # build: ./api
     
 
   # Database

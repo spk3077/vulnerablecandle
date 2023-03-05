@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Product } from '../core/product';
-import { ProductReview } from '../core/productReview';
+import { Product } from '@app/core/product';
+import { ProductReview } from '@app/core/productReview';
 
-import { HttpClientService } from '../service/http-client.service';
+import { ProductService } from '@app/services/product.service';
 
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -33,11 +33,11 @@ export class ShopComponent implements OnInit {
     price4: false,
     };
 
+  constructor(private productService: ProductService) { }
+  
   // Font Awesome Exports
   faMagnifyingGlass = faMagnifyingGlass;
   faChevronDown = faChevronDown;
-
-  constructor(private httpService: HttpClientService) { }
 
   ngOnInit(): void {
     this.getProducts();
@@ -45,7 +45,7 @@ export class ShopComponent implements OnInit {
   
   // Retrieve Products
   getProducts(): void {
-    this.httpService.getProducts()
+    this.productService.getProducts()
       .subscribe(products => this.products = products);
   }
 

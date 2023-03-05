@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { Product } from '../core/product';
-import { PRODUCTS } from '../mock-products';
+import { Product } from '@app/core/product';
+import { PRODUCTS } from '@app/mock-products';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HttpClientService {
+export class ProductService {
 
   constructor() { }
-  
-  // getProducts(): Product[] {
-  //   return PRODUCTS;
-  // }
 
   getProducts(): Observable<Product[]> {
     const products = of(PRODUCTS);
