@@ -19,14 +19,14 @@ export class LoginComponent implements OnInit {
   loginError:boolean = false;
   internalServerError:boolean = false;
 
-  serviceResponse!: ServiceResponse<UserCred>;
+  serviceResponse!: ServiceResponse<boolean>;
 
   constructor( 
     private userService: UserService, 
     private formBuilder: FormBuilder,
     private router: Router) {
       this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required]]
       });
   }
@@ -47,15 +47,20 @@ export class LoginComponent implements OnInit {
     //True if all the fields are filled
     if(this.submitted) {
       this.userService.login(this.registerForm.value).subscribe({
+        // If Successful
         next: (res) => {
           this.serviceResponse = res;
-          if (this.serviceResponse.responseCode != "OK") {
+          console.log(this.serviceResponse);
+
+          if (this.serviceResponse.success != true) {
             this.loginError = true;
           } else {
-            this.userService.setLoggedUser(this.serviceResponse.responseObject);
+            this.userService.setLoggedUser(this.serviceResponse);
+            console.log(this.userService.getLoggedUser());
             this.router.navigateByUrl('/');
         }
       },
+        // If fails at server
         error: () => {
           this.internalServerError = true;
         }
