@@ -24,17 +24,17 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping
-	public List<User> getusers(){
-		return userService.getusers();
+	public List<User> getusers(Authentication authentication){
+		return userService.getusers(authentication);
 	}
 
-	@PreAuthorize("hasAuthority('ROLE_User')")
+	/* @PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping
 	public User getuser(Authentication authentication){
 		return userService.getuser(authentication);
-	}
+	} */
 
 	@PostMapping
 	public Response addUser(@RequestBody User user) {

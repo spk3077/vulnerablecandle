@@ -36,11 +36,11 @@ public class UserInfoController {
 		return userInfoService.getUserInfo(id);
 	}
 
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
+	/* @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping
 	public UserInfo getUserInfo(Authentication authentication) {
 		return userInfoService.getUserInfo(authentication);
-	}
+	} */
 	
 	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PostMapping

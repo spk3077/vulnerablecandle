@@ -3,6 +3,7 @@ package csec.vulnerable.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,20 @@ public class UserService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	public List<User> getusers(){
-		return userDao.findAll();
+	public List<User> getusers(Authentication authentication){
+		if(isAdmin(authentication.getAuthorities())){
+			return userDao.findAll();
+		}else{
+			User user = userDao.findByUsername(authentication.getName());
+			List<User> list = new ArrayList<>();
+			list.add(user);
+			return list;
+		}
 	}
-	
-	public User getuser(Authentication authentication){
+
+	/* public User getuser(Authentication authentication){
 		return userDao.findByUsername(authentication.getName());
-	}
+	} */
 	
 	public Response register(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
