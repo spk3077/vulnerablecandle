@@ -24,6 +24,7 @@ import { USER_SERVICE_STORAGE } from './services/user.service';
 
 import { HttpRequestInterceptor } from './interceptors/http.interceptor';
 import { ResourceNotFoundInterceptor } from './interceptors/notFound.interceptor';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { ResourceNotFoundInterceptor } from './interceptors/notFound.interceptor
     LoginComponent,
     SubmenuComponent,
     ProductsPipe,
-    SignupComponent
+    SignupComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

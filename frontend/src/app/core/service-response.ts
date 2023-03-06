@@ -1,5 +1,5 @@
 export class ServiceResponse <T> {
-    public responseCode!: string;
-    public responseMessage!: string;
-    public responseObject!: T;
+    public code!: string;
+    public message!: string;
+    public success!: T;
 }

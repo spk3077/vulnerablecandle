@@ -4,11 +4,13 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from "@angular/router";
 
+import { UserService } from '@app/services/user.service';
+
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
 
-  constructor(private router: Router) { }
+  constructor(private userService:UserService, private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
@@ -19,7 +21,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         catchError((error) => {
             console.log("Error response status: ", error.status);
             if(error.status === 401) {
-                this.router.navigateByUrl('/not-auth');
+              this.userService.setLoggedUser(null);
+              this.router.navigateByUrl("/login");
             }
             return throwError(() => (new Error("User Not Authorized")));
         }));

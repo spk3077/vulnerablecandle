@@ -20,7 +20,9 @@ export class UserService {
   private loggedInUserSubject:BehaviorSubject<UserCred>;
   public loggedInUser$:Observable<UserCred>;
 
-  endpoint = environment.baseUrl + "/users";
+  users_endpoint = environment.apiUrl + "/users";
+  login_endpoint = environment.apiUrl + "/login";
+  logout_endpoint = environment.apiUrl + "/logout";
 
   constructor(private http:HttpClient, @Inject(USER_SERVICE_STORAGE) private storage: StorageService) {
     this.loggedInUserSubject = new BehaviorSubject<UserCred>(this.getUserFromStorage());
@@ -41,44 +43,39 @@ export class UserService {
   }
 
   login(user: UserCred): Observable<any> {
-      return this.http.post(this.endpoint + "/login", user)
-          .pipe(
-              map(res => {
-                  return res;
-              }),
-              catchError(error => {
-                  /* Provide a default fallback value ([]) to the subscribers,
-                    despite the fact that the original Observable did error out.
-                    So the error handling callback in subscribe() is not invoked anymore.
-                    */
-                  //return of([]);
-                  /* --------------- */
-
-                  /* Rethrow the error. */
-                  return throwError(() => (new Error(error)));
-              }));
+    const form = new FormData;
+    form.append("username", user.username);
+    form.append("password", user.password);
+    
+    return this.http.post(this.login_endpoint, form)
+        .pipe(
+            map(res => {
+                return res;
+            }),
+            catchError(error => {
+                return throwError(() => (new Error(error)));
+            }));
   }
 
   logout(): Observable<any> {
-      return this.http.get(this.endpoint + "/logout")
-          .pipe(
-              map(res => {
-                  this.setLoggedUser(null);
-                  return res;
-              }),
-              catchError(error => {
-                  return of(error);
-              }));
+      return this.http.get(this.logout_endpoint)
+        .pipe(
+            map(res => {
+                this.setLoggedUser(null);
+                return res;
+            }),
+            catchError(error => {
+                return of(error);
+            }));
   }
 
   register(registrationForm: RegistrationForm): Observable<any> {
-      return this.http.post(this.endpoint + "/register", registrationForm)
+      return this.http.post(this.users_endpoint, registrationForm)
           .pipe(
               map(res => {
                   return res;
               }),
               catchError(error => {
-                  //return of(error);
                   return throwError(() => (new Error(error)));
               })
           );

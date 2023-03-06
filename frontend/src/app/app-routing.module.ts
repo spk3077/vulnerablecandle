@@ -6,6 +6,8 @@ import { ProductComponent } from './product/product.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+
 
 const routes: Routes = [
   // { path: '', redirectTo: '/shop', pathMatch: 'full' },
@@ -15,6 +17,7 @@ const routes: Routes = [
   { path: 'collections', component: CollectionsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'not-found', component: NotFoundComponent }
 ];
 
 @NgModule({
