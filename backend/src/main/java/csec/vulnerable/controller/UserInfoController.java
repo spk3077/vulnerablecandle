@@ -26,14 +26,14 @@ public class UserInfoController {
 	
 	@PreAuthorize(("hasAuthority('ROLE_ADMIN')"))
 	@GetMapping
-	public List<UserInfo> getUserInfos(){
-		return userInfoService.getUserInfos();
+	public List<UserInfo> getUserInfos(Authentication authentication){
+		return userInfoService.getUserInfos(authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping("/{id}")
-	public UserInfo getUserInfo(@PathVariable int id) {
-		return userInfoService.getUserInfo(id);
+	public UserInfo getUserInfo(@PathVariable int id,Authentication authentication) {
+		return userInfoService.getUserInfo(id, authentication);
 	}
 
 	/* @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
