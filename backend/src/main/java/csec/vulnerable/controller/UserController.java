@@ -29,6 +29,13 @@ public class UserController {
 	public List<User> getusers(){
 		return userService.getusers();
 	}
+
+	@PreAuthorize("hasAuthority('ROLE_User')")
+	@GetMapping
+	public User getuser(Authentication authentication){
+		return userService.getuser(authentication);
+	}
+
 	@PostMapping
 	public Response addUser(@RequestBody User user) {
 		return userService.register(user);

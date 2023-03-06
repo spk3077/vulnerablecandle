@@ -29,6 +29,9 @@ public class UserInfoService {
 	public UserInfo getUserInfo(int id) {
 		return userInfoDao.findById(id).get();
 	}
+	public UserInfo getUserInfo(Authentication authentication) {
+		return userInfoDao.findByUser(userDao.findByUsername(authentication.getName()));
+	}
 	
 	public Response addUserInfo(UserInfo userInfo,Authentication authentication) {
 		UserInfo ui = userInfoDao.findByUser(userDao.findByUsername(authentication.getName()));

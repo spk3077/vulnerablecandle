@@ -36,6 +36,10 @@ public class UserService {
 		return userDao.findAll();
 	}
 	
+	public User getuser(Authentication authentication){
+		return userDao.findByUsername(authentication.getName());
+	}
+	
 	public Response register(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		List<UserProfile> profiles = new ArrayList<UserProfile>();
