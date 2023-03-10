@@ -1,7 +1,7 @@
     <!-- ========================= NAVBAR PAGETOP ========================= -->
     <nav class="navbar border-top navbar-expand-lg">
         <div class="container">
-            <div class="collapse navbar-collapse" id="navbar_main">
+            <div class="navbar-collapse" id="navbar_main">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                     <a class="nav-link ps-0" routerLink="collections">Latest Collections</a>
@@ -21,7 +21,10 @@
             <nav>
                 <ol class="breadcrumb text-white">
                     <li class="breadcrumb-item"><a routerLink="">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{activePage}}</li>
+                    <li class="breadcrumb-item" [ngClass]="{'active': activePage === secondPage}" [attr.aria-current]="activePage === secondPage ? 'page' : null">{{secondPage}}</li>
+                    <li *ngIf="thirdPage" class="breadcrumb-item" [ngClass]="{'active': activePage === thirdPage}" [attr.aria-current]="activePage === thirdPage ? 'page' : null">{{thirdPage}}</li>
+                    <li *ngIf="fourthPage" class="breadcrumb-item" [ngClass]="{'active': activePage === fourthPage}" [attr.aria-current]="activePage === fourthPage ? 'page' : null">{{fourthPage}}</li>
+
                 </ol>  
             </nav>
         </div>

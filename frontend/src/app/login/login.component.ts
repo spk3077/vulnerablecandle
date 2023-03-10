@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 
-import { ServiceResponse } from '@app/core/service-response';
-import { UserCred } from '@app/core/userCred';
+import { DefaultResponse } from '@app/_core/defaultResponse';
+import { UserFull } from '@app/_core/userFull';
 import { UserService } from '@app/services/user.service';
 
 @Component({
@@ -14,57 +14,78 @@ import { UserService } from '@app/services/user.service';
 })
 export class LoginComponent implements OnInit {
   // Form Variables that assist template
-  registerForm:any = FormGroup;
+  loginForm:any = FormGroup;
   submitted = false;
   loginError:boolean = false;
-  internalServerError:boolean = false;
-
-  serviceResponse!: ServiceResponse<boolean>;
+  getInfoError:boolean = false;
 
   constructor( 
     private userService: UserService, 
     private formBuilder: FormBuilder,
     private router: Router) {
-      this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(4)]],
-      password: ['', [Validators.required]]
+      this.loginForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(16)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]]
       });
   }
   
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   //Add user form actions
-  get f() { return this.registerForm.controls; }
+  get f() { return this.loginForm.controls; }
 
   // Login Function
-  login(): void {
+  public login(): void {
     this.submitted = true;
     // stop here if form is invalid
-    if (this.registerForm.invalid) {
+    if (this.loginForm.invalid) {
         return;
     }
     //True if all the fields are filled
     if(this.submitted) {
-      this.userService.login(this.registerForm.value).subscribe({
+      this.userService.login(this.loginForm.value).subscribe({
         // If Successful
         next: (res) => {
-          this.serviceResponse = res;
-          console.log(this.serviceResponse);
-
-          if (this.serviceResponse.success != true) {
+          let loginResponse: DefaultResponse = res as DefaultResponse;
+          if (loginResponse.success != true) {
             this.loginError = true;
-          } else {
-            this.userService.setLoggedUser(this.serviceResponse);
-            console.log(this.userService.getLoggedUser());
-            this.router.navigateByUrl('/');
-        }
-      },
+            return;
+          }
+          // Store UserData
+          this.getUserData();
+        },
         // If fails at server
         error: () => {
-          this.internalServerError = true;
+          console.log("Login Failed: Credentials Wrong");
+          this.loginError = true;
+          return;
         }
       });
     }
+  }
+
+  // Retreve Userdata for Storage
+  private getUserData(): void {
+    this.userService.getUserData().subscribe({
+      next: (res) => {
+        // Get User Information to Populate Components with User-relevant information
+        let userFull: UserFull;
+        if (res.length == 1 ) {
+          userFull = res[0] as UserFull;
+        }
+        else {
+          userFull = res.find((obj: UserFull) => obj.username === this.loginForm.value.username);
+        }
+        console.log(userFull);
+        this.userService.setLoggedUser(userFull);
+        this.router.navigateByUrl('/');
+      },
+      error: () => {
+        // Failed at getting UserInfo to Store
+        console.log("Login Failed: User Info Not Received");
+        this.getInfoError = true;
+        return;
+      }
+    });
   }
  }

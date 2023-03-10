@@ -1,0 +1,9 @@
+.dropdown-menu.smallmenu {
+    min-width: 7.5em;
+}
+.nav-color {
+    color: rgba(255, 255, 255, 0.55);
+}
+.cartsvg {
+    margin-top: 0.2em;
+}

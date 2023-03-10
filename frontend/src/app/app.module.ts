@@ -11,36 +11,42 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
+import { UserProfileComponent } from './userprofile/userprofile.component';
+import { SubmenuComponent } from './submenu/submenu.component';
 import { ShopComponent } from './shop/shop.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { ProductComponent } from './product/product.component';
 import { CollectionsComponent } from './collections/collections.component';
-import { UsersComponent } from './admin/users/users.component';
-import { ProductsComponent } from './admin/products/products.component';
-import { LoginComponent } from './login/login.component';
-import { SubmenuComponent } from './submenu/submenu.component';
-import { ProductsPipe } from './shop/products.pipe';
 import { SignupComponent } from './signup/signup.component';
-import { USER_SERVICE_STORAGE } from './services/user.service';
-
-import { HttpRequestInterceptor } from './interceptors/http.interceptor';
-import { ResourceNotFoundInterceptor } from './interceptors/notFound.interceptor';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+import { ProductsPipe } from './shop/products.pipe';
 import { NotFoundComponent } from './not-found/not-found.component';
-
+import { AdminUsersComponent } from './admin/users/users.component';
+import { AdminProductsComponent } from './admin/products/products.component';
+import { HttpRequestInterceptor } from './_interceptors/http.interceptor';
+import { ResourceNotFoundInterceptor } from './_interceptors/notFound.interceptor';
+import { USER_SERVICE_STORAGE } from './services/user.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    ProductComponent,
-    ShopComponent,
-    CollectionsComponent,
-    UsersComponent,
-    ProductsComponent,
-    LoginComponent,
+    UserProfileComponent,
     SubmenuComponent,
-    ProductsPipe,
+    ShopComponent,
+    TransactionsComponent,
+    ShoppingCartComponent,
+    ProductComponent,
+    CollectionsComponent,
     SignupComponent,
-    NotFoundComponent
+    LoginComponent,
+    LogoutComponent,
+    ProductsPipe,
+    NotFoundComponent,
+    AdminUsersComponent,
+    AdminProductsComponent
   ],
   imports: [
     BrowserModule,

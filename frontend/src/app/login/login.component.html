@@ -2,33 +2,33 @@
     <div class="row g-0">
       <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
       <div class="col-md-8 col-lg-6">
-        <div class="login d-flex align-items-center py-5">
+        <div class="logReg-height d-flex align-items-center py-5">
           <div class="container">
             <div class="row">
               <div class="col-md-9 col-lg-8 mx-auto">
-                <h3 class="login-heading">Welcome back!</h3>
+                <h3 class="logReg-heading">Welcome back!</h3>
                 <p class="mb-4">Don’t have an account? <a routerLink="/signup">Create a free account</a></p>
   
                 <!-- Sign In Form -->
-                <form [formGroup]="registerForm" (ngSubmit)="login()">
-                  <div class="alert-msg" [hidden]="!loginError">
-                    There was a problem logging in. Please try again.
-                  </div>
-                  <div class="alert-msg" [hidden]="!internalServerError">
-                    Internal server error. Please try again later.
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                  <div class="logReg-alert" [hidden]="!loginError">
+                    Login Failed! Your username or password was incorrect.
                   </div>
                   <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput" placeholder="username" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  id="inputusername">
                     <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                       <div *ngIf="f.username.errors.required">Username is required</div>
                       <div *ngIf="f.username.errors.minlength">Username must be at least 4 characters</div>
+                      <div *ngIf="f.username.errors.maxlength">Username cannot be greater than 16 characters</div>
                    </div>
                     <label for="floatingInput">Username</label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password"[ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="inputPassword">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="inputPassword">
                     <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                       <div *ngIf="f.password.errors.required">Password is required</div>
+                      <div *ngIf="f.password.errors.minlength">Password must be at least 8 characters</div>
+                      <div *ngIf="f.password.errors.maxlength">Password cannot be greater than 35 characters</div>
                    </div>
                     <label for="floatingPassword">Password</label>
                   </div>
@@ -43,7 +43,7 @@
                     </div>
                   </div>
                   <div class="d-grid">
-                    <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Sign in</button>
+                    <button class="btn btn-lg btn-primary logReg-btn text-uppercase fw-bold mb-2" type="submit">Sign in</button>
                   </div>
                 </form>
               </div>

@@ -1,28 +1,50 @@
 <!-- ========================= MENU ========================= -->
 <header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
             <a routerLink="" class="navbar-brand">
                 <img src="assets/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
                 &nbsp;Mom and Pop's Candles
             </a>
-            <div class="collapse navbar-collapse">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContents" aria-controls="navbarContents" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContents">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <!-- <li><a class="nav-link" routerLink="">Shop</a></li> -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item" ><a class="nav-link" routerLink="shop">Shop</a></li>
+                    <li *ngIf="currentUser" class="nav-item" ><a class="nav-link" routerLink="transactions">Transactions</a></li>
+                    <li *ngIf="currentUser && currentUser.authorities[0].type === 'ROLE_ADMIN'" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Admin
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a routerLink="/admin/users" class="dropdown-item">Users</a>
-                            <a routerLink="/admin/products" class="dropdown-item">Products</a>
-                        </div>
+                          </a>
+                        <ul class="dropdown-menu smallmenu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" routerLink="admin/users">Users</a></li>
+                            <li><a class="dropdown-item" routerLink="admin/products">Products</a></li>
+                        </ul>
                     </li>
                 </ul>
-                <div class="d-flex me-2">
-                    <button routerLink="/login" class="btn btn-outline-success">Login</button> 
-                </div>
+                <ul class="navbar-nav" id="right-nav">
+                    <li *ngIf="!currentUser" class="d-flex me-2">
+                        <button routerLink="login" class="btn btn-outline-success">Login</button> 
+                    </li>
+                    <li *ngIf="currentUser" class="nav-item nav-color">
+                        <a routerLink="cart" class="nav-link cartsvg">
+                            <fa-icon [icon]="faCartShopping" size="lg"></fa-icon>
+                        </a>
+                    </li>
+                    <li *ngIf="currentUser" class="nav-item dropdown nav-color me-4">
+                        <a role="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">
+                            <img class="rounded-circle me-lg-1" [attr.src]="currentUser !== undefined && currentUser.userInfo.picture !== null ? 'currentUser.userInfo.picture' : 'assets/images/defaultprofile.png'" 
+                                alt="" width="30" height="30">
+                            <span class="nav-item d-none d-lg-inline-flex">{{currentUser.username.length > 10 ? currentUser.username.substring(0,9) + '...' : currentUser.username }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end smallmenu dropdown-menu-dark">
+                            <a routerLink="userprofile" class="dropdown-item">My Profile</a>
+                            <!-- <a href="#" class="dropdown-item">Settings</a> -->
+                            <a routerLink="logout" class="dropdown-item">Log Out</a>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>

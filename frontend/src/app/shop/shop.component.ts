@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Product } from '@app/core/product';
-import { ProductReview } from '@app/core/productReview';
+import { Product } from '@app/_core/product';
+import { ProductReview } from '@app/_core/productReview';
 
 import { ProductService } from '@app/services/product.service';
 

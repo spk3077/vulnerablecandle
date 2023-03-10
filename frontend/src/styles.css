@@ -1,3 +1,23 @@
+/* Primary */
 main {
     padding-top: 3.4rem;
+}
+
+/* Login & Register */
+.logReg-height {
+    min-height: 100vh;
+}
+.logReg-btn {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    padding: 0.75rem 1rem;
+  }
+.logReg-heading {
+    font-weight: 300;
+    margin-top: revert;
+    margin-bottom: 0.2rem;
+}
+.logReg-alert {
+    color: #ff0000;
+    font-size: 95%;
 }

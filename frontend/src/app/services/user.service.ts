@@ -5,8 +5,8 @@ import { catchError, map } from 'rxjs/operators';
 
 import { StorageService } from 'ngx-webstorage-service';
 
-import { UserCred } from '@app/core/userCred';
-import { RegistrationForm } from '@app/core/registration-form';
+import { UserCred } from '@app/_core/userCred';
+import { UserFull } from '@app/_core/userFull';
 import { environment } from  '../../environments/environment';
 
 const STORAGE_KEY = 'current-user';
@@ -14,39 +14,46 @@ export const USER_SERVICE_STORAGE =
     new InjectionToken<StorageService>('USER_SERVICE_STORAGE');
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UserService {
-  private loggedInUserSubject:BehaviorSubject<UserCred>;
-  public loggedInUser$:Observable<UserCred>;
+    private loggedInUserSubject:BehaviorSubject<UserFull>;
+    // Use to provide currentUser details to other pages
+    public loggedInUser$:Observable<UserFull>;
 
-  users_endpoint = environment.apiUrl + "/users";
-  login_endpoint = environment.apiUrl + "/login";
-  logout_endpoint = environment.apiUrl + "/logout";
+    // List of Endpoints using Environment: Production/Development
+    users_endpoint = environment.apiUrl + "/users";
+    login_endpoint = environment.apiUrl + "/login";
+    logout_endpoint = environment.apiUrl + "/logout";
 
-  constructor(private http:HttpClient, @Inject(USER_SERVICE_STORAGE) private storage: StorageService) {
-    this.loggedInUserSubject = new BehaviorSubject<UserCred>(this.getUserFromStorage());
-    this.loggedInUser$ = this.loggedInUserSubject.asObservable();
+    constructor(private http:HttpClient, @Inject(USER_SERVICE_STORAGE) private storage: StorageService) {
+        this.loggedInUserSubject = new BehaviorSubject<UserFull>(this.getUserFromStorage());
+        this.loggedInUser$ = this.loggedInUserSubject.asObservable();
     }
 
-  public setLoggedUser(loggedUser: any | null): void {
-      this.storage.set(STORAGE_KEY, loggedUser);
-      this.loggedInUserSubject.next(this.getUserFromStorage());
-  }
-  private getUserFromStorage(): any {
-      const currentUser: UserCred = this.storage.get(STORAGE_KEY) || null;
-      return currentUser;
-  }
+    // Set CurrentUser
+    public setLoggedUser(loggedUser: any | null): void {
+        this.storage.set(STORAGE_KEY, loggedUser);
+        this.loggedInUserSubject.next(this.getUserFromStorage());
+    }
 
-  public getLoggedUser(): any {
-      return this.loggedInUserSubject.value;
-  }
+    // setLoggedUser: Helper Function
+    private getUserFromStorage(): any {
+        const currentUser: UserFull = this.storage.get(STORAGE_KEY) || null;
+        return currentUser;
+    }
 
-  login(user: UserCred): Observable<any> {
+    // Currently unused
+    public getLoggedUser(): any {
+        return this.loggedInUserSubject.value;
+    }
+
+    // Login Function
+    public login(user: UserCred): Observable<any> {
     const form = new FormData;
     form.append("username", user.username);
     form.append("password", user.password);
-    
+
     return this.http.post(this.login_endpoint, form)
         .pipe(
             map(res => {
@@ -55,30 +62,51 @@ export class UserService {
             catchError(error => {
                 return throwError(() => (new Error(error)));
             }));
-  }
+    }
 
-  logout(): Observable<any> {
-      return this.http.get(this.logout_endpoint)
-        .pipe(
-            map(res => {
-                this.setLoggedUser(null);
-                return res;
-            }),
-            catchError(error => {
-                return of(error);
-            }));
-  }
+    // Logout Function
+    public logout(): Observable<any> {
+        return this.http.get(this.logout_endpoint)
+            .pipe(
+                map(res => {
+                    this.setLoggedUser(null);
+                    return res;
+                }),
+                catchError(error => {
+                    return of(error);
+                }));
+    }
 
-  register(registrationForm: RegistrationForm): Observable<any> {
-      return this.http.post(this.users_endpoint, registrationForm)
-          .pipe(
-              map(res => {
-                  return res;
-              }),
-              catchError(error => {
-                  return throwError(() => (new Error(error)));
-              })
-          );
-  }
+    // Adding User Function
+    public register(user: UserCred): Observable<any> {
+        return this.http.post(this.users_endpoint, 
+            {
+            username: user.username,
+            password: user.password
+            }
+            )
+            .pipe(
+                map(res => {
+                    return res;
+                }),
+                catchError(error => {
+                    return throwError(() => (new Error(error)));
+                })
+            );
+    }
 
+    // get User Data
+    // USER_ROLE: For User Content
+    // ADMIN_ROLE: For all Users
+    getUserData(): Observable<any> {
+        return this.http.get(this.users_endpoint)
+            .pipe(
+                map(res => {
+                    return res;
+                }),
+                catchError(error => {
+                    return throwError(() => (new Error(error)));
+                })
+            );
+    }
 }
