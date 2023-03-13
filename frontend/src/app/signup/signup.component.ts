@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-
+import { LoginEventService } from '@app/_helpers/login-event.service';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 import { UserService } from '@app/services/user.service';
 import { MustMatch } from '@app/_core/mustMatch';
@@ -13,8 +13,8 @@ import { MustMatch } from '@app/_core/mustMatch';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  registerForm:any = FormGroup;
-  submitted = false;
+  registerForm: any = FormGroup;
+  submitted: boolean = false;
   signupError:boolean = false;
 
   registerResponse!: DefaultResponse;
@@ -22,7 +22,7 @@ export class SignupComponent implements OnInit {
   constructor( 
     private userService: UserService, 
     private formBuilder: FormBuilder,
-    private router: Router) {
+    private loginEventService: LoginEventService) {
       this.registerForm = this.formBuilder.group({
         username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(16)]],
         password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]],
@@ -52,10 +52,11 @@ export class SignupComponent implements OnInit {
           let loginResponse: DefaultResponse = res as DefaultResponse;
           if (loginResponse.success != true) {
             this.signupError = true;
-          
-          // Emit To Login after succesful signup
-
           }
+          
+          // Emit To perform login function after succesful signup
+          this.loginEventService.onRegistration(this.registerForm);
+
         },
         // If fails at server
         error: () => {

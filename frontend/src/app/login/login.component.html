@@ -10,7 +10,7 @@
                 <p class="mb-4">Don’t have an account? <a routerLink="/signup">Create a free account</a></p>
   
                 <!-- Sign In Form -->
-                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <form [formGroup]="loginForm" (ngSubmit)="login( loginForm )">
                   <div class="logReg-alert" [hidden]="!loginError">
                     Login Failed! Your username or password was incorrect.
                   </div>

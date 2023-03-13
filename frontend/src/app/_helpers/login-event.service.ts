@@ -11,7 +11,7 @@ export class LoginEventService {
 
   constructor() { }
 
-  onRegistration() {    
-    this.invokeLoginFunction.emit();    
+  onRegistration(form: any) {    
+    this.invokeLoginFunction.emit(form);    
   }
 }

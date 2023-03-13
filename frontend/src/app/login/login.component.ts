@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-
+import { LoginEventService } from '@app/_helpers/login-event.service';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 import { UserFull } from '@app/_core/userFull';
 import { UserService } from '@app/services/user.service';
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   constructor( 
     private userService: UserService, 
     private formBuilder: FormBuilder,
+    private loginEventService: LoginEventService, 
     private router: Router) {
       this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(16)]],
@@ -29,21 +30,26 @@ export class LoginComponent implements OnInit {
       });
   }
   
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.loginEventService.subsVar == undefined) {
+      this.loginEventService.subsVar = this.loginEventService.
+      invokeLoginFunction.subscribe(( form: any) => { this.login(form) });
+    }
+  }
 
   //Add user form actions
   get f() { return this.loginForm.controls; }
 
   // Login Function
-  public login(): void {
+  public login(form: any): void {
     this.submitted = true;
     // stop here if form is invalid
-    if (this.loginForm.invalid) {
+    if (form.invalid) {
         return;
     }
     //True if all the fields are filled
     if(this.submitted) {
-      this.userService.login(this.loginForm.value).subscribe({
+      this.userService.login(form.value).subscribe({
         // If Successful
         next: (res) => {
           let loginResponse: DefaultResponse = res as DefaultResponse;
@@ -52,7 +58,7 @@ export class LoginComponent implements OnInit {
             return;
           }
           // Store UserData
-          this.getUserData();
+          this.getUserData(form);
         },
         // If fails at server
         error: () => {
@@ -65,7 +71,7 @@ export class LoginComponent implements OnInit {
   }
 
   // Retreve Userdata for Storage
-  private getUserData(): void {
+  private getUserData(form: any): void {
     this.userService.getUserData().subscribe({
       next: (res) => {
         // Get User Information to Populate Components with User-relevant information
@@ -74,7 +80,7 @@ export class LoginComponent implements OnInit {
           userFull = res[0] as UserFull;
         }
         else {
-          userFull = res.find((obj: UserFull) => obj.username === this.loginForm.value.username);
+          userFull = res.find((obj: UserFull) => obj.username === form.value.username);
         }
         console.log(userFull);
         this.userService.setLoggedUser(userFull);
