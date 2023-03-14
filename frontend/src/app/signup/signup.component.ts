@@ -4,7 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { LoginEventService } from '@app/_helpers/login-event.service';
 import { DefaultResponse } from '@app/_core/defaultResponse';
-import { UserService } from '@app/services/user.service';
+import { UserService } from '@app/_services/user.service';
 import { MustMatch } from '@app/_core/mustMatch';
 
 @Component({

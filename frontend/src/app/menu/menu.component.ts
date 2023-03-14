@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UserService } from '@app/services/user.service';
+import { UserService } from '@app/_services/user.service';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
@@ -14,12 +14,11 @@ import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 export class MenuComponent implements OnInit {
   currentUser: any | undefined;
 
-  logoutResponse!: DefaultResponse;
-
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService) { }
 
   // Font Awesome Exports
   faCartShopping = faCartShopping;
+  
   ngOnInit() {
     // Retrieve UserInfo
     this.userService.loggedInUser$.subscribe(x => this.currentUser = x);

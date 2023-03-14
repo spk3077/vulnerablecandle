@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '@app/_core/product';
 import { ProductReview } from '@app/_core/productReview';
 
-import { ProductService } from '@app/services/product.service';
+import { ProductService } from '@app/_services/product.service';
 
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';

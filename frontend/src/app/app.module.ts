@@ -27,7 +27,7 @@ import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminProductsComponent } from './admin/products/products.component';
 import { HttpRequestInterceptor } from './_interceptors/http.interceptor';
 import { ResourceNotFoundInterceptor } from './_interceptors/notFound.interceptor';
-import { USER_SERVICE_STORAGE } from './services/user.service';
+import { USER_SERVICE_STORAGE } from './_services/user.service';
 
 @NgModule({
   declarations: [

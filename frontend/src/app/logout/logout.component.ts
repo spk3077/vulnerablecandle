@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { DefaultResponse } from '@app/_core/defaultResponse';
-import { UserService } from "@app/services/user.service";
+import { UserService } from "@app/_services/user.service";
 
 @Component({
   selector: 'app-logout',
