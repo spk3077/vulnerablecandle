@@ -13,8 +13,8 @@ export class AuthGuard implements CanActivate {
     }
 
     canActivate() {
+        // Authorized User/Admin
         if (this.currentUser) {
-            // Authorized User/Admin
             return true;
         }
 

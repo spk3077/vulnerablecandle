@@ -30,7 +30,9 @@ const routes: Routes = [
   { path: 'not-found', component: NotFoundComponent },
   { path: 'admin/products', component: AdminProductsComponent, canActivate:[AdminGuard] },
   { path: 'admin/users', component: AdminUsersComponent, canActivate:[AdminGuard] },
-  { path: '**', redirectTo: '/'} // Default to Shop if not valid path
+  
+  // Default to Shop if not valid path
+  { path: '**', redirectTo: '/'}
 ];
 
 @NgModule({

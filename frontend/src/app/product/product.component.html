@@ -1,3 +1,68 @@
 <main>
-    <p> Dog </p>
+    <div class="container">
+        <div class="row">
+            <!-- ========================= RADIO BTN IMAGE ASIDE ========================= -->
+            <aside class="col-md-3 order-md-1 order-3 text-center">
+                <div class="btn-group-vertical">
+                    <form>
+                        <label class="aside-btn">
+                            <input name="selected-image" class="aside-radio" type="radio" value={{imageUrl1}} [(ngModel)]="primaryImageUrl" checked>
+                            <img [attr.src]="imageUrl1 ? imageUrl1 : 'assets/images/defaultproduct.png'" 
+                                height="150" width="150"  alt="Product Image 1">
+                        </label>
+                        <label class="aside-btn">
+                            <input name="selected-image" class="aside-radio" type="radio" value={{imageUrl2}} [(ngModel)]="primaryImageUrl">
+                            <img [attr.src]="imageUrl2 ? imageUrl2 : 'assets/images/defaultproduct.png'" 
+                                height="150" width="150"  alt="Product Image 2">
+                        </label>
+                        <label class="aside-btn">
+                            <input name="selected-image" class="aside-radio" type="radio" value={{imageUrl3}} [(ngModel)]="primaryImageUrl">
+                            <img [attr.src]="imageUrl3 ? imageUrl3 : 'assets/images/defaultproduct.png'" 
+                                height="150" width="150"  alt="Product Image 3">
+                        </label>
+                    </form>
+                </div>
+            </aside>
+            <!-- ========================= RADIO BTN IMAGE END// ========================= -->
+
+            <!-- ========================= PRIMARY IMAGE ASIDE ========================= -->
+            <aside class="col-md-3 order-md-2 order-1 text-center">
+                <img src={{primaryImageUrl}} height="400" width="400">
+            </aside>
+            <!-- ========================= PRIMARY IMAGE ASIDE END// ========================= -->
+
+            <!-- ========================= CONTENT SECTION ========================= -->
+            <section class="col-md-6 order-md-3 order-2">
+                <h4 class="title text-dark">Quality Men's Hoodie for Winter, Men's Fashion <br> Casual Hoodie </h4>
+                <div class="rating-wrap my-3">
+                    <b class="label-rating text-warning"> 4.5</b>
+                    <i class="dot"></i>
+                    <span class="label-rating text-success">In stock</span>
+                </div>
+                
+                <div class="mb-3"> 
+                    <var class="price h5">$75.00</var> 
+                    <span class="text-muted">/per box</span> 
+                </div> 
+                
+                <p>Modern look and quality demo item is a streetwear-inspired collection that continues to break away from the conventions of mainstream fashion. Made in Italy, these black and brown clothing low-top shirts for men.</p>
+                
+                <dl class="row">
+                    <dt class="col-3">Type:</dt>
+                    <dd class="col-9">Regular</dd>
+                
+                    <dt class="col-3">Color</dt>
+                    <dd class="col-9">Brown</dd>
+                
+                    <dt class="col-3">Material</dt>
+                    <dd class="col-9">Cotton, Jeans </dd>
+                
+                    <dt class="col-3">Brand</dt>
+                    <dd class="col-9">Reebook </dd>
+                </dl>
+                <hr>
+            </section>
+            <!-- ========================= CONTENT SECTION END// ========================= -->
+        </div>
+    </div>
 </main>

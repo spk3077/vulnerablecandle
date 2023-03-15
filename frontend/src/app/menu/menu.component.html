@@ -2,17 +2,24 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
+            <!-- === LOGO === -->
             <a routerLink="" class="navbar-brand">
                 <img src="assets/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
                 &nbsp;Mom and Pop's Candles
             </a>
+            <!-- === LOGO END// === -->
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContents" aria-controls="navbarContents" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarContents">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
+                <!-- ========================= LEFT-NAV ========================= -->
+                <ul id="left-nav" class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item" ><a class="nav-link" routerLink="shop">Shop</a></li>
                     <li *ngIf="currentUser" class="nav-item" ><a class="nav-link" routerLink="transactions">Transactions</a></li>
+                    
+                    <!-- === ADMIN PANEL === -->
                     <li *ngIf="currentUser && currentUser.authorities[0].type === 'ROLE_ADMIN'" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Admin
@@ -22,8 +29,12 @@
                             <li><a class="dropdown-item" routerLink="admin/products">Products</a></li>
                         </ul>
                     </li>
+                    <!-- === ADMIN PANEL END// === -->
                 </ul>
-                <ul class="navbar-nav" id="right-nav">
+                <!-- ========================= LEFT-NAV END// ========================= -->
+
+                <!-- ========================= RIGHT-NAV ========================= -->
+                <ul id="right-nav" class="navbar-nav">
                     <li *ngIf="!currentUser" class="d-flex me-2">
                         <button routerLink="login" class="btn btn-outline-success">Login</button> 
                     </li>
@@ -34,8 +45,8 @@
                     </li>
                     <li *ngIf="currentUser" class="nav-item dropdown nav-color me-4">
                         <a role="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">
-                            <img class="rounded-circle me-lg-1" [attr.src]="currentUser !== undefined && currentUser.userInfo.picture !== null ? 'currentUser.userInfo.picture' : 'assets/images/defaultprofile.png'" 
-                                alt="" width="30" height="30">
+                            <img class="rounded-circle me-lg-1" alt="" width="30" height="30" 
+                                [attr.src]="currentUser !== undefined && currentUser.userInfo.picture !== null ? 'currentUser.userInfo.picture' : 'assets/images/defaultprofile.png'">
                             <span class="nav-item d-none d-lg-inline-flex">{{currentUser.username.length > 10 ? currentUser.username.substring(0,9) + '...' : currentUser.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end smallmenu dropdown-menu-dark">
@@ -45,6 +56,8 @@
                         </ul>
                     </li>
                 </ul>
+                <!-- ========================= RIGHT-NAV END// ========================= -->
+
             </div>
         </div>
     </nav>

@@ -1,0 +1,17 @@
+.aside-btn {
+    border: 0;
+    background: transparent;
+    text-align: center;
+    margin-top: 2em;
+}
+.aside-radio { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.aside-radio + img {
+    cursor: pointer;
+}
+.aside-radio:checked + img {
+    outline: solid;
+}

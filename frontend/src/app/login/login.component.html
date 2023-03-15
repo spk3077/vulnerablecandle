@@ -8,12 +8,16 @@
               <div class="col-md-9 col-lg-8 mx-auto">
                 <h3 class="logReg-heading">Welcome back!</h3>
                 <p class="mb-4">Don’t have an account? <a routerLink="/signup">Create a free account</a></p>
-  
-                <!-- Sign In Form -->
+
+                <!-- ========================= LOGIN FORM  ========================= -->
                 <form [formGroup]="loginForm" (ngSubmit)="login( loginForm )">
+                  <!-- === ERRORS  === -->
                   <div class="logReg-alert" [hidden]="!loginError">
                     Login Failed! Your username or password was incorrect.
                   </div>
+                  <!-- === ERRORS END// === -->
+
+                  <!-- === USERNAME === -->
                   <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput" placeholder="username" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  id="inputusername">
                     <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
@@ -23,6 +27,9 @@
                    </div>
                     <label for="floatingInput">Username</label>
                   </div>
+                  <!-- === USERNAME END// === -->
+
+                  <!-- === PASSWORD === -->
                   <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="inputPassword">
                     <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
@@ -32,7 +39,7 @@
                    </div>
                     <label for="floatingPassword">Password</label>
                   </div>
-  
+                  <!-- === PASSWORD END// === -->
                   <div class="form-check mb-3">
                     <div class="password-div">
                       <div>
@@ -46,6 +53,8 @@
                     <button class="btn btn-lg btn-primary logReg-btn text-uppercase fw-bold mb-2" type="submit">Sign in</button>
                   </div>
                 </form>
+                <!-- ========================= LOGIN FORM END// ========================= -->
+
               </div>
             </div>
           </div>

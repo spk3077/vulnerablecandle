@@ -7,6 +7,10 @@ import { ProductService } from '@app/_services/product.service';
 
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-shop',
@@ -38,7 +42,10 @@ export class ShopComponent implements OnInit {
   // Font Awesome Exports
   faMagnifyingGlass = faMagnifyingGlass;
   faChevronDown = faChevronDown;
-
+  faStar = faStar;
+  faCartShopping = faCartShopping;
+  faPlus = faPlus;
+  
   ngOnInit(): void {
     this.getProducts();
   }
@@ -95,7 +102,7 @@ export class ShopComponent implements OnInit {
     let mean: number = this.getBadgeGrade(reviews);
     if ( mean < 2 ) {
       return 'bg-danger';
-    } else if ( mean > 2 && mean < 4 ) {
+    } else if ( mean >= 2 && mean < 4 ) {
       return 'bg-warning';
     } else {
       return 'bg-success';

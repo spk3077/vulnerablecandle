@@ -1,14 +1,14 @@
 <main>
     <app-submenu [activePage]="title" [secondPage]="title"></app-submenu>
     <!-- ========================= FILTER ASIDE ========================= -->
-    <div class="main-content container">
+    <div class="container">
         <div class="row">
             <aside class="col-md-3">
                 <div class="card">
                     <article class="filter-group">
                         <header class="card-header">
                             <a role="button" data-bs-toggle="collapse" href="#collapse_1" aria-expanded="true" aria-controls="collapse_1">
-                                <fa-icon class="fa" [icon]="faChevronDown"></fa-icon>
+                                <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
                                 <h6 class="title">Search Bar</h6>
                             </a>
                         </header>
@@ -17,11 +17,11 @@
                                 <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filterSearch">
                             </div>
                         </div>
-                    </article> <!-- filter-group  .// -->
+                    </article>
                     <article class="filter-group">
                         <header class="card-header">
                             <a role="button" data-bs-toggle="collapse" href="#collapse_2" aria-expanded="true" aria-controls="collapse_2">
-                                <fa-icon class="fa" [icon]="faChevronDown"></fa-icon>
+                                <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
                                 <h6 class="title">Brands</h6>
                             </a>
                         </header>
@@ -52,13 +52,13 @@
                                     <label class="form-check-label" for="isUnique">isUnique</label>
                                     <b class="float-end badge badge-light rounded-pill">{{getFilterCount(5)}}</b>
                                 </div>
-                    </div> <!-- card-body.// -->
+                    </div>
                         </div>
-                    </article> <!-- filter-group .// -->
+                    </article>
                     <article class="filter-group">
                         <header class="card-header">
                             <a role="button" data-bs-toggle="collapse" href="#collapse_3" aria-expanded="true" aria-controls="collapse_3">
-                                <fa-icon class="fa" [icon]="faChevronDown"></fa-icon>
+                                <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
                                 <h6 class="title">Price range</h6>
                             </a>
                         </header>
@@ -84,9 +84,9 @@
                                     <label class="form-check-label" for="MoreThan30"> >$30</label>
                                     <b class="float-end badge badge-light rounded-pill">{{getFilterCount(9)}}</b>
                                 </div>
-                            </div><!-- card-body.// -->
+                            </div>
                         </div>
-                    </article> <!-- filter-group .// -->
+                    </article>
                 </div>
             </aside>
             <!-- ========================= FILTER ASIDE END// ========================= -->
@@ -100,16 +100,19 @@
                             <img src={{product.imageUrls[0]}} height="200" class="card-img-top" alt="product image">
                         </a>
                         <div class="card-body pt-0">
-                            <div class="float-end mt-n5">
-                                <img class="img-sm rounded-3 obj-contain border" src="assets/images/logo.png" width="72" height="72">
-                            </div>
                             <div class="pt-3">
+                                <div class="float-end">
+                                    <button class="btn cart-btn">
+                                        <fa-icon [icon]="faPlus" size="lg"></fa-icon>
+                                        <fa-icon [icon]="faCartShopping" size="lg"></fa-icon>
+                                    </button>
+                                </div>
                                 <h6 class="card-title mb-0">
-                                    <a href="#">{{product.name}}</a>
+                                    <a routerLink="product/{{product.id}}">{{product.name}}</a>
                                 </h6>
                                 <p class="mb-1 text-muted">{{getTags(product.tags)}}</p>
                                 <span class="badge" [ngClass]="setBadgeClass(product.reviews)">
-                                    <i class="fa fa-star"></i> {{getBadgeGrade(product.reviews)}}
+                                    <fa-icon [icon]="faStar"></fa-icon> {{getBadgeGrade(product.reviews)}}
                                 </span>
                                 <span class="text-success ms-2 float-end">${{product.price}}</span>
                             </div>

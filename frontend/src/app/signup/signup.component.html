@@ -9,11 +9,16 @@
                 <h3 class="logReg-heading">Creating Your Account</h3>
                 <p class="mb-4">Running into issues?  Contact <a href="spk3077@rit.edu">spk3077@rit.edu</a> for help.</p>
   
-                <!-- Sign In Form -->
+                <!-- ========================= SIGNUP FORM ========================= -->
                 <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+                  <!-- === ERRORS === -->
                   <div class="logReg-alert" [hidden]="!signupError">
                     Registration Failed! Your username or password was incorrect.
                   </div>
+                  <!-- === ERRORS END// === -->
+
+                  <!-- === USERNAME === -->
                   <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput" placeholder="username" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  id="inputusername">
                     <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
@@ -23,6 +28,9 @@
                    </div>
                     <label for="floatingInput">Username</label>
                   </div>
+                  <!-- === USERNAME END// === -->
+
+                  <!-- === PASSWORD === -->
                   <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="inputPassword">
                     <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
@@ -32,6 +40,9 @@
                    </div>
                     <label for="floatingPassword">Password</label>
                   </div>
+                  <!-- === PASSWORDS END// === -->
+
+                  <!-- === PASSWORD CONFIRM === -->
                   <div class="form-floating mb-3">
                     <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="Re-Enter Password" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" id="inputConfirmPassword">
                     <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
@@ -42,10 +53,14 @@
                    </div>
                     <label for="floatingPassword">Re-enter Password</label>
                   </div>
+                  <!-- === PASSWORD CONFIRM END// === -->
+
                   <div class="d-grid">
                     <button class="btn btn-lg btn-primary logReg-btn text-uppercase fw-bold mb-2" type="submit">Create</button>
                   </div>
                 </form>
+                <!-- ========================= SIGNUP FORM END// ========================= -->
+
               </div>
             </div>
           </div>
