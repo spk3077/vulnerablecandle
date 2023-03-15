@@ -1,16 +1,16 @@
 import { Product } from './_core/product';
 
 export const PRODUCTS: Product[] = [
-  {
-    id: 1,
-    name: 'Chocolate Candle',
-    brand: 'Choco',
-    tags: ['isCute', 'isPopular'],
-    price: 10,
-    stock: 22,
-    imageUrls: ['assets/images/candle1.png', 'assets/images/candle2.png', 'assets/images/candle3.png'],
-    desc: "The utmost utmost beautiful candle of candles.  The burning whick goes far among the skies to become the truly sole king.",
-    reviews: [
+  new Product(
+    1,
+    'Chocolate Candle',
+    'Choco',
+    ['isCute', 'isPopular'],
+    10,
+    22,
+    ['assets/images/candle1.png', 'assets/images/candle2.png', 'assets/images/candle3.png'],
+    "The utmost utmost beautiful candle of candles.  The burning whick goes far among the skies to become the truly sole king.",
+    [
       {
         id: 1,
         username: 'DuckDuckGo',
@@ -24,17 +24,17 @@ export const PRODUCTS: Product[] = [
         comment: "Chad"
       }
     ]
-  },
-  {
-    id: 2,
-    name: 'Cain',
-    brand: 'Love',
-    tags: ['isTrending', 'isPopular'],
-    price: 20,
-    stock: 19,
-    imageUrls: ['assets/images/candle2.png', 'assets/images/candle1.png', 'assets/images/candle3.png'],
-    desc: "The Greatest Goat.",
-    reviews: [
+  ),
+  new Product(
+    2,
+    'Cain',
+    'Love',
+    ['isTrending', 'isPopular'],
+    20,
+    19,
+    ['assets/images/candle2.png', 'assets/images/candle1.png', 'assets/images/candle3.png'],
+    "The Greatest Goat.",
+    [
       {
         id: 1,
         username: 'Lola',
@@ -48,17 +48,17 @@ export const PRODUCTS: Product[] = [
         comment: "Chadz"
       }
     ]
-  },
-  {
-    id: 3,
-    name: 'Banana Candle',
-    brand: 'Heavenly',
-    tags: ['isUnique'],
-    price: 5,
-    stock: 10,
-    imageUrls: ['assets/images/candle3.png', 'assets/images/candle1.png', 'assets/images/candle2.png'],
-    desc: "Platinum is Gold.  Gold is Bronze.",
-    reviews: [
+  ),
+  new Product(
+    3,
+    'Banana Candle',
+    'Heavenly',
+    ['isUnique'],
+    5,
+    10,
+    ['assets/images/candle3.png', 'assets/images/candle1.png', 'assets/images/candle2.png'],
+    "Platinum is Gold.  Gold is Bronze.",
+    [
       {
         id: 1,
         username: 'Opera',
@@ -72,17 +72,17 @@ export const PRODUCTS: Product[] = [
         comment: "Chad"
       }
     ]
-  },
-  {
-    id: 4,
-    name: 'Empty',
-    brand: 'Cho',
-    tags: ['isTrending', 'isPopular', 'isForCar'],
-    price: 20,
-    stock: 2,
-    imageUrls: ['assets/images/candle1.png', 'assets/images/candle2.png'],
-    desc: "The Sole king.",
-    reviews: [
+  ),
+  new Product(
+    4,
+    'Empty',
+    'Cho',
+    ['isTrending', 'isPopular', 'isForCar'],
+    20,
+    2,
+    ['assets/images/candle1.png', 'assets/images/candle2.png'],
+    "The Sole king.",
+    [
       {
         id: 1,
         username: 'Barren',
@@ -96,17 +96,17 @@ export const PRODUCTS: Product[] = [
         comment: "Jets Alook"
       }
     ]
-  },
-  {
-    id: 5,
-    name: 'Look',
-    brand: 'Bite',
-    tags: ['isPopular'],
-    price: 30,
-    stock: 12,
-    imageUrls: ['assets/images/candle2.png'],
-    desc: "COLD BRO",
-    reviews: [
+  ),
+  new Product(
+    5,
+    'Look',
+    'Bite',
+    ['isPopular'],
+    30,
+    12,
+    ['assets/images/candle2.png'],
+    "COLD BRO",
+    [
       {
         id: 1,
         username: 'Casino Mount',
@@ -120,17 +120,17 @@ export const PRODUCTS: Product[] = [
         comment: "500"
       }
     ]
-  },
-  {
-    id: 6,
-    name: 'Veteran',
-    brand: 'Armed Robber',
-    tags: ['isCute', 'isPopular', 'isTrending', 'isUnique', 'isForCar'],
-    price: 7,
-    stock: 3,
-    imageUrls: ['assets/images/candle3.png'],
-    desc: "Tinkerer.",
-    reviews: [
+  ),
+  new Product (
+    6,
+    'Veteran',
+    'Armed Robber',
+    ['isCute', 'isPopular', 'isTrending', 'isUnique', 'isForCar'],
+    7,
+    3,
+    ['assets/images/candle3.png'],
+    "Tinkerer.",
+    [
       {
         id: 1,
         username: 'Opera',
@@ -144,5 +144,5 @@ export const PRODUCTS: Product[] = [
         comment: "Chad the Chad"
       }
     ]
-  }
+  )
 ];

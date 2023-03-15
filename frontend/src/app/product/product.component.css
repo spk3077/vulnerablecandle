@@ -1,8 +1,9 @@
+/* ====TRIPLE LEFT ASIDE GROUP==== */
 .aside-btn {
     border: 0;
     background: transparent;
     text-align: center;
-    margin-top: 2em;
+    margin-top: 1em;
 }
 .aside-radio { 
     opacity: 0;
@@ -14,4 +15,24 @@
 }
 .aside-radio:checked + img {
     outline: solid;
+}
+
+/* ==== DOT GROUP==== */
+.dot {
+    font-style: normal;
+    opacity: .5;
+}
+.dot::after {
+    content: "•";
+    display: inline-block;
+}
+
+/* ==== PRODUCT BUTTONS GROUP==== */
+.btn-label {
+    color: #51585e;
+}
+.btn-light {
+    background-color: #fff;
+    border-color: #dee2e6;
+    color: #212529;
 }

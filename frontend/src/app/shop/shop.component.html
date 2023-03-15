@@ -1,5 +1,5 @@
 <main>
-    <app-submenu [activePage]="title" [secondPage]="title"></app-submenu>
+    <app-submenu [activePage]="'Our Shop'" [secondPage]="'Our Shop'"></app-submenu>
     <!-- ========================= FILTER ASIDE ========================= -->
     <div class="container">
         <div class="row">
@@ -101,7 +101,7 @@
                         </a>
                         <div class="card-body pt-0">
                             <div class="pt-3">
-                                <div class="float-end">
+                                <div *ngIf="currentUser" class="float-end">
                                     <button class="btn cart-btn">
                                         <fa-icon [icon]="faPlus" size="lg"></fa-icon>
                                         <fa-icon [icon]="faCartShopping" size="lg"></fa-icon>
@@ -111,8 +111,8 @@
                                     <a routerLink="product/{{product.id}}">{{product.name}}</a>
                                 </h6>
                                 <p class="mb-1 text-muted">{{getTags(product.tags)}}</p>
-                                <span class="badge" [ngClass]="setBadgeClass(product.reviews)">
-                                    <fa-icon [icon]="faStar"></fa-icon> {{getBadgeGrade(product.reviews)}}
+                                <span class="badge" [ngClass]="product.setBadgeClass(product.reviews)">
+                                    <fa-icon [icon]="faStar"></fa-icon> {{product.getBadgeGrade(product.reviews)}}
                                 </span>
                                 <span class="text-success ms-2 float-end">${{product.price}}</span>
                             </div>

@@ -21,10 +21,14 @@
             <nav>
                 <ol class="breadcrumb text-white">
                     <li class="breadcrumb-item"><a routerLink="">Dashboard</a></li>
-                    <li class="breadcrumb-item" [ngClass]="{'active': activePage === secondPage}" [attr.aria-current]="activePage === secondPage ? 'page' : null">{{secondPage}}</li>
-                    <li *ngIf="thirdPage" class="breadcrumb-item" [ngClass]="{'active': activePage === thirdPage}" [attr.aria-current]="activePage === thirdPage ? 'page' : null">{{thirdPage}}</li>
-                    <li *ngIf="fourthPage" class="breadcrumb-item" [ngClass]="{'active': activePage === fourthPage}" [attr.aria-current]="activePage === fourthPage ? 'page' : null">{{fourthPage}}</li>
+                    <li *ngIf="activePage === secondPage" class="breadcrumb-item active">{{activePage}}</li>
+                    <li *ngIf="activePage !== secondPage" class="breadcrumb-item"><a routerLink={{secondPage_URL}}>{{secondPage}}</a></li>
 
+                    <li *ngIf="activePage === thirdPage" class="breadcrumb-item active">{{activePage}}</li>
+                    <li *ngIf="thirdPage && activePage !== thirdPage" class="breadcrumb-item"><a routerLink={{thirdPage_URL}}>{{thirdPage}}</a></li>
+
+                    <li *ngIf="activePage === fourthPage" class="breadcrumb-item active">{{activePage}}</li>
+                    <li *ngIf="fourthPage && activePage !== fourthPage" class="breadcrumb-item"><a routerLink="">{{fourthPage}}</a></li>
                 </ol>  
             </nav>
         </div>

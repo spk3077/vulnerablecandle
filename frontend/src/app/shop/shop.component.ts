@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Product } from '@app/_core/product';
-import { ProductReview } from '@app/_core/productReview';
-
 import { ProductService } from '@app/_services/product.service';
+import { UserService } from '@app/_services/user.service';
 
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -11,17 +10,13 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css']
 })
-export class ShopComponent implements OnInit {
-  // Title of Page
-  title: string = "Our Shop";
-  
-  // Products
+export class ShopComponent implements OnInit {  
+  currentUser: any | undefined;
   products: Product[] = [];
 
   filterSearch!: string;
@@ -37,7 +32,9 @@ export class ShopComponent implements OnInit {
     price4: false,
     };
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private userService: UserService) { 
+    this.userService.loggedInUser$.subscribe(x => this.currentUser = x);
+  }
   
   // Font Awesome Exports
   faMagnifyingGlass = faMagnifyingGlass;
@@ -88,24 +85,6 @@ export class ShopComponent implements OnInit {
     }
     else {
       return tags[0] + ", " + tags[1] + ", ...";
-    }
-  }
-
-  // Get the Mean of Reviews
-  getBadgeGrade(reviews: ProductReview[]): number {
-    return reviews.reduce((acc, review) => acc + review.grade, 0) / reviews.length;
-  }
-
-  // Set The Color of Rating Bubble
-  setBadgeClass(reviews: ProductReview[]): string {
-    // Get MEAN using an accumulator and looping reviews
-    let mean: number = this.getBadgeGrade(reviews);
-    if ( mean < 2 ) {
-      return 'bg-danger';
-    } else if ( mean >= 2 && mean < 4 ) {
-      return 'bg-warning';
-    } else {
-      return 'bg-success';
     }
   }
 }
