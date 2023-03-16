@@ -88,18 +88,20 @@ public class ProductReviewService {
 			return new Response(false, "Authentication error");
 		}
 	} */
-
-    // delete
-    public Response deleteProductReview(int id, org.springframework.security.core.Authentication authentication) {
-        if (productReviewDao.findById(id) != null) {
-            if (productReviewDao.findById(id).get().getUser().equals(userDao.findByUsername(authentication.getName()))) {
-                productReviewDao.deleteById(id);
-                return new Response(true);
-            } else {
-                return new Response(false, "Authentication error");
-            }
-        } else {
-            return new Response(false, "ProductReview is not found");
-        }
-    }
+	
+	/* //delete
+	public Response deleteProductReview(int id, org.springframework.security.core.Authentication authentication) {
+		Optional<ProductReview> optionalProductReview = productReviewDao.findById(id);
+		if (optionalProductReview.isPresent()) {
+			ProductReview productReview = optionalProductReview.get();
+			if (productReview.getUser().equals(userDao.findByUsername(authentication.getName()))) {
+				productReviewDao.delete(productReview);
+				return new Response(true);
+			} else {
+				return new Response(false, "Authentication error");
+			}
+		} else {
+			return new Response(false, "ProductReview is not found");
+		}
+	} */
 }
