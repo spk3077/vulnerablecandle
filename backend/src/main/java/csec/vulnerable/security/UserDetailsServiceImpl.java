@@ -1,6 +1,7 @@
 package csec.vulnerable.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,6 +11,7 @@ import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.UserDao;
 
 @Service
+@Primary
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	UserDao userDao;
