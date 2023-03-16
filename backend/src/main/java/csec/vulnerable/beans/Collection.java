@@ -1,44 +1,34 @@
 package csec.vulnerable.beans;
 
-import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity 
+@Entity
 @Table(name = "ecom_collection")
 public class Collection {
-    @Id 
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "COLLECTION_SEQ")
-	@SequenceGenerator(name = "COLLECTION_SEQ",sequenceName = "ECOM_COLLECTION_SEQ",allocationSize = 1)
-	private int id;
-	@Column
-	@NotEmpty
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "COLLECTION_SEQ")
+    @SequenceGenerator(name = "COLLECTION_SEQ", sequenceName = "ECOM_COLLECTION_SEQ", allocationSize = 1)
+    private int id;
     @Column
-	private String description;
-    @OneToMany(mappedBy = "collection")
-	private List<Product> products;
-    
-    
+    @NotEmpty
+    private String name;
+    @Column
+    private String description;
+
+    @ManyToMany
+    @JoinTable(
+            name = "collection_product",
+            joinColumns = @JoinColumn(name = "collection_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Product> products = new HashSet<>();
+
     public Collection() {
     }
 
-    public Collection(int id, @NotEmpty String name, String description, List<Product> products) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.products = products;
-    }
-    
-    public Collection(@NotEmpty String name, String description, List<Product> products) {
+    public Collection(@NotEmpty String name, String description, Set<Product> products) {
         this.name = name;
         this.description = description;
         this.products = products;
@@ -47,33 +37,43 @@ public class Collection {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    @Override
-    public String toString() {
-        return "Collection [id=" + id + ", name=" + name + ", description=" + description + ", products=" + products
-                + "]";
-    }
-    
-    public List<Product> getProducts() {
+
+    public Set<Product> getProducts() {
         return products;
     }
-    public void setProducts(List<Product> products) {
+
+    public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    public void addProduct(Product product) {
+        products.add(product);
+        product.getCollections().add(this);
+    }
+
+    public void removeProduct(Product product) {
+        products.remove(product);
+        product.getCollections().remove(this);
     }
     
 }

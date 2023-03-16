@@ -11,6 +11,15 @@ public class ProductReviewDTO {
     private Date review_date;
     private int productId;
 
+    public ProductReviewDTO(int id, String username, String title, int grade, String comment, Date review_date) {
+        this.id = id;
+        this.username = username;
+        this.title = title;
+        this.grade = grade;
+        this.comment = comment;
+        this.review_date = review_date;
+    }
+
     public ProductReviewDTO(int id, String username, String title, int grade, String comment, Date review_date, int productId) {
         this.id = id;
         this.username = username;
@@ -20,6 +29,8 @@ public class ProductReviewDTO {
         this.review_date = review_date;
         this.productId = productId;
     }
+
+    
 
     public int getId() {
         return id;

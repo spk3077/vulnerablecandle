@@ -15,6 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -31,13 +32,15 @@ public class ProductReview {
     private String title;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "product_id")
-	@JsonIgnoreProperties("reviews")
-	private Product product;
+    @JoinColumn(name = "product_id")
+    @JsonIgnore
+    private Product product;
+
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	@JsonIgnoreProperties("myreviews")
 	User user;
+    
 	@Column
 	private int grade;
     @Column

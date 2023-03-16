@@ -7,13 +7,12 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -40,7 +39,7 @@ public class Product {
 	private String brand;
 	@NotNull
 	@Positive
-	private int price;
+	private double price;
 	@Column
 	@NotNull
 	@PositiveOrZero
@@ -49,15 +48,22 @@ public class Product {
 	private String image;
 	@Column
 	private String description;
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "collection_id")
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
 	@JsonIgnore
-    private Collection collection;
-	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<ProductReview> productReviews;
+
+	@ManyToMany
+    @JoinTable(
+        name = "product_tag",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	@JsonIgnore
-	private List<ProductReview> reviews;
-	@ManyToMany(mappedBy = "products")
     private Set<Tag> tags = new HashSet<>();
+
+	@ManyToMany(mappedBy = "products")
+    @JsonIgnore
+    private Set<Collection> collections = new HashSet<>();
 
 	public Product(int id) {
 		super();
@@ -66,40 +72,17 @@ public class Product {
 	public Product() {
 		super();
 	}
-	public Product(int id, @NotEmpty String name, @NotEmpty String brand, @NotNull @Positive int price,
-			@NotNull @PositiveOrZero int stock, String image,String description) {
-		super();
-		this.id = id;
+	
+	public Product(@NotEmpty String name, @NotEmpty String brand, @NotNull @Positive double price,
+			@NotNull @PositiveOrZero int stock, String image, String description, List<ProductReview> productReviews,
+			Set<Tag> tags) {
 		this.name = name;
 		this.brand = brand;
 		this.price = price;
 		this.stock = stock;
 		this.image = image;
 		this.description = description;
-	}
-	public Product(@NotEmpty String name, @NotEmpty String brand, @NotNull @Positive int price,
-			@NotNull @PositiveOrZero int stock, String image,String description) {
-		super();
-		this.name = name;
-		this.brand = brand;
-		this.price = price;
-		this.stock = stock;
-		this.image = image;
-		this.description = description;
-	}
-
-
-	public Product(@NotEmpty String name, @NotEmpty String brand, @NotNull @Positive int price,
-			@NotNull @PositiveOrZero int stock, String image, String description, Collection collection,
-			List<ProductReview> reviews, Set<Tag> tags) {
-		this.name = name;
-		this.brand = brand;
-		this.price = price;
-		this.stock = stock;
-		this.image = image;
-		this.description = description;
-		this.collection = collection;
-		/* this.reviews = reviews; */
+		this.productReviews = productReviews;
 		this.tags = tags;
 	}
 	/**
@@ -130,12 +113,12 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public int getPrice() {
+	public @NotNull @Positive double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
+	public void setPrice(double d) {
+		this.price = d;
 	}
 
 	public int getStock() {
@@ -160,27 +143,6 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public List<ProductReview> getReviews() {
-		return reviews;
-	}
-	public void setReviews(List<ProductReview> reviews) {
-		this.reviews = reviews;
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", brand=" + brand + ", price=" + price + ", stock=" + stock
-				+ ", image=" + image + ", description=" + description + ", collection=" + collection + ", reviews="
-				+ reviews + ", tags=" + tags + "]";
-	}
-	
-	public Collection getCollection() {
-		return collection;
-	}
-	public void setCollection(Collection collection) {
-		this.collection = collection;
-	}
 	public Set<Tag> getTags() {
 		return tags;
 	}
@@ -188,5 +150,23 @@ public class Product {
 		this.tags = tags;
 	}
 	
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", brand=" + brand + ", price=" + price + ", stock=" + stock
+				+ ", image=" + image + ", description=" + description + ", productReviews=" + productReviews + ", tags="
+				+ tags + "]";
+	}
+	public List<ProductReview> getProductReviews() {
+		return productReviews;
+	}
+	public void setProductReviews(List<ProductReview> productReviews) {
+		this.productReviews = productReviews;
+	}
+	public Set<Collection> getCollections() {
+		return collections;
+	}
+	public void setCollections(Set<Collection> collections) {
+		this.collections = collections;
+	}
 	
 }

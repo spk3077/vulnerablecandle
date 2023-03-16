@@ -11,6 +11,6 @@ import csec.vulnerable.beans.Product;
 @Repository
 public interface ProductDao extends JpaRepository<Product, Integer> {
 
-    List<Product> findByCollectionId(int collectionId);
+    List<Product> findByCollectionsId(int collectionId);
 
 }

@@ -1,66 +1,91 @@
 package csec.vulnerable.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import csec.vulnerable.beans.Collection;
 import csec.vulnerable.beans.Product;
 import csec.vulnerable.dao.CollectionDao;
 import csec.vulnerable.dao.ProductDao;
-import csec.vulnerable.dao.UserDao;
 import csec.vulnerable.http.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
-@Transactional
 public class CollectionService {
-	@Autowired
-	ProductDao productDao;
 
     @Autowired
-    UserDao userDao;
-	
-	@Autowired
-	CollectionDao collectionDao;
-	
-	public Collection getCollection(int id) {
-		return collectionDao.findById(id).get();
-	}
-	
-	public List<Collection> getCollections() {
-		return collectionDao.findAll();
-	}
+    private CollectionDao collectionDao;
 
-	public List<Product> getProductsByCollectionId(int collectionId) {
-        return productDao.findByCollectionId(collectionId);
+    @Autowired
+    private ProductDao productDao;
+
+    public Collection getCollection(int id) {
+        return collectionDao.findById(id).orElse(null);
     }
 
-    //post
-	public Response addCollection(Collection collection) {
-		collectionDao.save(collection);
-		return new Response(true);
-	}
-	//put
-	public Response changeCollection(Collection collection) {
-        Collection col = collectionDao.findById(collection.getId()).get();
-        col.setDescription(collection.getDescription());
-        col.setName(collection.getName());
-        col.setProducts(collection.getProducts());
-        collectionDao.save(col);
-        return new Response(true);
-		
-	}
-	
-	//delete
-	public Response deleteCollection(int id) {
-		if(collectionDao.findById(id)!=null) {
+    public List<Collection> getCollections() {
+        return collectionDao.findAll();
+    }
+
+    public Response addCollection(Collection collection) {
+        collectionDao.save(collection);
+        return new Response(true, "Collection added successfully.");
+    }
+
+    public Response updateCollection(Collection collection) {
+        Collection existingCollection = collectionDao.findById(collection.getId()).orElse(null);
+
+        if (existingCollection != null) {
+            existingCollection.setName(collection.getName());
+            existingCollection.setDescription(collection.getDescription());
+            collectionDao.save(existingCollection);
+            return new Response(true, "Collection updated successfully.");
+        } else {
+            return new Response(false, "Collection not found.");
+        }
+    }
+
+    public Response deleteCollection(int id) {
+        if (collectionDao.existsById(id)) {
             collectionDao.deleteById(id);
-            return new Response(true);
-		}else {
-			return new Response(false,"Collection is not found");
-		}
+            return new Response(true, "Collection deleted successfully.");
+        } else {
+            return new Response(false, "Collection not found.");
+        }
+    }
+
+	public List<Product> getProductsByCollectionId(int collectionId) {
+		return productDao.findByCollectionsId(collectionId);
 	}
 
+    public Response addProductToCollection(int collectionId, int productId) {
+        Optional<Collection> collectionOpt = collectionDao.findById(collectionId);
+        Optional<Product> productOpt = productDao.findById(productId);
+
+        if (collectionOpt.isPresent() && productOpt.isPresent()) {
+            Collection collection = collectionOpt.get();
+            Product product = productOpt.get();
+            collection.addProduct(product);
+            collectionDao.save(collection);
+            return new Response(true, "Product added to the collection successfully.");
+        } else {
+            return new Response(false, "Collection or product not found.");
+        }
+    }
+
+    public Response removeProductFromCollection(int collectionId, int productId) {
+        Optional<Collection> collectionOpt = collectionDao.findById(collectionId);
+        Optional<Product> productOpt = productDao.findById(productId);
+
+        if (collectionOpt.isPresent() && productOpt.isPresent()) {
+            Collection collection = collectionOpt.get();
+            Product product = productOpt.get();
+            collection.removeProduct(product);
+            collectionDao.save(collection);
+            return new Response(true, "Product removed from the collection successfully.");
+        } else {
+            return new Response(false, "Collection or product not found.");
+        }
+    }
 }
