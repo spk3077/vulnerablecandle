@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -25,6 +26,10 @@ public class ProductReview {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "PRODUCT_REVIEW_SEQ")
 	@SequenceGenerator(name = "PRODUCT_REVIEW_SEQ",sequenceName = "ECOM_PRODUCT_REVIEW_SEQ",allocationSize = 1)
 	private int id;
+
+    @Column
+    private String title;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id")
 	@JsonIgnoreProperties("reviews")
@@ -38,8 +43,8 @@ public class ProductReview {
     @Column
     private String comment;
     @Column
-	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date review_date;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date review_date;
     
     
     
@@ -73,12 +78,28 @@ public class ProductReview {
         this.comment = comment;
     }
 
+    @PrePersist
+    public void onPrePersist() {
+        if (this.review_date == null) {
+            this.review_date = new java.sql.Date(System.currentTimeMillis());
+        }
+    }
+
     public int getId() {
         return id;
     }
     public void setId(int id) {
         this.id = id;
     }
+    
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public Product getProduct() {
         return product;
     }

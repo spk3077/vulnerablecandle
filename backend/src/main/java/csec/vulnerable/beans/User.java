@@ -47,9 +47,9 @@ private static final long serialVersionUID = 1L;
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private UserInfo userInfo;
 
-	@OneToMany(mappedBy = "user")
-	@JsonIgnore
-	private List<ProductReview> myreviews;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private List<ProductReview> myreviews;
 
 	@OneToMany(mappedBy = "user")
 	private List<Payment> mypayments;
