@@ -28,6 +28,7 @@ import { AdminProductsComponent } from './admin/products/products.component';
 import { HttpRequestInterceptor } from './_interceptors/http.interceptor';
 import { ResourceNotFoundInterceptor } from './_interceptors/notFound.interceptor';
 import { USER_SERVICE_STORAGE } from './_services/user.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { USER_SERVICE_STORAGE } from './_services/user.service';
     FormsModule,
     HttpClientModule,
     FontAwesomeModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgbModule
   ],
   providers: [
     {
