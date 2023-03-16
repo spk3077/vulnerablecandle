@@ -1,6 +1,8 @@
-export interface ProductReview {
-    id: number;
-    username: string;
-	grade: number;
-    comment: string;
+export class ProductReview {
+    constructor(
+        public id: number,
+        public username: string,
+        public grade: number,
+        public comment: string,
+    ) {  }
 }
