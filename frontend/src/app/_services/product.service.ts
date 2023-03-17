@@ -17,7 +17,7 @@ export class ProductService {
   }
 
   getProduct(id: number): Observable<Product> {
-    const product = of(PRODUCTS[1]);
+    const product = of(PRODUCTS[id - 1]);
     return product;
   }
 }

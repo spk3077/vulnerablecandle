@@ -2,29 +2,23 @@ import { ProductReview } from './productReview';
 
 export class Product {
     constructor(
-        public id: number,
         public name: string,
         public brand: string,
-        public tags: string[],
+        public description: string,
+        public tagNames: string[],
         public price: number,
         public stock: number,
         public imageUrls: string[],
-        public desc: string,
-        public reviews: ProductReview[]
+        public id?: number, // Receive Product Only
+        public averageReviewGrade?: number, // Receive Product Only
+        public productReviews?: ProductReview[] // Receive Product Only
     ) {  }
 
-    // Get the Mean of Reviews
-    getBadgeGrade(reviews: ProductReview[]): number {
-        return reviews.reduce((acc, review) => acc + review.grade, 0) / reviews.length;
-    }
-
     // Set The Color of Rating Bubble
-    setBadgeClass(reviews: ProductReview[]): string {
-        // Get MEAN using an accumulator and looping reviews
-        let mean: number = this.getBadgeGrade(reviews);
-        if ( mean < 2 ) {
+    setBadgeClass(): string {
+        if ( !this.averageReviewGrade || this.averageReviewGrade! < 2 ) {
             return 'bg-danger';
-        } else if ( mean >= 2 && mean < 4 ) {
+        } else if ( this.averageReviewGrade! >= 2 && this.averageReviewGrade! < 4 ) {
             return 'bg-warning';
         } else {
             return 'bg-success';

@@ -7,7 +7,7 @@ import { StorageService } from 'ngx-webstorage-service';
 
 import { UserCred } from '@app/_core/userCred';
 import { UserFull } from '@app/_core/userFull';
-import { environment } from  '../../environments/environment';
+import { environment } from  '@environments/environment';
 
 const STORAGE_KEY = 'current-user';
 export const USER_SERVICE_STORAGE =

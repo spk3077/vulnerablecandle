@@ -17,11 +17,11 @@ import { ShopComponent } from './shop/shop.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { ProductComponent } from './product/product.component';
+import { ProductsPipe } from './shop/products.pipe';
 import { CollectionsComponent } from './collections/collections.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
-import { ProductsPipe } from './shop/products.pipe';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminProductsComponent } from './admin/products/products.component';
@@ -40,11 +40,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TransactionsComponent,
     ShoppingCartComponent,
     ProductComponent,
+    ProductsPipe,
     CollectionsComponent,
     SignupComponent,
     LoginComponent,
     LogoutComponent,
-    ProductsPipe,
     NotFoundComponent,
     AdminUsersComponent,
     AdminProductsComponent

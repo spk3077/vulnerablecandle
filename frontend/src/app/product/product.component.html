@@ -35,8 +35,8 @@
                 <!-- === PRODUCT INFO === -->
                 <h4 class="text-dark">{{product.name}}</h4>
                 <div class="mb-3">
-                    <span class="badge" [ngClass]="product.setBadgeClass(product.reviews)">
-                        <fa-icon [icon]="faStar"></fa-icon> {{product.getBadgeGrade(product.reviews)}}
+                    <span class="badge" [ngClass]="product.setBadgeClass()">
+                        <fa-icon [icon]="faStar"></fa-icon> {{product.averageReviewGrade ? product.averageReviewGrade : 'No Rating'}}
                     </span>
                     <i class="dot"></i>
                     <span *ngIf="product.price > 0" class="label-rating text-success">In Stock</span>
@@ -48,14 +48,14 @@
                     <span class="text-muted">/per candle</span> 
                 </div> 
 
-                <p>{{product.desc}}</p>
+                <p>{{product.description}}</p>
                 
                 <dl class="row">
                     <dt class="col-3">Brand:</dt>
                     <dd class="col-9">{{product.brand}}</dd>
                 
                     <dt class="col-3">Tags:</dt>
-                    <dd class="col-9">{{product.tags.join(', ')}}</dd>
+                    <dd class="col-9">{{product.tagNames.join(', ')}}</dd>
                 </dl>
                 <!-- === PRODUCT INFO END// === -->
                 <hr>
@@ -100,7 +100,33 @@
         <!-- ========================= CONTENT SECTION END// ========================= -->
 
         <!-- === PRODUCT REVIEWS === -->
-        
-        <hr>
+        <section id="product-reviews" class="mt-4">
+            <div id="review-section-header">
+                <div class="review-section-title">
+                    <h3>Customer Reviews</h3>
+                    <hr class="section-title-hr"/>
+                </div>
+                <h4 class="text-dark mb-1">Customer Reviews</h4>
+                <ngb-rating class="main-rating" [max]="5" [(rate)]="product.averageReviewGrade!" [readonly]="true"></ngb-rating>
+                <span class="ms-1">Based on {{product.productReviews!.length}} reviews</span>
+            </div>
+            <div id="review-section-body" class="mt-5">
+                <div class="user-review" *ngFor="let review of product.productReviews">
+                    <div id="review-header">
+                        <ngb-rating class="child-rating" [max]="5" [(rate)]="review.grade" [readonly]="true"></ngb-rating>
+                        <h3 class="review-title">{{review.title}}</h3>
+                        <span class="review-author">by <strong>{{review.username!}}</strong></span>
+                        <span class="review-date ms-1">on <strong>DATE</strong></span>
+                    </div>
+                    <div id="review-body" class="mb-5">
+                        <p class="review-content">{{review.comment}}</p>
+                    </div>
+                    <div id="review-footer">
+                        <!-- FUTURE USE -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
     </div>
 </main>
