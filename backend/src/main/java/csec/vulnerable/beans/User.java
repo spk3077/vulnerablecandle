@@ -51,8 +51,9 @@ private static final long serialVersionUID = 1L;
     @JsonIgnore
     private List<ProductReview> myreviews;
 
-	@OneToMany(mappedBy = "user")
-	private List<Payment> mypayments;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Payment> mypayments;
 			
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

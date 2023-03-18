@@ -50,6 +50,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.1.1.Final</version>
+		</dependency>
 		<!-- Java bean validation API - Spec -->
 		<dependency>
 			<groupId>javax.validation</groupId>

@@ -3,7 +3,6 @@ package csec.vulnerable.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,42 +14,65 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import csec.vulnerable.beans.Payment;
+import csec.vulnerable.beans.User;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.PaymentService;
 
-@RestController()
+@RestController
 @RequestMapping("/payments")
 public class PaymentController {
-	@Autowired
-	PaymentService paymentService;
-	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
-	@GetMapping("/{id}")
-	public Payment getProduct(@PathVariable int id) {
-		return paymentService.getPayment(id);
-	}
-	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
-	@GetMapping
-	public List<Payment> getPayments() {
-		return paymentService.getPayments();
-	}
-	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
-	@PostMapping
-	public Response addPayment(@RequestBody Payment payment,Authentication authentication) {
-		return paymentService.addPayment(payment,authentication);
-	}
-	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
-	@PutMapping
-	public Response changePayment(@RequestBody Payment payment,Authentication authentication) {
-		return paymentService.changePayment(payment, authentication);
-	}
-	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
-	@DeleteMapping("/{id}")
-	public Response deletePayment(@PathVariable int id,Authentication authentication) {
-		return paymentService.deletePayment(id, authentication);
-	}
+    @Autowired
+    PaymentService paymentService;
+
+    @GetMapping("/{id}")
+    public Payment getPayment(@PathVariable int id, Authentication authentication) {
+        Payment payment = paymentService.getPayment(id);
+        if (payment != null) {
+            if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
+                    || payment.getUser().getId() == ((User)authentication.getPrincipal()).getId()) {
+                return payment;
+            }
+        }
+        return null;
+    }
+
+    @GetMapping
+    public List<Payment> getPayments(Authentication authentication) {
+        return paymentService.getPayments(authentication);
+    }
+
+    @PostMapping
+    public Response addPayment(@RequestBody Payment payment, Authentication authentication) {
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
+                || payment.getUser().getId() == ((User)authentication.getPrincipal()).getId()) {
+            return paymentService.addPayment(payment, authentication);
+        } else {
+            return new Response(false, "You are not authorized to add this payment");
+        }
+    }
+
+    @PutMapping
+    public Response changePayment(@RequestBody Payment payment, Authentication authentication) {
+        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
+                || payment.getUser().getId() == ((User)authentication.getPrincipal()).getId()) {
+            return paymentService.changePayment(payment, authentication);
+        } else {
+            return new Response(false, "You are not authorized to change this payment");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Response deletePayment(@PathVariable int id, Authentication authentication) {
+        Payment payment = paymentService.getPayment(id);
+        if (payment != null) {
+            if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
+                    || payment.getUser().getId() == ((User)authentication.getPrincipal()).getId()) {
+                return paymentService.deletePayment(id, authentication);
+            } else {
+                return new Response(false, "You are not authorized to delete this payment");
+            }
+        } else {
+            return new Response(false, "Payment not found");
+        }
+    }
 }

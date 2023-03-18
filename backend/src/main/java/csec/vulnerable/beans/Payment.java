@@ -10,50 +10,100 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.CreditCardNumber;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "ecom_payment")
 public class Payment {
-    @Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "PAYMENT_SEQ")
-	@SequenceGenerator(name = "PAYMENT_SEQ",sequenceName = "ECOM_PAYMENT_SEQ",allocationSize = 1)
-	private int id;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
-	@JsonIgnoreProperties("mypayments")
-	User user;
-    @Column
-    private long card_number;
-    @Column
-    private String owner_name;
-    @Column(name="expiry_month", nullable=false)
-    private int expiryMonth;
-    @Column(name="expiry_year", nullable=false)
-    private int expiryYear;
-    @Column
-    private int sec_code;
 
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "PAYMENT_SEQ")
+    @SequenceGenerator(name = "PAYMENT_SEQ", sequenceName = "ECOM_PAYMENT_SEQ", allocationSize = 1)
+    private int id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
+    @Column
+    @NotNull
+    @CreditCardNumber
+    private String cardNumber;
+
+    @Column
+    @NotNull
+    @Size(min = 2, max = 50)
+    private String ownerName;
+
+    @Column(name = "expiry_month", nullable = false)
+    @NotNull
+    @Min(1)
+    @Max(12)
+    private int expiryMonth;
+
+    @Column(name = "expiry_year", nullable = false)
+    @NotNull
+    @Min(23)
+    @Max(33)
+    private int expiryYear;
+
+    @Column
+    @NotNull
+    @Digits(integer = 3, fraction = 0)
+    private int secCode;
+
     public Payment() {
     }
 
-    public Payment(long card_number, String owner_name, String expiration_date, int sec_code) {
-        this.card_number = card_number;
-        this.owner_name = owner_name;
-        this.sec_code = sec_code;
-    }
-    
-    public Payment(User user, long card_number, String owner_name, int expiryMonth, int expiryYear, int sec_code) {
+    public Payment(User user, String cardNumber, String ownerName, int expiryMonth, int expiryYear, int secCode) {
         this.user = user;
-        this.card_number = card_number;
-        this.owner_name = owner_name;
+        this.cardNumber = cardNumber;
+        this.ownerName = ownerName;
         this.expiryMonth = expiryMonth;
         this.expiryYear = expiryYear;
-        this.sec_code = sec_code;
+        this.secCode = secCode;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public int getExpiryMonth() {
@@ -72,36 +122,12 @@ public class Payment {
         this.expiryYear = expiryYear;
     }
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
-    public long getCard_number() {
-        return card_number;
-    }
-    public void setCard_number(long card_number) {
-        this.card_number = card_number;
-    }
-    public String getOwner_name() {
-        return owner_name;
-    }
-    public void setOwner_name(String owner_name) {
-        this.owner_name = owner_name;
-    }
-    public int getSec_code() {
-        return sec_code;
-    }
-    public void setSec_code(int sec_code) {
-        this.sec_code = sec_code;
+    public int getSecCode() {
+        return secCode;
     }
 
-    
+    public void setSecCode(int secCode) {
+        this.secCode = secCode;
+    }
+
 }
