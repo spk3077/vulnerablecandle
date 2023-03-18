@@ -167,8 +167,4 @@ public class UserInfo {
 				+ picture + ", create_date=" + create_date + "]";
 	}
 	
-	
-	
-	
-	
 }

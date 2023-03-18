@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import csec.vulnerable.beans.ShoppingCart;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.ShoppingCartService;
 
@@ -19,6 +21,12 @@ public class ShoppingCartController {
 	@Autowired
     ShoppingCartService shoppingCartService;
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
+    @GetMapping("/")
+    public ShoppingCart getShoppingCart(Authentication authentication) {
+        return shoppingCartService.getShoppingCart(authentication);
+    }
+    
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     @PostMapping("/add/{productId}/{quantity}")
     public Response addCartItem(@PathVariable int productId, @PathVariable int quantity, Authentication authentication) {
