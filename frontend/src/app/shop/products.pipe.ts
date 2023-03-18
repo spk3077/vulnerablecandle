@@ -1,6 +1,6 @@
 import { PipeTransform, Pipe } from '@angular/core';
 
-import { Product } from '../_core/product';
+import { ProductReceive } from '../_core/product';
  
 
 @Pipe({
@@ -8,7 +8,7 @@ import { Product } from '../_core/product';
     pure: false
 })
 export class ProductsPipe implements PipeTransform {
-    transform(values: Product[], filters:any): Product[]{
+    transform(values: ProductReceive[], filters:any): ProductReceive[]{
         // Return same array if no filter
         if( !filters )
             return values;

@@ -1,8 +1,9 @@
-import { Product } from './_core/product';
-import { ProductReview } from './_core/productReview';
+import { ProductReceive } from './_core/product';
+import { ProductReviewReceive } from './_core/productReview';
 
-export const PRODUCTS: Product[] = [
-  new Product(
+export const PRODUCTS: ProductReceive[] = [
+  new ProductReceive(
+    1,
     'Chocolate Candle',
     'Choco',
     "The utmost utmost beautiful candle of candles.  The burning whick goes far among the skies to become the truly sole king.",
@@ -10,26 +11,14 @@ export const PRODUCTS: Product[] = [
     10,
     22,
     ['assets/images/candle1.png', 'assets/images/candle2.png', 'assets/images/candle3.png'],
-    1,
     5,
     [
-      {
-        id: 1,
-        title: "Neat Product",
-        username: 'DuckDuckGo',
-        grade: 5,
-        comment: "Superb. The only true candle I've seen in a long time"
-      },
-      {
-        id: 2,
-        title: "Chad",
-        username: 'Chad',
-        grade: 5,
-        comment: "Chad"
-      }
+      new ProductReviewReceive(1, "Neat Product", "DuckDuckGo", 5, "Better than my Browser"), 
+      new ProductReviewReceive(2, "Chad", "Chad", 5, "Chad")
     ]
   ),
-  new Product(
+  new ProductReceive(
+    2, 
     'Cain',
     'Love',
     "The Greatest Goat.",
@@ -37,26 +26,14 @@ export const PRODUCTS: Product[] = [
     20,
     19,
     ['assets/images/candle2.png', 'assets/images/candle1.png', 'assets/images/candle3.png'],
-    2,
     4,
     [
-      {
-        id: 1,
-        title: "Terrible",
-        username: 'Lola',
-        grade: 5,
-        comment: "10/10 Content"
-      },
-      {
-        id: 2,
-        title: "Not Chad",
-        username: 'Chad',
-        grade: 3,
-        comment: "Chadz"
-      }
+      new ProductReviewReceive(1, "Terrible", "Lola", 5, "10/10 Content"), 
+      new ProductReviewReceive(2, "Not Chad", "Chad", 1, "Chadz")
     ]
   ),
-  new Product(
+  new ProductReceive(
+    3, 
     'Banana Candle',
     'Heavenly',
     "Platinum is Gold.  Gold is Bronze.",
@@ -64,26 +41,14 @@ export const PRODUCTS: Product[] = [
     5,
     10,
     ['assets/images/candle3.png', 'assets/images/candle1.png', 'assets/images/candle2.png'],
-    3,
     1.5,
     [
-      {
-        id: 1,
-        title: "Not Cool",
-        username: 'Opera',
-        grade: 1,
-        comment: "Supertime"
-      },
-      {
-        id: 2,
-        title: "Corona",
-        username: 'Chad',
-        grade: 2,
-        comment: "Chad"
-      }
+      new ProductReviewReceive(1, "Not Cool", "Opera", 1, "Supertime"), 
+      new ProductReviewReceive(2, "Corona", "Chad", 2, "Chad")
     ]
   ),
-  new Product(
+  new ProductReceive(
+    4, 
     'Empty',
     'Cho',
     "The Sole king.",
@@ -91,26 +56,13 @@ export const PRODUCTS: Product[] = [
     20,
     2,
     ['assets/images/candle1.png', 'assets/images/candle2.png'],
-    4,
     5,
     [
-      {
-        id: 1,
-        title: "Corona",
-        username: 'Barren',
-        grade: 5,
-        comment: "Seen By Looking"
-      },
-      {
-        id: 2,
-        title: "Perish",
-        username: 'Jet',
-        grade: 5,
-        comment: "Jets Alook"
-      }
+      new ProductReviewReceive(1, "Corona", "Barren", 5, "Seen by Looking")
     ]
   ),
-  new Product(
+  new ProductReceive(
+    5, 
     'Look',
     'Bite',
     "COLD BRO",
@@ -119,25 +71,12 @@ export const PRODUCTS: Product[] = [
     12,
     ['assets/images/candle2.png'],
     5,
-    5,
     [
-      {
-        id: 1,
-        title: "YESSSS",
-        username: 'Casino Mount',
-        grade: 5,
-        comment: "Lots of Poker"
-      },
-      {
-        id: 2,
-        title: "Fantastic!",
-        username: 'Mount Credits',
-        grade: 5,
-        comment: "500"
-      }
+      new ProductReviewReceive(1, "YESS", "CASINO Mount", 5, "Lots of Poker")
     ]
   ),
-  new Product (
+  new ProductReceive (
+    6, 
     'Veteran',
     'Armed Robber',
     "Tinkerer.",
@@ -145,23 +84,10 @@ export const PRODUCTS: Product[] = [
     7,
     3,
     ['assets/images/candle3.png'],
-    5,
-    2,
+    1,
     [
-      {
-        id: 1,
-        title: "Lol Awful",
-        username: 'Opera',
-        grade: 1,
-        comment: "Browser"
-      },
-      {
-        id: 2,
-        title: "Medium Chad",
-        username: 'Chad',
-        grade: 3,
-        comment: "Chad the Chad"
-      }
+    new ProductReviewReceive(1, "Lol Awful", "Opera", 1, "Browser"), 
+    new ProductReviewReceive(2, "Medium Chad", "Chad", 1, "Chad the Chad")
     ]
   )
 ];

@@ -1,10 +1,20 @@
-export class ProductReview {
+// CLASS FOR RECEIVING Reviews
+export class ProductReviewReceive {
     constructor(
-        public title: string, // Add ProductReview and Receive Product Review
-        public grade: number, // Add ProductReview and Receive Product Review
-        public comment: string, // Add ProductReview and Receive Product Review
-        public id?: number, // Receive Product Review Only
-        public username?: string, // Receive Product Review Only
-        public productID?: number, // Add ProductReview Only
+        public id: number,
+        public title: string,
+        public username: string,
+        public grade: number,
+        public comment: string,
+    ) {  }
+}
+
+// CLASS FOR SENDING REVIEWS
+export class ProductReviewSend {
+    constructor(
+        public productID: number,
+        public title: string,
+        public grade: number,
+        public comment: string,
     ) {  }
 }
