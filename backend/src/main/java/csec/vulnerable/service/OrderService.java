@@ -1,128 +1,53 @@
 package csec.vulnerable.service;
 
-import java.util.Calendar;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import csec.vulnerable.beans.CartItem;
 import csec.vulnerable.beans.Order;
-import csec.vulnerable.beans.Product;
+import csec.vulnerable.beans.OrderItem;
 import csec.vulnerable.beans.ShoppingCart;
+import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.OrderDao;
-import csec.vulnerable.dao.ProductDao;
-import csec.vulnerable.dao.ShoppingCartDao;
 import csec.vulnerable.dao.UserDao;
-import csec.vulnerable.http.Response;
-
-
 
 @Service
 @Transactional
 public class OrderService {
-	@Autowired
-	OrderDao orderDao;
-	
-	@Autowired
-	ProductDao productDao;
-	
-	@Autowired
-	ShoppingCartDao shoppingCartDao;
-	
-	@Autowired
-	UserDao userDao;
-	
-	public boolean isAdmin(Collection<? extends GrantedAuthority> profiles) {
-		boolean isAdmin = false;
-		for(GrantedAuthority profile : profiles) {
-			if(profile.getAuthority().equals("ROLE_ADMIN")) {
-				isAdmin = true;
-			}
-		}
-		return isAdmin;
-	}
-	//get
-	/**
-	 * @param order
-	 * @param authentication
-	 * @return all the order under authentication
-	 */
-	public List<Order> getOrders(Authentication authentication){
-		if(isAdmin(authentication.getAuthorities())) {
-			return orderDao.findAll();
-		} else {
-			return orderDao.findAllByUser(userDao.findByUsername(authentication.getName()));
-		}
-	}
-	
-	public Order getOrder(int id) {
-		return orderDao.findById(id).get();
-	}
-	
-	//post
-	/**
-	 * create a new order
-	 * @param order
-	 * @param authentication
-	 * @return Response
-	 */
-	public Response addOrder(Order order, Authentication authentication) {
-		try {
-			List<ShoppingCart> purchaseShoppingCarts = order.getPurchases();
-			purchaseShoppingCarts.forEach((ShoppingCart) -> {
-				Product product = (Product)productDao.findById(ShoppingCart.getProduct().getId()).get();
-				int leftStock = product.getStock() - ShoppingCart.getQuantity();
-				if(leftStock >= 0) {
-					product.setStock(leftStock);
-					ShoppingCart.setProduct(product);
-					ShoppingCart.setOrder(order);
-				}
-			});
-			order.setUser(userDao.findByUsername(authentication.getName()));
-			order.setPurchases(purchaseShoppingCarts);
-			Calendar calendar = Calendar.getInstance();
-        	java.util.Date now = calendar.getTime();
-        	java.sql.Date currentDate = new java.sql.Date(now.getTime());
-			order.setPurchase_date(currentDate);
-			orderDao.save(order);
-			return new Response(true);
-		}catch (Exception e) {
-			return new Response(false,e.getMessage());
-		}
-	}
-	//put
-	public Response changeOrder(Order order) {
-		Order o = orderDao.findById(order.getId()).get();
-		o.setPurchase_date(order.getPurchase_date());
-		try {
-			List<ShoppingCart> purchaseShoppingCarts = order.getPurchases();
-			purchaseShoppingCarts.forEach((ShoppingCart) -> {
-				Product product = (Product)productDao.findById(ShoppingCart.getProduct().getId()).get();
-				int leftStock = product.getStock() - ShoppingCart.getQuantity();
-				if(leftStock >= 0) {
-					product.setStock(leftStock);
-					ShoppingCart.setProduct(product);
-				}
-		});
-		o.setPurchases(order.getPurchases());
-		orderDao.save(o);
-		return new Response(true);
-		}catch (Exception e) {
-			return new Response(false,e.getMessage());
-		}
-	}
-	//delete
-	public Response deleteOrder(int id) {
-		if(orderDao.findById(id)!=null) {
-			orderDao.deleteById(id);
-			return new Response(true);
-		}else {
-			return new Response(false,"order is not found");
-		}
-	}
-}
+    @Autowired
+    OrderDao orderDao;
 
+    @Autowired
+    UserDao userDao;
+
+    @Autowired
+    ProductService productService;
+
+    public List<Order> getOrdersByUser(User user) {
+        return orderDao.findAllByUser(user);
+    }
+
+    public Order getOrderById(int id) {
+        return orderDao.findById(id).orElse(null);
+    }
+
+    public Order createOrder(ShoppingCart shoppingCart, User user) {
+        Order order = new Order();
+        order.setUser(user);
+        order.setOrderItems(new ArrayList<>());
+        
+        for (CartItem cartItem : shoppingCart.getCartItems()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setOrder(order);
+            order.getOrderItems().add(orderItem);
+        }
+        
+        return orderDao.save(order);
+    }
+}

@@ -1,87 +1,63 @@
 package csec.vulnerable.beans;
 
-import javax.persistence.Column;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "ecom_shoppingcart")
 public class ShoppingCart {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "SHOPPINGCART_SEQ")
-	@SequenceGenerator(name = "SHOPPINGCART_SEQ",sequenceName = "ECOM_SHOPPINGCART_SEQ",allocationSize = 1)
-	private int id;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "order_id")
-	@JsonIgnoreProperties("purchases")
-	Order order;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "product_id")
-	Product product;
-	@Column
-	private int quantity;
-	
-	public ShoppingCart() {
-		super();
-	}
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "SHOPPING_CART_SEQ")
+    @SequenceGenerator(name = "SHOPPING_CART_SEQ", sequenceName = "SHOPPING_CART_SEQ", allocationSize = 1)
+    private int id;
 
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 
-	public int getQuantity() {
-		return quantity;
-	}
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    public ShoppingCart() {
+    }
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+    public ShoppingCart(User user) {
+        this.user = user;
+    }
 
+    public int getId() {
+        return id;
+    }
 
-	public ShoppingCart(Product product, int quantity) {
-		super();
-		this.product = product;
-		this.quantity = quantity;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public Order getOrder() {
-		return order;
-	}
-
-	public void setOrder(Order order) {
-		this.order = order;
-	}
-
-	public Product getProduct() {
-		return product;
-	}
-
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-
-	@Override
-	public String toString() {
-		return "ShoppingCart [id=" + id + ", productName=" + product.getName() + 
-				", productPrice=" + product.getPrice() +", quantity=" + quantity +"]";
-	}
-	
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
-

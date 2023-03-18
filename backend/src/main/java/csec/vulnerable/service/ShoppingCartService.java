@@ -3,77 +3,89 @@ package csec.vulnerable.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import csec.vulnerable.beans.CartItem;
+import csec.vulnerable.beans.Product;
 import csec.vulnerable.beans.ShoppingCart;
-import csec.vulnerable.dao.OrderDao;
+import csec.vulnerable.dao.CartItemDao;
 import csec.vulnerable.dao.ProductDao;
 import csec.vulnerable.dao.ShoppingCartDao;
+import csec.vulnerable.dao.UserDao;
 import csec.vulnerable.http.Response;
-
 
 @Service
 @Transactional
 public class ShoppingCartService {
-	@Autowired
-	OrderDao orderDao;
-	
-	@Autowired
-	ProductDao productDao;
-	
-	@Autowired
-	ShoppingCartDao shoppingCartDao;
-	
-	public ShoppingCart getShoppingCart(int id) {
-		return shoppingCartDao.findById(id).get();
-	}
-	
-	public List<ShoppingCart> getShoppingCarts() {
-		return shoppingCartDao.findAll();
-	}
-	
-	//post
-	public Response addShoppingCart(ShoppingCart shoppingCart) {
-		int leftStock = productDao.findById(shoppingCart.getProduct().getId()).get().getStock() - shoppingCart.getQuantity();
-		if(leftStock >= 0) {
-			productDao.findById(shoppingCart.getProduct().getId()).get().setStock(leftStock);
-			productDao.save(productDao.findById(shoppingCart.getProduct().getId()).get());
-			shoppingCart.setProduct(productDao.findById(shoppingCart.getProduct().getId()).get());
-			shoppingCartDao.save(shoppingCart);
-			return new Response(true);
-		}else {
-			return new Response(false, "Out the stock :" + leftStock);
-		}
-		
-	}
-	//put
-	public Response changeShoppingCart(ShoppingCart shoppingCart) {
-		int leftStock = productDao.findById(shoppingCart.getProduct().getId()).get().getStock() - (shoppingCart.getQuantity() - shoppingCartDao.findById(shoppingCart.getId()).get().getQuantity());
-		if(leftStock >= 0) {
-			productDao.findById(shoppingCart.getProduct().getId()).get().setStock(leftStock);
-			ShoppingCart op = shoppingCartDao.findById(shoppingCart.getId()).get();
-			op.setOrder(shoppingCart.getOrder());
-			productDao.save(productDao.findById(shoppingCart.getProduct().getId()).get());
-			op.setProduct(shoppingCart.getProduct());
-			op.setQuantity(shoppingCart.getQuantity());
-			shoppingCartDao.save(op);												
-			return new Response(true);
-		}else {
-			return new Response(false, "Out the stock :" + leftStock);
-		}
-	}
-	
-	//delete
-	public Response deleteShoppingCart(int id) {
-		if(shoppingCartDao.findById(id)!=null) {
-			shoppingCartDao.deleteById(id);
-			return new Response(true);
-		}else {
-			return new Response(false,"ShoppingCart is not found");
-		}
-	}
-	
-	
-}
 
+    @Autowired
+    ShoppingCartDao shoppingCartDao;
+
+    @Autowired
+    CartItemDao cartItemDao;
+
+    @Autowired
+    ProductDao productDao;
+
+    @Autowired
+    UserDao userDao;
+
+    public ShoppingCart getShoppingCart(Authentication authentication) {
+        return shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
+    }
+
+    public Response addCartItem(int productId, int quantity, Authentication authentication) {
+        try {
+            Product product = productDao.findById(productId).get();
+            ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
+            CartItem cartItem = new CartItem(product, quantity);
+            cartItem.setShoppingCart(shoppingCart);
+            cartItemDao.save(cartItem);
+            return new Response(true);
+        } catch (Exception e) {
+            return new Response(false, e.getMessage());
+        }
+    }
+
+    public Response updateCartItem(int cartItemId, int quantity, Authentication authentication) {
+        try {
+            CartItem cartItem = cartItemDao.findById(cartItemId).get();
+            ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
+            if (cartItem.getShoppingCart().getId() != shoppingCart.getId()) {
+                return new Response(false, "Unauthorized");
+            }
+            cartItem.setQuantity(quantity);
+            cartItemDao.save(cartItem);
+            return new Response(true);
+        } catch (Exception e) {
+            return new Response(false, e.getMessage());
+        }
+    }
+
+    public Response removeCartItem(int cartItemId, Authentication authentication) {
+        try {
+            CartItem cartItem = cartItemDao.findById(cartItemId).get();
+            ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
+            if (cartItem.getShoppingCart().getId() != shoppingCart.getId()) {
+                return new Response(false, "Unauthorized");
+            }
+            cartItemDao.deleteById(cartItemId);
+            return new Response(true);
+        } catch (Exception e) {
+            return new Response(false, e.getMessage());
+        }
+    }
+
+	public Response clearShoppingCart(Authentication authentication) {
+		try {
+			ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
+			List<CartItem> cartItems = shoppingCart.getCartItems();
+			cartItemDao.deleteAll(cartItems);
+			return new Response(true);
+		} catch (Exception e) {
+			return new Response(false, e.getMessage());
+		}
+	}
+}
