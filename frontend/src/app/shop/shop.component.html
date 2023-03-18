@@ -96,7 +96,7 @@
                 <div class="row">
                 <div class="col-lg-4 col-md-6" *ngFor="let product of (products | products:filters) | filter:filterSearch">
                     <article class="card card-product-grid">
-                        <a routerLink="product/{{product.id}}">
+                        <a routerLink="{{product.id}}">
                             <img src={{product.imageUrls[0]}} height="200" class="card-img-top" alt="product image">
                         </a>
                         <div class="card-body pt-0">
@@ -110,9 +110,9 @@
                                 <h6 class="card-title mb-0">
                                     <a routerLink="product/{{product.id}}">{{product.name}}</a>
                                 </h6>
-                                <p class="mb-1 text-muted">{{getTags(product.tags)}}</p>
-                                <span class="badge" [ngClass]="product.setBadgeClass(product.reviews)">
-                                    <fa-icon [icon]="faStar"></fa-icon> {{product.getBadgeGrade(product.reviews)}}
+                                <p class="mb-1 text-muted">{{getTags(product.tagNames)}}</p>
+                                <span class="badge" [ngClass]="product.setBadgeClass()">
+                                    <fa-icon [icon]="faStar"></fa-icon> {{product.averageReviewGrade ? product.averageReviewGrade : 'No Rating'}}
                                 </span>
                                 <span class="text-success ms-2 float-end">${{product.price}}</span>
                             </div>
@@ -120,7 +120,7 @@
                     </article>
                 </div>
                 </div>
-            </div> <!--Col -->
-        </div> <!--Row -->
-    </div> <!--Main Content Header -->
+            </div>
+        </div>
+    </div>
 </main>

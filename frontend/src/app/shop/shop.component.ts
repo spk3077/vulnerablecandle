@@ -57,15 +57,15 @@ export class ShopComponent implements OnInit {
   getFilterCount(type: number): number {
     switch ( type ) {
       case 1:
-        return this.products.reduce((acc, obj) => obj.tags.includes("isPopular") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("isPopular") ? acc += 1 : acc, 0);
       case 2:
-        return this.products.reduce((acc, obj) => obj.tags.includes("isCute") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("isCute") ? acc += 1 : acc, 0);
       case 3:
-        return this.products.reduce((acc, obj) => obj.tags.includes("isTrending") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("isTrending") ? acc += 1 : acc, 0);
       case 4:
-        return this.products.reduce((acc, obj) => obj.tags.includes("isForCar") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("isForCar") ? acc += 1 : acc, 0);
       case 5:
-        return this.products.reduce((acc, obj) => obj.tags.includes("isUnique") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("isUnique") ? acc += 1 : acc, 0);
       case 6:
         return this.products.reduce((acc, obj) => obj.price < 10 ? acc += 1 : acc, 0);
       case 7:

@@ -15,19 +15,19 @@ export class ProductsPipe implements PipeTransform {
         
         // Tag Filters
         if( filters.popular ){
-            values = values.filter(item => item.tags.includes("isPopular"));
+            values = values.filter(item => item.tagNames.includes("isPopular"));
         } 
         if( filters.cute ){
-            values = values.filter(item => item.tags.includes("isCute"));
+            values = values.filter(item => item.tagNames.includes("isCute"));
         } 
         if( filters.trending ){
-            values = values.filter(item => item.tags.includes("isTrending"));
+            values = values.filter(item => item.tagNames.includes("isTrending"));
         }
         if( filters.car ){
-            values = values.filter(item => item.tags.includes("isForCar"));
+            values = values.filter(item => item.tagNames.includes("isForCar"));
         }
         if( filters.unique ){
-            values = values.filter(item => item.tags.includes("isUnique"));
+            values = values.filter(item => item.tagNames.includes("isUnique"));
         }
 
         // Price Filters

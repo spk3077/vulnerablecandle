@@ -17,11 +17,11 @@ import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminProductsComponent } from './admin/products/products.component';
 
 const routes: Routes = [
-  { path: '', component: ShopComponent },
+  { path: '', redirectTo: '/shop', pathMatch: 'full' },
   { path: 'shop', component: ShopComponent },
   { path: 'transactions', component: TransactionsComponent, canActivate:[AuthGuard] },
   { path: 'cart', component: ShoppingCartComponent, canActivate:[AuthGuard] },
-  { path: 'product/:productid', component: ProductComponent },
+  { path: 'shop/:productid', component: ProductComponent },
   { path: 'collections', component: CollectionsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent, canActivate:[AuthGuard] },
@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'admin/users', component: AdminUsersComponent, canActivate:[AdminGuard] },
   
   // Default to Shop if not valid path
-  { path: '**', redirectTo: '/'}
+  { path: '**', redirectTo: '/shop'}
 ];
 
 @NgModule({

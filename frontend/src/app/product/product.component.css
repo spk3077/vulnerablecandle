@@ -36,3 +36,60 @@
     border-color: #dee2e6;
     color: #212529;
 }
+/* ==== REVIEWS GROUP==== */
+/* == RATINGS == */
+.main-rating {
+    color: #ff4800;
+    font-size: 1.3rem;
+}
+.child-rating {
+    color: #ff4800;
+    font-size: 1rem;
+}
+/* == TITLE TOP SECTION GROUP == */
+.review-section-title {
+    position: relative;
+    text-align: center;
+    float: none !important;
+    width: 100%;
+    border-bottom: 0em;
+    padding: 0 0 0 1.2em;
+    margin-bottom: 1em;
+}
+.section-title-hr{
+    height: 0.1em;
+    width: 4em; 
+    margin: auto;
+    background-color: black;
+    border: 0 none;
+    opacity: .6;
+}
+/* == EACH USER REVIEW GROUP == */
+.user-review {
+    border-color: #ececec;
+    border-top-style: solid;
+    border-top-width: 0.8px;
+    border-top-color: rgb(223, 223, 223);
+}
+.review-title {
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+.review-author {
+    font-size: 0.8rem;
+    display: inline-block;
+}
+.review-date {
+    font-style: italic;
+    font-size: 0.8rem;
+    display: inline-block;
+    margin: 0 0 1em 0;
+}
+.review-content {
+    font-size: 0.8rem;
+    line-height: 20px;
+    margin: 0;
+    padding: 0;
+}
