@@ -38,15 +38,4 @@ public class ProductReviewController {
     public Response addProductReview(@RequestBody ProductReview productReview, Authentication authentication) {
         return productReviewService.addProductReview(productReview, authentication);
     }
-
-    /* @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
-	@PutMapping("/{id}")
-	public Response changeProductReview(@PathVariable int id, @RequestBody ProductReviewDTO productReviewDTO, Authentication authentication) {
-		return productReviewService.changeProductReview(id, productReviewDTO, authentication);
-	} */
-
-    /* @DeleteMapping("/{id}")
-    public Response deleteProductReview(@PathVariable int id, Authentication authentication) {
-        return productReviewService.deleteProductReview(id, authentication);
-    } */
 }

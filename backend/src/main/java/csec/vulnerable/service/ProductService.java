@@ -20,12 +20,6 @@ public class ProductService implements ProductServiceInterface {
     @Autowired
     private ProductDao productDao;
 
-	/* @Autowired
-	private UserDao userDao;
-
-	@Autowired
-	private TagDao tagDao; */
-
     @Override
     public ProductDTO findById(int id) {
         Product product = productDao.findById(id).orElse(null);
@@ -67,17 +61,25 @@ public class ProductService implements ProductServiceInterface {
 
     private ProductDTO productToProductDTO(Product product) {
 		List<String> tagNames = product.getTags().stream().map(Tag::getName).collect(Collectors.toList());
-		double averageReviewGrade = product.getProductReviews().isEmpty() ? 0.0
-				: product.getProductReviews().stream().mapToInt(ProductReview::getGrade).average().orElse(0.0);
-	
-		return new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getPrice(),
-				product.getProductReviews().stream().map(this::productReviewToProductReviewDTO).collect(Collectors.toList()),
-				averageReviewGrade, tagNames);
+        double averageReviewGrade = product.getProductReviews().isEmpty() ? 0.0
+            : product.getProductReviews().stream().mapToInt(ProductReview::getGrade).average().orElse(0.0);
+
+        return new ProductDTO(
+                product.getId(), 
+                product.getName(), 
+                product.getBrand(),
+                product.getDescription(), 
+                product.getPrice(),
+                product.getStock(),
+                product.getImage(),
+                product.getProductReviews().stream().map(this::productReviewToProductReviewDTO).collect(Collectors.toList()),
+                averageReviewGrade, 
+                tagNames);
 	}
 	
 	private ProductReviewDTO productReviewToProductReviewDTO(ProductReview productReview) {
 		return new ProductReviewDTO(productReview.getId(), productReview.getUser().getUsername(), productReview.getTitle(),
-				productReview.getGrade(), productReview.getComment(), productReview.getReview_date(), productReview.getProduct().getId());
+				productReview.getGrade(), productReview.getComment(), productReview.getReview_date());
 	}
 	
 }

@@ -34,7 +34,7 @@ public class ProductReview {
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     @JsonIgnore
-    private Product product;
+    Product product;
 
     @ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")

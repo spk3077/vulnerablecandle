@@ -56,7 +56,6 @@ public class ProductReviewService {
     // post
     public Response addProductReview(ProductReview productReview, org.springframework.security.core.Authentication authentication) {
         validateGrade(productReview.getGrade());
-
         productReview.setUser(userDao.findByUsername(authentication.getName()));
         Calendar calendar = Calendar.getInstance();
         java.util.Date now = calendar.getTime();
@@ -65,43 +64,4 @@ public class ProductReviewService {
         productReviewDao.save(productReview);
         return new Response(true);
     }
-
-    /* // put
-    public Response changeProductReview(int id, ProductReviewDTO productReviewDTO, org.springframework.security.core.Authentication authentication) {
-		ProductReview pr = productReviewDao.findById(id).orElse(null);
-		if (pr == null) {
-			return new Response(false, "ProductReview is not found");
-		}
-	
-		if (pr.getUser().equals(userDao.findByUsername(authentication.getName()))) {
-			validateGrade(productReviewDTO.getGrade());
-	
-			pr.setComment(productReviewDTO.getComment());
-			pr.setGrade(productReviewDTO.getGrade());
-			Calendar calendar = Calendar.getInstance();
-			java.util.Date now = calendar.getTime();
-			java.sql.Date currentDate = new java.sql.Date(now.getTime());
-			pr.setReview_date(currentDate);
-			productReviewDao.save(pr);
-			return new Response(true);
-		} else {
-			return new Response(false, "Authentication error");
-		}
-	} */
-	
-	/* //delete
-	public Response deleteProductReview(int id, org.springframework.security.core.Authentication authentication) {
-		Optional<ProductReview> optionalProductReview = productReviewDao.findById(id);
-		if (optionalProductReview.isPresent()) {
-			ProductReview productReview = optionalProductReview.get();
-			if (productReview.getUser().equals(userDao.findByUsername(authentication.getName()))) {
-				productReviewDao.delete(productReview);
-				return new Response(true);
-			} else {
-				return new Response(false, "Authentication error");
-			}
-		} else {
-			return new Response(false, "ProductReview is not found");
-		}
-	} */
 }
