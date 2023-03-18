@@ -60,7 +60,7 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().cors()
-            .and().authorizeHttpRequests().antMatchers("/index.html", "/products", "products/*").permitAll().and()
+            .and().authorizeHttpRequests().antMatchers("/index.html", "/products", "products/*").permitAll().anyRequest().authenticated().and()
             .exceptionHandling()
             .authenticationEntryPoint(authenticationEntryPointImpl).and().exceptionHandling()
             .accessDeniedHandler(accessDeniedHandlerImpl).and().formLogin().permitAll()
