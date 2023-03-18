@@ -5,9 +5,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import csec.vulnerable.beans.Product;
 import csec.vulnerable.beans.ProductReview;
 import csec.vulnerable.dao.ProductDao;
 import csec.vulnerable.dao.ProductReviewDao;
@@ -54,13 +56,20 @@ public class ProductReviewService {
     }
 
     // post
-    public Response addProductReview(ProductReview productReview, org.springframework.security.core.Authentication authentication) {
+    public Response addProductReview(ProductReview productReview, Authentication authentication) {
         validateGrade(productReview.getGrade());
         productReview.setUser(userDao.findByUsername(authentication.getName()));
         Calendar calendar = Calendar.getInstance();
         java.util.Date now = calendar.getTime();
         java.sql.Date currentDate = new java.sql.Date(now.getTime());
         productReview.setReview_date(currentDate);
+        // Retrieve the product from the database using the productId
+        Product product = productDao.findById(productReview.getProduct().getId()).orElse(null);
+        if (product == null) {
+            return new Response(false, "Product not found");
+        }
+        // Set the product for the review
+        productReview.setProduct(product);
         productReviewDao.save(productReview);
         return new Response(true);
     }
