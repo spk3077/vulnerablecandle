@@ -50,18 +50,19 @@ export class UserService {
 
     // Login Function
     public login(user: UserCred): Observable<any> {
-    const form = new FormData;
-    form.append("username", user.username);
-    form.append("password", user.password);
+        const form = new FormData;
+        form.append("username", user.username);
+        form.append("password", user.password);
 
-    return this.http.post(this.login_endpoint, form)
-        .pipe(
-            map(res => {
-                return res;
-            }),
-            catchError(error => {
-                return throwError(() => (new Error(error)));
-            }));
+        return this.http.post(this.login_endpoint, form)
+            .pipe(
+                map(res => {
+                    return res;
+                }),
+                catchError(error => {
+                    return throwError(() => (new Error(error)));
+                })
+            );
     }
 
     // Logout Function
@@ -74,7 +75,8 @@ export class UserService {
                 }),
                 catchError(error => {
                     return of(error);
-                }));
+                })
+            );
     }
 
     // Adding User Function

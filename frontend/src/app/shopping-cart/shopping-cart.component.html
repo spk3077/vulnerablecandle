@@ -1,1 +1,112 @@
-<p>shopping-cart works!</p>
+<main>
+  <section class="bg-light mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9">
+          <div class="card">
+            <div class="content-body pb-0">
+              <h4 class="card-title mb-4">Your shopping cart</h4>
+
+              <!-- ========================= SHOPPING CART ENTRY ========================= -->
+              <article class="light-borders row gy-3 mb-4" *ngFor="let cartItem of cartItems">
+                <div class="col-lg-5">
+                  <figure class="itemside me-lg-5">
+                    <div class="aside">
+                      <img src={{cartItem.product.imageUrl}} class="img-sm img-thumbnail">
+                    </div>
+                    <figcaption class="info">
+                      <a routerLink="/shop/{{cartItem.product.id}}" class="title">{{cartItem.product.name}}</a>
+                      <p class="text-muted">{{cartItem.product.brand}}</p>
+                    </figcaption>
+                  </figure>
+                </div>
+                <div class="col-auto">
+                  <div class="vertical-center">
+                    <input class="form-control" [(ngModel)]="cartItem.quantity" style="width: 3.3em;"> 
+                  </div>
+                </div>
+                <div class="col-lg-2 col-sm-4 col-6">
+                  <div class="vertical-center lh-sm"> 
+                    <var class="fst-normal price-bold h6">${{(cartItem.product.price * cartItem.quantity).toFixed(2)}}</var>  <br>
+                    <small class="text-muted"> ${{cartItem.product.price.toFixed(2)}} / per item </small> 
+                  </div>
+                </div>
+                <div class="col-lg col-sm-4">
+                  <div class="vertical-center float-lg-end">
+                    <!-- Save User's Favorite Products functionality? -->
+                    <!-- <a href="#" class="btn btn-light"> <i class="fa fa-heart"></i></a>  -->
+                    <button (click)="delCartItem(cartItem.id)"class="btn btn-light text-danger borderBtn">Remove</button>
+                  </div>
+                </div>
+              </article>
+              <!-- ========================= SHOPPING CART ENTRY END// ========================= -->
+            </div>
+
+            <!-- ========================= DELIVERY DETAILS ========================= -->
+            <div class="content-body dark-borders">
+              <p><fa-icon [icon]="faTruck" size="lg"></fa-icon> Free Delivery within 1-2 weeks</p>
+              <p class="text-muted">Free delivery is now available to all United States citizens when ordering online!  
+                Simply select the 'free delivery' option at checkout and your order will have no shipping deduction. 
+                Whether you're stocking up on your favourites or getting a whiff of something new, take advantage of
+                our free delivery service and enjoy our products hassle-free.</p>
+            </div>
+          <!-- ========================= DELIVERY DETAILS END// ========================= -->
+          </div>
+        </div>
+
+        <!-- ========================= DELIVERY DETAILS END// ========================= -->
+
+        <!-- ========================= AMOUNT DETAILS ASIDE ========================= -->
+        <aside class="col-lg-3">
+
+          <!-- === COUPON INSERT === -->
+          <div class="card mb-3">
+            <div class="card-body">
+              <form>
+                <div class="form-group">
+                  <label class="form-label">Have coupon?</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="" placeholder="Coupon code">
+                    <button class="btn btn-light borderBtn">Apply</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- === COUPON INSERT END// === -->
+
+          <!-- === BOTTOM ASIDE === -->
+          <div class="card">
+            <div class="card-body">
+              <dl class="dlist-align">
+                <dt>Total price:</dt>
+                <dd class="text-end">${{calculateTotal().toFixed(2)}}</dd>
+              </dl>
+              <!-- <dl class="dlist-align">
+                <dt>Discount:</dt>
+                <dd class="text-end text-success"> - $60.00 </dd>
+              </dl> -->
+              <dl class="dlist-align">
+                <dt>TAX:</dt>
+                <dd class="text-end">$14.00</dd>
+              </dl>
+              <hr>
+              <dl class="dlist-align">
+                <dt>Total:</dt>
+                <dd class="text-end price-bold h5">${{(calculateTotal() + 14.00).toFixed(2)}}</dd>
+              </dl>
+          
+              <div class="d-grid gap-2 my-3">
+                <button routerLink="#" class="btn btn-success w-100"> Make Purchase </button>
+                <button routerLink="/" class="btn btn-light borderBtn w-100"> Back to shop </button>
+              </div>
+            </div>
+          </div>
+          <!-- === BOTTOM ASIDE END// === -->
+        </aside>
+        <!-- ========================= AMOUNT DETAILS ASIDE END// ========================= -->
+    
+      </div>    
+    </div>
+  </section>
+</main>

@@ -1,7 +1,9 @@
-import { ProductReview } from './productReview';
+import { ProductReviewReceive } from './productReview';
 
-export class Product {
+// CLASS FOR RECEIVING PRODUCTS
+export class ProductReceive {
     constructor(
+        public id: number,
         public name: string,
         public brand: string,
         public description: string,
@@ -9,9 +11,8 @@ export class Product {
         public price: number,
         public stock: number,
         public imageUrls: string[],
-        public id?: number, // Receive Product Only
-        public averageReviewGrade?: number, // Receive Product Only
-        public productReviews?: ProductReview[] // Receive Product Only
+        public averageReviewGrade: number,
+        public productReviews: ProductReviewReceive[]
     ) {  }
 
     // Set The Color of Rating Bubble
@@ -24,4 +25,17 @@ export class Product {
             return 'bg-success';
         }
     }
+}
+
+// CLASS FOR SENDING PRODUCTS
+export class ProductSend {
+    constructor(
+        public name: string,
+        public brand: string,
+        public description: string,
+        public tagNames: string[],
+        public price: number,
+        public stock: number,
+        public imageUrls: string[],
+    ) {  }
 }

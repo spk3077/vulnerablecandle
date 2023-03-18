@@ -30,7 +30,7 @@
             </aside>
             <!-- ========================= PRIMARY IMAGE ASIDE END// ========================= -->
 
-            <!-- ========================= CONTENT SECTION ========================= -->
+            <!-- ========================= MAIN CONTENT SECTION ========================= -->
             <section class="col-lg-6 order-md-2 order-2">
                 <!-- === PRODUCT INFO === -->
                 <h4 class="text-dark">{{product.name}}</h4>
@@ -44,7 +44,7 @@
                 </div>
                 
                 <div class="mb-3"> 
-                    <var class="price h5">${{product.price}}</var> 
+                    <var class="price h5">${{product.price.toFixed(2)}}</var> 
                     <span class="text-muted">/per candle</span> 
                 </div> 
 
@@ -87,9 +87,14 @@
                         </span>
                     </div>
                     <span class="mt-4">
-                        <button class="btn btn-primary"> 
+                        <button (click)="addToCart()" class="btn btn-primary me-1" 
+                            [ngClass]="{'cart-success': showCartMessage == true && !toCartMessage, 'cart-fail': showCartMessage == true && toCartMessage}"> 
                             <fa-icon [icon]="faShoppingBasket"></fa-icon> Add to cart 
                         </button>
+                        <span *ngIf="showCartMessage">
+                            <span *ngIf="!toCartMessage" class="text-success">Added to Cart!</span>
+                            <span *ngIf="toCartMessage" class="text-danger">{{toCartMessage}}</span>
+                        </span>
                     </span>
                 </div>
                 <p *ngIf="!currentUser">
@@ -97,9 +102,9 @@
                 </p>
             </section>
         </div>
-        <!-- ========================= CONTENT SECTION END// ========================= -->
+        <!-- ========================= MAIN CONTENT SECTION END// ========================= -->
 
-        <!-- === PRODUCT REVIEWS === -->
+        <!-- ========================= PRODUCT REVIEWS SECTION ========================= -->
         <section id="product-reviews" class="mt-4">
             <div id="review-section-header">
                 <div class="review-section-title">
@@ -124,9 +129,10 @@
                     <div id="review-footer">
                         <!-- FUTURE USE -->
                     </div>
-
                 </div>
             </div>
         </section>
+        <!-- ========================= PRODUCT REVIEWS SECTION END// ========================= -->
+
     </div>
 </main>

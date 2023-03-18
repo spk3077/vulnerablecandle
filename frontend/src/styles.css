@@ -3,6 +3,14 @@ main {
     padding-top: 3.4rem;
 }
 
+/* Add to Cart Class Colors upon Submission */
+.cart-success {
+    background: darkgreen;
+}
+.cart-fail {
+    background: darkred;
+}
+
 /* Login & Register */
 .logReg-height {
     min-height: 100vh;

@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Product } from '@app/_core/product';
+import { ProductReceive } from '@app/_core/product';
+import { CartItemSend } from '@app/_core/cartItem';
+import { DefaultResponse } from '@app/_core/defaultResponse';
 import { ProductService } from '@app/_services/product.service';
+import { ShoppingCartService } from '@app/_services/shopping-cart.service';
 import { UserService } from '@app/_services/user.service';
 
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +20,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 })
 export class ShopComponent implements OnInit {  
   currentUser: any | undefined;
-  products: Product[] = [];
+  products!: ProductReceive[];
 
   filterSearch!: string;
   filters = {
@@ -30,9 +33,12 @@ export class ShopComponent implements OnInit {
     price2: false,
     price3: false,
     price4: false,
-    };
+  };
 
-  constructor(private productService: ProductService, private userService: UserService) { 
+  cartBtnNum: number | null = null;
+  cartBtnBool: boolean | null = null;
+  
+  constructor(private productService: ProductService, private shoppingCartService: ShoppingCartService, private userService: UserService) { 
     this.userService.loggedInUser$.subscribe(x => this.currentUser = x);
   }
   
@@ -48,13 +54,38 @@ export class ShopComponent implements OnInit {
   }
   
   // Retrieve Products
-  getProducts(): void {
+  private getProducts(): void {
     this.productService.getProducts()
       .subscribe(products => this.products = products);
   }
+  public addToCart(productID: number): void {
+    this.shoppingCartService.addToCart(new CartItemSend(productID, 1)).subscribe({
+      next: (res) => {
+        // Get generic response to determine success
+        let addResponse = res as DefaultResponse;
+          console.log(addResponse);
+          if (addResponse.success != true) {
+            this.cartBtnBool = false;
+            console.log(res.message);
+          }
+          else {
+            this.cartBtnBool = true;
+            console.log("Added Cart Item Successfully");
+          }
+          
+          this.cartBtnNum = productID;
+      },
+      error: () => {
+        // Failed at server
+        this.cartBtnNum = productID;
+        this.cartBtnBool = false;
+        console.log("Internal Server Error: Could not add to Cart");
+      }}
+    );
+  }
 
   // Retrieve Count by Filter for Badge
-  getFilterCount(type: number): number {
+  public getFilterCount(type: number): number {
     switch ( type ) {
       case 1:
         return this.products.reduce((acc, obj) => obj.tagNames.includes("isPopular") ? acc += 1 : acc, 0);
@@ -79,7 +110,7 @@ export class ShopComponent implements OnInit {
   }
 
   // Get the Tags formatted for HTML
-  getTags(tags: string[]): string {
+  public getTags(tags: string[]): string {
     if ( tags.length <= 2 ) {
       return tags.join(', ');
     }

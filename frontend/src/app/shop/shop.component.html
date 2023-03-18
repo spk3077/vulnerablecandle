@@ -1,124 +1,127 @@
 <main>
     <app-submenu [activePage]="'Our Shop'" [secondPage]="'Our Shop'"></app-submenu>
     <!-- ========================= FILTER ASIDE ========================= -->
-    <div class="container">
-        <div class="row">
-            <aside class="col-md-3">
-                <div class="card">
-                    <article class="filter-group">
-                        <header class="card-header">
-                            <a role="button" data-bs-toggle="collapse" href="#collapse_1" aria-expanded="true" aria-controls="collapse_1">
-                                <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
-                                <h6 class="title">Search Bar</h6>
-                            </a>
-                        </header>
-                        <div class="filter-content collapse show" id="collapse_1">
-                            <div class="card-body">
-                                <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filterSearch">
+    <div class="bg-light">
+        <div class="container">
+            <div class="row">
+                <aside class="col-md-3">
+                    <div class="card">
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <a role="button" data-bs-toggle="collapse" href="#collapse_1" aria-expanded="true" aria-controls="collapse_1">
+                                    <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
+                                    <h6 class="title">Search Bar</h6>
+                                </a>
+                            </header>
+                            <div class="filter-content collapse show" id="collapse_1">
+                                <div class="card-body">
+                                    <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filterSearch">
+                                </div>
                             </div>
+                        </article>
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <a role="button" data-bs-toggle="collapse" href="#collapse_2" aria-expanded="true" aria-controls="collapse_2">
+                                    <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
+                                    <h6 class="title">Brands</h6>
+                                </a>
+                            </header>
+                            <div class="filter-content collapse show" id="collapse_2">
+                                <div class="card-body">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="isPopular" [(ngModel)]="filters.popular">
+                                        <label class="form-check-label" for="isPopular">isPopular</label>
+                                        <b class="float-end badge badge-light rounded-pill">{{getFilterCount(1)}}</b>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="isCute" [(ngModel)]="filters.cute">
+                                        <label class="form-check-label" for="isCute">isCute</label>
+                                        <b class="float-end badge badge-light rounded-pill">{{getFilterCount(2)}}</b>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="isTrending" [(ngModel)]="filters.trending">
+                                        <label class="form-check-label" for="isTrending">isTrending</label>
+                                        <b class="float-end badge badge-light rounded-pill">{{getFilterCount(3)}}</b>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="isForCar" [(ngModel)]="filters.car">
+                                        <label class="form-check-label" for="isForCar">isForCar</label>
+                                        <b class="float-end badge badge-light rounded-pill">{{getFilterCount(4)}}</b>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="isUnique" [(ngModel)]="filters.unique">
+                                        <label class="form-check-label" for="isUnique">isUnique</label>
+                                        <b class="float-end badge badge-light rounded-pill">{{getFilterCount(5)}}</b>
+                                    </div>
                         </div>
-                    </article>
-                    <article class="filter-group">
-                        <header class="card-header">
-                            <a role="button" data-bs-toggle="collapse" href="#collapse_2" aria-expanded="true" aria-controls="collapse_2">
-                                <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
-                                <h6 class="title">Brands</h6>
-                            </a>
-                        </header>
-                        <div class="filter-content collapse show" id="collapse_2">
-                            <div class="card-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="isPopular" [(ngModel)]="filters.popular">
-                                    <label class="form-check-label" for="isPopular">isPopular</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(1)}}</b>
+                            </div>
+                        </article>
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <a role="button" data-bs-toggle="collapse" href="#collapse_3" aria-expanded="true" aria-controls="collapse_3">
+                                    <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
+                                    <h6 class="title">Price range</h6>
+                                </a>
+                            </header>
+                            <div class="filter-content collapse show" id="collapse_3">
+                                <div class="card-body">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="LessThan10" [(ngModel)]="filters.price1">
+                                        <label class="form-check-label" for="LessThan10">&lt; $10</label>
+                                        <b class="float-end badge badge-light rounded-pill">{{getFilterCount(6)}}</b>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="10to20" [(ngModel)]="filters.price2">
+                                        <label class="form-check-label" for="10to20">$10 - $20</label>
+                                        <b class="float-end badge badge-light rounded-pill">{{getFilterCount(7)}}</b>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="20to30" [(ngModel)]="filters.price3">
+                                        <label class="form-check-label" for="20to30">$20 - $30</label>
+                                        <b class="float-end badge badge-light rounded-pill">{{getFilterCount(8)}}</b>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="MoreThan30" [(ngModel)]="filters.price4">
+                                        <label class="form-check-label" for="MoreThan30"> >$30</label>
+                                        <b class="float-end badge badge-light rounded-pill">{{getFilterCount(9)}}</b>
+                                    </div>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="isCute" [(ngModel)]="filters.cute">
-                                    <label class="form-check-label" for="isCute">isCute</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(2)}}</b>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="isTrending" [(ngModel)]="filters.trending">
-                                    <label class="form-check-label" for="isTrending">isTrending</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(3)}}</b>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="isForCar" [(ngModel)]="filters.car">
-                                    <label class="form-check-label" for="isForCar">isForCar</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(4)}}</b>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="isUnique" [(ngModel)]="filters.unique">
-                                    <label class="form-check-label" for="isUnique">isUnique</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(5)}}</b>
-                                </div>
+                            </div>
+                        </article>
                     </div>
-                        </div>
-                    </article>
-                    <article class="filter-group">
-                        <header class="card-header">
-                            <a role="button" data-bs-toggle="collapse" href="#collapse_3" aria-expanded="true" aria-controls="collapse_3">
-                                <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
-                                <h6 class="title">Price range</h6>
-                            </a>
-                        </header>
-                        <div class="filter-content collapse show" id="collapse_3">
-                            <div class="card-body">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="LessThan10" [(ngModel)]="filters.price1">
-                                    <label class="form-check-label" for="LessThan10">&lt; $10</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(6)}}</b>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="10to20" [(ngModel)]="filters.price2">
-                                    <label class="form-check-label" for="10to20">$10 - $20</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(7)}}</b>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="20to30" [(ngModel)]="filters.price3">
-                                    <label class="form-check-label" for="20to30">$20 - $30</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(8)}}</b>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="MoreThan30" [(ngModel)]="filters.price4">
-                                    <label class="form-check-label" for="MoreThan30"> >$30</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(9)}}</b>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </aside>
-            <!-- ========================= FILTER ASIDE END// ========================= -->
+                </aside>
+                <!-- ========================= FILTER ASIDE END// ========================= -->
 
-            <!-- ========================= PRODUCTS SECTION ========================= -->
-            <div class="col-md-9">
-                <div class="row">
-                <div class="col-lg-4 col-md-6" *ngFor="let product of (products | products:filters) | filter:filterSearch">
-                    <article class="card card-product-grid">
-                        <a routerLink="{{product.id}}">
-                            <img src={{product.imageUrls[0]}} height="200" class="card-img-top" alt="product image">
-                        </a>
-                        <div class="card-body pt-0">
-                            <div class="pt-3">
-                                <div *ngIf="currentUser" class="float-end">
-                                    <button class="btn cart-btn">
-                                        <fa-icon [icon]="faPlus" size="lg"></fa-icon>
-                                        <fa-icon [icon]="faCartShopping" size="lg"></fa-icon>
-                                    </button>
+                <!-- ========================= PRODUCTS SECTION ========================= -->
+                <div class="col-md-9">
+                    <div class="row">
+                    <div class="col-lg-4 col-md-6" *ngFor="let product of (products | products:filters) | filter:filterSearch">
+                        <article class="card card-product-grid">
+                            <a routerLink="{{product.id}}">
+                                <img src={{product.imageUrls[0]}} height="200" class="card-img-top" alt="product image">
+                            </a>
+                            <div class="card-body pt-0">
+                                <div class="pt-3">
+                                    <div *ngIf="currentUser" class="float-end">
+                                        <button (click)="addToCart(product.id)"class="btn cart-btn" 
+                                            [ngClass]="{'cart-success': cartBtnNum == product.id && cartBtnBool == true, 'cart-fail': cartBtnNum == product.id && cartBtnBool == false}">
+                                            <fa-icon [icon]="faPlus" size="lg"></fa-icon>
+                                            <fa-icon [icon]="faCartShopping" size="lg"></fa-icon>
+                                        </button>
+                                    </div>
+                                    <h6 class="card-title mb-0">
+                                        <a routerLink="{{product.id}}">{{product.name}}</a>
+                                    </h6>
+                                    <p class="mb-1 text-muted">{{getTags(product.tagNames)}}</p>
+                                    <span class="badge" [ngClass]="product.setBadgeClass()">
+                                        <fa-icon [icon]="faStar"></fa-icon> {{product.averageReviewGrade ? product.averageReviewGrade : 'No Rating'}}
+                                    </span>
+                                    <span class="text-success ms-2 float-end">${{product.price.toFixed(2)}}</span>
                                 </div>
-                                <h6 class="card-title mb-0">
-                                    <a routerLink="product/{{product.id}}">{{product.name}}</a>
-                                </h6>
-                                <p class="mb-1 text-muted">{{getTags(product.tagNames)}}</p>
-                                <span class="badge" [ngClass]="product.setBadgeClass()">
-                                    <fa-icon [icon]="faStar"></fa-icon> {{product.averageReviewGrade ? product.averageReviewGrade : 'No Rating'}}
-                                </span>
-                                <span class="text-success ms-2 float-end">${{product.price}}</span>
                             </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>

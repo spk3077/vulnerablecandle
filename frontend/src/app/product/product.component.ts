@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CartItemSend } from '@app/_core/cartItem';
+import { DefaultResponse } from '@app/_core/defaultResponse';
 
-import { Product } from '@app/_core/product';
+import { ProductReceive } from '@app/_core/product';
 import { ProductService } from '@app/_services/product.service';
+import { ShoppingCartService } from '@app/_services/shopping-cart.service';
 import { UserService } from '@app/_services/user.service';
 
 import { faStar } from '@fortawesome/free-solid-svg-icons';
@@ -16,14 +19,16 @@ import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
 })
 export class ProductComponent implements OnInit {
   currentUser: any | undefined;
-  product!: Product;
+  id!: number;
+  product!: ProductReceive;
 
   // Purchase Variables
-  toCart: boolean = false;
   quantity: number = 1;
 
-  // Stock Variables
+  // Display Variables
   showStock: boolean = false;
+  showCartMessage: boolean = false;
+  toCartMessage: string | undefined;
 
   // Image URLs
   primaryImageUrl!: string | undefined;
@@ -33,6 +38,7 @@ export class ProductComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
+    private shoppingCartService: ShoppingCartService,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router
@@ -43,20 +49,19 @@ export class ProductComponent implements OnInit {
   faShoppingBasket = faShoppingBasket;
 
   ngOnInit(): void {
+    this.id = parseInt(this.route.snapshot.paramMap.get('productid')!);
     this.userService.loggedInUser$.subscribe(x => this.currentUser = x);
     this.getProduct();
   }
   
   // Fetch the Product to Fillout Page
   private getProduct(): void {
-    const id: number = parseInt(this.route.snapshot.paramMap.get('productid')!);
-
     // If ID is not a number, return to SHOP
-    if (Number.isNaN(id)) {
+    if (Number.isNaN(this.id)) {
       this.router.navigateByUrl('/');
     }
 
-    this.productService.getProduct(id).subscribe({
+    this.productService.getProduct(this.id).subscribe({
       // If Successful
       next: (res) => {
         console.log(res);
@@ -64,9 +69,9 @@ export class ProductComponent implements OnInit {
           this.router.navigateByUrl('/');
           return;
         }
-        
         // Assign Product
         this.product = res;
+
         // Set ImageURLS
         if (this.product.imageUrls.length >= 1) {
           this.imageUrl1 = this.product.imageUrls[0];
@@ -90,7 +95,26 @@ export class ProductComponent implements OnInit {
 
   // Add to Cart
   public addToCart(): void {
-
+    this.shoppingCartService.addToCart(new CartItemSend(this.id, this.quantity)).subscribe({
+      next: (res) => {
+        // Get generic response to determine success
+        let addResponse = res as DefaultResponse;
+          console.log(addResponse);
+          if (addResponse.success != true) {
+            this.toCartMessage = res.message;
+          }
+          else {
+            console.log("Added Cart Item Successfully");
+          }
+          
+          this.showCartMessage = true;
+      },
+      error: () => {
+        // Failed at server
+        this.showCartMessage = true;
+        this.toCartMessage = "Internal Server Error";
+      }}
+    );
   }
 
   // Fetch the Stock for this Product

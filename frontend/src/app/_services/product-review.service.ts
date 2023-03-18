@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { ProductReview } from '@app/_core/productReview';
+import { ProductReviewSend } from '@app/_core/productReview';
 import { environment } from '@environments/environment';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class ProductReviewService {
   constructor(private http: HttpClient) { }
 
   // Get Reviews For Single Product
-  public addProductReview(review: ProductReview): Observable<any> {
+  public addProductReview(review: ProductReviewSend): Observable<any> {
     return this.http.post(this.review_endpoint, 
       {
         product: {id: review.productID},

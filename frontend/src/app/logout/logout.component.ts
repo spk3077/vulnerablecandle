@@ -10,8 +10,6 @@ import { UserService } from "@app/_services/user.service";
 })
 export class LogoutComponent implements OnInit {
 
-  logoutResponse!: DefaultResponse;
-
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
@@ -21,9 +19,9 @@ export class LogoutComponent implements OnInit {
     this.userService.logout().subscribe({
       next: (res) => {
         // Get User Information to Populate Components with User-relevant information
-        this.logoutResponse = res as DefaultResponse;
-          console.log(this.logoutResponse);
-          if (this.logoutResponse.success != true) {
+        let logoutResponse: DefaultResponse = res as DefaultResponse;
+          console.log(logoutResponse);
+          if (logoutResponse.success != true) {
             console.log("Logout Failed!  Will be terminated anyways");
           }
           else {
