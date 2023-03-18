@@ -22,7 +22,7 @@ public class ShoppingCartController {
     ShoppingCartService shoppingCartService;
 
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
-    @GetMapping("/")
+    @GetMapping
     public ShoppingCart getShoppingCart(Authentication authentication) {
         return shoppingCartService.getShoppingCart(authentication);
     }

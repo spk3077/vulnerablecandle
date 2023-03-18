@@ -23,32 +23,42 @@ import csec.vulnerable.handler.AuthenticationSuccessHandlerImpl;
 import csec.vulnerable.handler.LogoutSuccessHandlerImpl;
 
 @Configuration
-public class SecurityConfig{
-    @Autowired
-    AuthenticationEntryPointImpl authenticationEntryPointImpl;
+public class SecurityConfig {
+
+    private static final String[] PUBLIC_URLS = {
+        "/index.html", 
+        "/products", 
+        "/products/*"
+    };
+
+    private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
+    private final AccessDeniedHandlerImpl accessDeniedHandlerImpl;
+    private final AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl;
+    private final AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl;
+    private final LogoutSuccessHandlerImpl logoutSuccessHandlerImpl;
+    private final BlockUserDetailsService blockUserDetailsService;
 
     @Autowired
-    AccessDeniedHandlerImpl accessDeniedHandlerImpl;
-
-    @Autowired
-    AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl;
-
-    @Autowired
-    AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl;
-
-    @Autowired
-    LogoutSuccessHandlerImpl logoutSuccessHandlerImpl;
-
-    @Autowired
-    BlockUserDetailsService blockUserDetailsService;
+    public SecurityConfig(
+            AuthenticationEntryPointImpl authenticationEntryPointImpl,
+            AccessDeniedHandlerImpl accessDeniedHandlerImpl,
+            AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl,
+            AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl,
+            LogoutSuccessHandlerImpl logoutSuccessHandlerImpl,
+            BlockUserDetailsService blockUserDetailsService) {
+        this.authenticationEntryPointImpl = authenticationEntryPointImpl;
+        this.accessDeniedHandlerImpl = accessDeniedHandlerImpl;
+        this.authenticationSuccessHandlerImpl = authenticationSuccessHandlerImpl;
+        this.authenticationFailureHandlerImpl = authenticationFailureHandlerImpl;
+        this.logoutSuccessHandlerImpl = logoutSuccessHandlerImpl;
+        this.blockUserDetailsService = blockUserDetailsService;
+    }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(blockUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
-
         return authProvider;
     }
 
@@ -59,18 +69,32 @@ public class SecurityConfig{
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors()
-            .and().authorizeHttpRequests().antMatchers("/index.html", "/products", "products/*").permitAll().anyRequest().authenticated().and()
+        http
+            .csrf().disable()
+            .cors()
+            .and()
+            .authorizeRequests()
+            .antMatchers(PUBLIC_URLS).permitAll()
+            .anyRequest().authenticated()
+            .and()
             .exceptionHandling()
-            .authenticationEntryPoint(authenticationEntryPointImpl).and().exceptionHandling()
-            .accessDeniedHandler(accessDeniedHandlerImpl).and().formLogin().permitAll()
+            .authenticationEntryPoint(authenticationEntryPointImpl)
+            .accessDeniedHandler(accessDeniedHandlerImpl)
+            .and()
+            .formLogin()
             .loginProcessingUrl("/login")
             .successHandler(authenticationSuccessHandlerImpl)
             .failureHandler(authenticationFailureHandlerImpl)
             .usernameParameter("username")
             .passwordParameter("password")
-            .and().logout().permitAll()
-            .logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandlerImpl).and().rememberMe();
+            .permitAll()
+            .and()
+            .logout()
+            .logoutUrl("/logout")
+            .logoutSuccessHandler(logoutSuccessHandlerImpl)
+            .permitAll()
+            .and()
+            .rememberMe();
 
         http.authenticationProvider(authenticationProvider());
 
@@ -81,18 +105,18 @@ public class SecurityConfig{
     public CorsConfigurationSource corsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","HEAD","OPTION"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTION"));
         configuration.addAllowedHeader("/*");
         configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
         return source;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        PasswordEncoder encoder = new BCryptPasswordEncoder(11);
-
-        return encoder;
+        return new BCryptPasswordEncoder(11);
     }
 }

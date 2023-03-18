@@ -38,7 +38,10 @@ public class ShoppingCartService {
 
     public Response addCartItem(int productId, int quantity, Authentication authentication) {
         try {
-            Product product = productDao.findById(productId).get();
+            Product product = productDao.findById(productId).orElse(null);
+            if (product == null) {
+                return new Response(false, "Product not found");
+            }
             ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
             CartItem cartItem = new CartItem(product, quantity);
             cartItem.setShoppingCart(shoppingCart);
@@ -51,7 +54,10 @@ public class ShoppingCartService {
 
     public Response updateCartItem(int cartItemId, int quantity, Authentication authentication) {
         try {
-            CartItem cartItem = cartItemDao.findById(cartItemId).get();
+            CartItem cartItem = cartItemDao.findById(cartItemId).orElse(null);
+            if (cartItem == null) {
+                return new Response(false, "Cart item not found");
+            }
             ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
             if (cartItem.getShoppingCart().getId() != shoppingCart.getId()) {
                 return new Response(false, "Unauthorized");
@@ -66,7 +72,10 @@ public class ShoppingCartService {
 
     public Response removeCartItem(int cartItemId, Authentication authentication) {
         try {
-            CartItem cartItem = cartItemDao.findById(cartItemId).get();
+            CartItem cartItem = cartItemDao.findById(cartItemId).orElse(null);
+            if (cartItem == null) {
+                return new Response(false, "Cart item not found");
+            }
             ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
             if (cartItem.getShoppingCart().getId() != shoppingCart.getId()) {
                 return new Response(false, "Unauthorized");
