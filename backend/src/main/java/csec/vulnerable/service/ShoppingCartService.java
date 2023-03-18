@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import csec.vulnerable.beans.CartItem;
 import csec.vulnerable.beans.Product;
 import csec.vulnerable.beans.ShoppingCart;
+import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.CartItemDao;
 import csec.vulnerable.dao.ProductDao;
 import csec.vulnerable.dao.ShoppingCartDao;
@@ -33,7 +34,13 @@ public class ShoppingCartService {
     UserDao userDao;
 
     public ShoppingCart getShoppingCart(Authentication authentication) {
-        return shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
+        User user = userDao.findByUsername(authentication.getName());
+        ShoppingCart shoppingCart = shoppingCartDao.findByUser(user);
+        if (shoppingCart == null) {
+            shoppingCart = new ShoppingCart(user);
+            shoppingCartDao.save(shoppingCart);
+        }
+        return shoppingCart;
     }
 
     public Response addCartItem(int productId, int quantity, Authentication authentication) {
@@ -42,10 +49,14 @@ public class ShoppingCartService {
             if (product == null) {
                 return new Response(false, "Product not found");
             }
-            ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
+            ShoppingCart shoppingCart = getShoppingCart(authentication);
             CartItem cartItem = new CartItem(product, quantity);
             cartItem.setShoppingCart(shoppingCart);
             cartItemDao.save(cartItem);
+            shoppingCart.addCartItem(cartItem);
+            double newTotalPrice = shoppingCart.getTotalPrice() + (product.getPrice() * quantity);
+            shoppingCart.setTotalPrice(newTotalPrice);
+            shoppingCartDao.save(shoppingCart);
             return new Response(true);
         } catch (Exception e) {
             return new Response(false, e.getMessage());
@@ -58,12 +69,16 @@ public class ShoppingCartService {
             if (cartItem == null) {
                 return new Response(false, "Cart item not found");
             }
-            ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
+            ShoppingCart shoppingCart = getShoppingCart(authentication);
             if (cartItem.getShoppingCart().getId() != shoppingCart.getId()) {
                 return new Response(false, "Unauthorized");
             }
+            double oldItemPrice = cartItem.getProduct().getPrice() * cartItem.getQuantity();
+            double newItemPrice = cartItem.getProduct().getPrice() * quantity;
             cartItem.setQuantity(quantity);
             cartItemDao.save(cartItem);
+            shoppingCart.setTotalPrice(shoppingCart.getTotalPrice() - oldItemPrice + newItemPrice);
+            shoppingCartDao.save(shoppingCart);
             return new Response(true);
         } catch (Exception e) {
             return new Response(false, e.getMessage());
@@ -76,25 +91,35 @@ public class ShoppingCartService {
             if (cartItem == null) {
                 return new Response(false, "Cart item not found");
             }
-            ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
+            ShoppingCart shoppingCart = getShoppingCart(authentication);
             if (cartItem.getShoppingCart().getId() != shoppingCart.getId()) {
                 return new Response(false, "Unauthorized");
             }
+            double itemPrice = cartItem.getProduct().getPrice() * cartItem.getQuantity();
+            shoppingCart.setTotalPrice(shoppingCart.getTotalPrice() - itemPrice);
+            shoppingCart.getCartItems().remove(cartItem);
             cartItemDao.deleteById(cartItemId);
+            shoppingCartDao.save(shoppingCart);
             return new Response(true);
         } catch (Exception e) {
             return new Response(false, e.getMessage());
         }
     }
-
-	public Response clearShoppingCart(Authentication authentication) {
-		try {
-			ShoppingCart shoppingCart = shoppingCartDao.findByUser(userDao.findByUsername(authentication.getName()));
-			List<CartItem> cartItems = shoppingCart.getCartItems();
-			cartItemDao.deleteAll(cartItems);
-			return new Response(true);
-		} catch (Exception e) {
-			return new Response(false, e.getMessage());
-		}
-	}
+    public Response clearShoppingCart(Authentication authentication) {
+        try {
+            ShoppingCart shoppingCart = getShoppingCart(authentication);
+            List<CartItem> cartItems = shoppingCart.getCartItems();
+            int totalPrice = 0;
+            for (CartItem cartItem : cartItems) {
+                totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
+            }
+            shoppingCart.setTotalPrice(totalPrice);
+            shoppingCart.getCartItems().clear();
+            cartItemDao.deleteAll(cartItems);
+            shoppingCartDao.save(shoppingCart);
+            return new Response(true);
+        } catch (Exception e) {
+            return new Response(false, e.getMessage());
+        }
+   }
 }

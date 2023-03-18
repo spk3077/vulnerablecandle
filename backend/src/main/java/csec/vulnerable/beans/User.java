@@ -54,7 +54,10 @@ private static final long serialVersionUID = 1L;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Payment> mypayments;
-			
+	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ShoppingCart shoppingCart;
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
@@ -144,4 +147,12 @@ private static final long serialVersionUID = 1L;
 	public void setMypayments(List<Payment> mypayments) {
 		this.mypayments = mypayments;
 	}
+	public ShoppingCart getShoppingCart() {
+		return shoppingCart;
+	}
+	public void setShoppingCart(ShoppingCart shoppingCart) {
+		this.shoppingCart = shoppingCart;
+	}
+
+	
 }

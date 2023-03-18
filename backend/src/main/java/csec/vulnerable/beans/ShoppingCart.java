@@ -30,6 +30,8 @@ public class ShoppingCart {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private double totalPrice = 0;
+    
     public ShoppingCart() {
     }
 
@@ -53,6 +55,7 @@ public class ShoppingCart {
         this.cartItems = cartItems;
     }
 
+
     public User getUser() {
         return user;
     }
@@ -60,4 +63,35 @@ public class ShoppingCart {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public void addCartItem(CartItem cartItem) {
+        this.cartItems.add(cartItem);
+        cartItem.setShoppingCart(this);
+        this.addTotalPrice(cartItem.getProduct().getPrice() * cartItem.getQuantity());
+    }
+
+    public void removeCartItem(CartItem cartItem) {
+        this.cartItems.remove(cartItem);
+        cartItem.setShoppingCart(null);
+        this.addTotalPrice(-cartItem.getProduct().getPrice() * cartItem.getQuantity());
+    }
+
+    public void clearCart() {
+        this.cartItems.clear();
+        this.totalPrice = 0;
+    }
+
+    public double getTotalPrice() {
+        return this.totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void addTotalPrice(double price){
+        this.totalPrice += price;
+    }
+
+    
 }
