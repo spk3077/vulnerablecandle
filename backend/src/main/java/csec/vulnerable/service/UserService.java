@@ -42,15 +42,11 @@ public class UserService {
 			return list;
 		}
 	}
-
-	/* public User getuser(Authentication authentication){
-		return userDao.findByUsername(authentication.getName());
-	} */
 	
 	public Response register(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		List<UserProfile> profiles = new ArrayList<UserProfile>();
-		profiles.add(new UserProfile(2));
+		profiles.add(new UserProfile(1));
 		user.setProfiles(profiles);
 		System.out.println(user);
 		userDao.save(user);
@@ -78,17 +74,6 @@ public class UserService {
 		if(user.getUsername().equals(authentication.getName()) || isAdmin(authentication.getAuthorities())){
 			User u = userDao.findByUsername(user.getUsername());
 			u.setPassword(passwordEncoder.encode(user.getPassword()));
-			userDao.save(u);
-		}else{
-			return new Response(false);
-		}
-		return new Response(true);
-	}
-	
-	public Response beSeller(User user, Authentication authentication) {
-		if(user.getUsername().equals(authentication.getName())){
-			User u = userDao.findByUsername(user.getUsername());
-			u.getProfiles().add(new UserProfile(3));
 			userDao.save(u);
 		}else{
 			return new Response(false);

@@ -30,12 +30,6 @@ public class UserController {
 		return userService.getusers(authentication);
 	}
 
-	/* @PreAuthorize("hasAuthority('ROLE_USER')")
-	@GetMapping
-	public User getuser(Authentication authentication){
-		return userService.getuser(authentication);
-	} */
-
 	@PostMapping
 	public Response addUser(@RequestBody User user) {
 		return userService.register(user);

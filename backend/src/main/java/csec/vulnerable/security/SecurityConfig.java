@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,42 +24,33 @@ import csec.vulnerable.handler.AuthenticationSuccessHandlerImpl;
 import csec.vulnerable.handler.LogoutSuccessHandlerImpl;
 
 @Configuration
-public class SecurityConfig {
-
-    private static final String[] PUBLIC_URLS = {
-        "/index.html", 
-        "/products", 
-        "/products/*"
-    };
-
-    private final AuthenticationEntryPointImpl authenticationEntryPointImpl;
-    private final AccessDeniedHandlerImpl accessDeniedHandlerImpl;
-    private final AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl;
-    private final AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl;
-    private final LogoutSuccessHandlerImpl logoutSuccessHandlerImpl;
-    private final BlockUserDetailsService blockUserDetailsService;
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig{
+    @Autowired
+    AuthenticationEntryPointImpl authenticationEntryPointImpl;
 
     @Autowired
-    public SecurityConfig(
-            AuthenticationEntryPointImpl authenticationEntryPointImpl,
-            AccessDeniedHandlerImpl accessDeniedHandlerImpl,
-            AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl,
-            AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl,
-            LogoutSuccessHandlerImpl logoutSuccessHandlerImpl,
-            BlockUserDetailsService blockUserDetailsService) {
-        this.authenticationEntryPointImpl = authenticationEntryPointImpl;
-        this.accessDeniedHandlerImpl = accessDeniedHandlerImpl;
-        this.authenticationSuccessHandlerImpl = authenticationSuccessHandlerImpl;
-        this.authenticationFailureHandlerImpl = authenticationFailureHandlerImpl;
-        this.logoutSuccessHandlerImpl = logoutSuccessHandlerImpl;
-        this.blockUserDetailsService = blockUserDetailsService;
-    }
+    AccessDeniedHandlerImpl accessDeniedHandlerImpl;
+
+    @Autowired
+    AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl;
+
+    @Autowired
+    AuthenticationFailureHandlerImpl authenticationFailureHandlerImpl;
+
+    @Autowired
+    LogoutSuccessHandlerImpl logoutSuccessHandlerImpl;
+
+    @Autowired
+    BlockUserDetailsService blockUserDetailsService;
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
         authProvider.setUserDetailsService(blockUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
+
         return authProvider;
     }
 
@@ -70,30 +62,29 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .cors().and()
             .csrf().disable()
-            .cors()
-            .and()
             .authorizeRequests()
-            .antMatchers(PUBLIC_URLS).permitAll()
-            .anyRequest().authenticated()
-            .and()
+                .antMatchers("/index.html", "/products", "products/*","/users").permitAll()
+                .anyRequest().authenticated()
+                .and()
             .exceptionHandling()
-            .authenticationEntryPoint(authenticationEntryPointImpl)
-            .accessDeniedHandler(accessDeniedHandlerImpl)
-            .and()
+                .authenticationEntryPoint(authenticationEntryPointImpl)
+                .accessDeniedHandler(accessDeniedHandlerImpl)
+                .and()
             .formLogin()
-            .loginProcessingUrl("/login")
-            .successHandler(authenticationSuccessHandlerImpl)
-            .failureHandler(authenticationFailureHandlerImpl)
-            .usernameParameter("username")
-            .passwordParameter("password")
-            .permitAll()
-            .and()
+                .loginProcessingUrl("/login")
+                .successHandler(authenticationSuccessHandlerImpl)
+                .failureHandler(authenticationFailureHandlerImpl)
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .permitAll()
+                .and()
             .logout()
-            .logoutUrl("/logout")
-            .logoutSuccessHandler(logoutSuccessHandlerImpl)
-            .permitAll()
-            .and()
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(logoutSuccessHandlerImpl)
+                .permitAll()
+                .and()
             .rememberMe();
 
         http.authenticationProvider(authenticationProvider());
@@ -101,22 +92,23 @@ public class SecurityConfig {
         return http.build();
     }
 
+
     @Bean
     public CorsConfigurationSource corsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTION"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","HEAD","OPTION"));
         configuration.addAllowedHeader("/*");
         configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(11);
+        PasswordEncoder encoder = new BCryptPasswordEncoder(11);
+
+        return encoder;
     }
 }
