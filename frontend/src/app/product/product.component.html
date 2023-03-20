@@ -112,16 +112,16 @@
                     <hr class="section-title-hr"/>
                 </div>
                 <h4 class="text-dark mb-1">Customer Reviews</h4>
-                <ngb-rating class="main-rating" [max]="5" [(rate)]="product.averageReviewGrade!" [readonly]="true"></ngb-rating>
-                <span class="ms-1">Based on {{product.productReviews!.length}} reviews</span>
+                <ngb-rating class="main-rating" [max]="5" [(rate)]="product.averageReviewGrade" [readonly]="true"></ngb-rating>
+                <span class="ms-1">Based on {{product.productReviews.length}} reviews</span>
             </div>
             <div id="review-section-body" class="mt-5">
                 <div class="user-review" *ngFor="let review of product.productReviews">
                     <div id="review-header">
                         <ngb-rating class="child-rating" [max]="5" [(rate)]="review.grade" [readonly]="true"></ngb-rating>
                         <h3 class="review-title">{{review.title}}</h3>
-                        <span class="review-author">by <strong>{{review.username!}}</strong></span>
-                        <span class="review-date ms-1">on <strong>DATE</strong></span>
+                        <span class="review-author">by <strong>{{review.username}} | </strong></span>
+                        <span class="review-date ms-1"><strong>{{review.review_date}}</strong></span>
                     </div>
                     <div id="review-body" class="mb-5">
                         <p class="review-content">{{review.comment}}</p>

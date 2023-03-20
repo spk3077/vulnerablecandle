@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LOCAL_STORAGE } from 'ngx-webstorage-service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -16,6 +17,7 @@ import { SubmenuComponent } from './submenu/submenu.component';
 import { ShopComponent } from './shop/shop.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { CheckOutComponent } from './check-out/check-out.component';
 import { ProductComponent } from './product/product.component';
 import { ProductsPipe } from './shop/products.pipe';
 import { CollectionsComponent } from './collections/collections.component';
@@ -28,7 +30,6 @@ import { AdminProductsComponent } from './admin/products/products.component';
 import { HttpRequestInterceptor } from './_interceptors/http.interceptor';
 import { ResourceNotFoundInterceptor } from './_interceptors/notFound.interceptor';
 import { USER_SERVICE_STORAGE } from './_services/user.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ShopComponent,
     TransactionsComponent,
     ShoppingCartComponent,
+    CheckOutComponent,
     ProductComponent,
     ProductsPipe,
     CollectionsComponent,

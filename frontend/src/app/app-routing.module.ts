@@ -6,6 +6,7 @@ import { AdminGuard } from './_helpers/admin.guard';
 import { ShopComponent } from './shop/shop.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { CheckOutComponent } from './check-out/check-out.component';
 import { ProductComponent } from './product/product.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { LoginComponent } from './login/login.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'shop', component: ShopComponent },
   { path: 'transactions', component: TransactionsComponent, canActivate:[AuthGuard] },
   { path: 'cart', component: ShoppingCartComponent, canActivate:[AuthGuard] },
+  { path: 'checkout', component: CheckOutComponent, canActivate:[AuthGuard] },
   { path: 'shop/:productid', component: ProductComponent },
   { path: 'collections', component: CollectionsComponent },
   { path: 'login', component: LoginComponent },

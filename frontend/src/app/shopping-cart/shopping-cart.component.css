@@ -5,13 +5,6 @@
 }
 
 /* == HEADER == */
-.card-title {
-    font-weight: 600;
-}
-.content-body {
-    flex: 1 1 auto;
-    padding: 1.88rem;
-}
 .light-borders {
     border-color: #ececec;
     border-bottom-color: rgb(236, 236, 236);
@@ -24,27 +17,6 @@
 .img-sm {
     width: 72px;
     height: 72px;
-}
-.itemside {
-    position: relative;
-    display: flex;
-    width: 100%;
-}
-.itemside .aside {
-    position: relative;
-    flex-shrink: 0;
-}
-.itemside .info {
-    padding-left: .75rem;
-    flex-grow: 1;
-}
-.itemside a.title {
-    color: inherit;
-    text-decoration: none;
-}
-.itemside .title {
-    display: block;
-    margin-bottom: 0rem;
 }
 .title:hover {
     text-decoration: underline solid !important;
@@ -62,19 +34,3 @@
     border-top: #a6a6a6 solid;
     border-top-width: 0.8px;
 }
-
-/* ==== PURCHASE ASIDE ==== */
-.dlist-align {
-    display: flex;
-    margin-bottom: 5px;
-}
-.dlist-align dt {
-    width: 150px;
-    word-wrap: break-word;
-    font-weight: normal;
-}
-.dlist-align dd {
-    flex-grow: 1;
-    margin-bottom: 0;
-}
-

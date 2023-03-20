@@ -6,6 +6,7 @@ export class ProductReviewReceive {
         public username: string,
         public grade: number,
         public comment: string,
+        public review_date: string,
     ) {  }
 }
 
