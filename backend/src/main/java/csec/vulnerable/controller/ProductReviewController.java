@@ -33,7 +33,6 @@ public class ProductReviewController {
         return productReviewService.getProductReviews();
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping
     public Response addProductReview(@RequestBody ProductReview productReview, Authentication authentication) {
         return productReviewService.addProductReview(productReview, authentication);
