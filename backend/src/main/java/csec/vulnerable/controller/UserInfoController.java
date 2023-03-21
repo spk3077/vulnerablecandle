@@ -24,37 +24,21 @@ public class UserInfoController {
 	@Autowired
 	UserInfoService userInfoService;
 	
-	@PreAuthorize(("hasAuthority('ROLE_ADMIN')"))
 	@GetMapping
 	public List<UserInfo> getUserInfos(Authentication authentication){
 		return userInfoService.getUserInfos(authentication);
 	}
-	
-	@PreAuthorize("hasAuthority('ROLE_ADMIN','ROLE_USER')")
-	@GetMapping("/{id}")
-	public UserInfo getUserInfo(@PathVariable int id,Authentication authentication) {
-		return userInfoService.getUserInfo(id, authentication);
-	}
 
-	/* @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
-	@GetMapping
-	public UserInfo getUserInfo(Authentication authentication) {
-		return userInfoService.getUserInfo(authentication);
-	} */
-	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PostMapping
 	public Response addUserInfo(@RequestBody UserInfo userInfo,Authentication authentication) {
 		return userInfoService.addUserInfo(userInfo,authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@PutMapping
 	public Response changeUserInfo(@RequestBody UserInfo userInfo, Authentication authentication) {
 		return userInfoService.changeUserInfo(userInfo, authentication);
 	}
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@DeleteMapping("/{id}")
 	public Response deleteUserDetail(@PathVariable int id) {
 		return userInfoService.deleteUserInfo(id);

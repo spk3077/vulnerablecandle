@@ -21,31 +21,26 @@ public class ShoppingCartController {
 	@Autowired
     ShoppingCartService shoppingCartService;
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     @GetMapping
     public ShoppingCart getShoppingCart(Authentication authentication) {
         return shoppingCartService.getShoppingCart(authentication);
     }
     
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     @PostMapping("/add/{productId}/{quantity}")
     public Response addCartItem(@PathVariable int productId, @PathVariable int quantity, Authentication authentication) {
         return shoppingCartService.addCartItem(productId, quantity, authentication);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     @PutMapping("/update/{cartItemId}/{quantity}")
     public Response updateCartItem(@PathVariable int cartItemId, @PathVariable int quantity, Authentication authentication) {
         return shoppingCartService.updateCartItem(cartItemId, quantity, authentication);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     @DeleteMapping("/remove/{cartItemId}")
     public Response removeCartItem(@PathVariable int cartItemId, Authentication authentication) {
         return shoppingCartService.removeCartItem(cartItemId, authentication);
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     @DeleteMapping("/clear")
     public Response clearShoppingCart(Authentication authentication) {
         return shoppingCartService.clearShoppingCart(authentication);

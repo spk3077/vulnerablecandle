@@ -24,7 +24,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
 	@GetMapping
 	public List<User> getusers(Authentication authentication){
 		return userService.getusers(authentication);
@@ -34,7 +33,7 @@ public class UserController {
 	public Response addUser(@RequestBody User user) {
 		return userService.register(user);
 	}
-	@PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
+
 	@PutMapping
 	public Response changeUser(@RequestBody User user,Authentication authentication) {
 		return userService.changePassword(user, authentication);
