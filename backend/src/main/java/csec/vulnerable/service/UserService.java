@@ -46,7 +46,7 @@ public class UserService {
 	public Response register(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		List<UserProfile> profiles = new ArrayList<UserProfile>();
-		profiles.add(new UserProfile(1));
+		profiles.add(new UserProfile(2));
 		user.setProfiles(profiles);
 		System.out.println(user);
 		userDao.save(user);
