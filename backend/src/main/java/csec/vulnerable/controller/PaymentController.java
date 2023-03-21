@@ -21,15 +21,19 @@ import csec.vulnerable.service.PaymentService;
 @RestController
 @RequestMapping("/payments")
 public class PaymentController {
+
     @Autowired
     PaymentService paymentService;
+    
+    @Autowired
+    UserDao userDao;
 
     @GetMapping("/{id}")
     public Payment getPayment(@PathVariable int id, Authentication authentication) {
         Payment payment = paymentService.getPayment(id);
         if (payment != null) {
             if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
-                    || payment.getUser().getId() == ((User)authentication.getPrincipal()).getId()) {
+                    || payment.getUser().getUsername().equals(userDao.getUsername(authentication))) {
                 return payment;
             }
         }
@@ -38,26 +42,36 @@ public class PaymentController {
 
     @GetMapping
     public List<Payment> getPayments(Authentication authentication) {
-        return paymentService.getPayments(authentication);
+        User user = userDao.findByUsername(authentication.getName());
+        if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
+            return paymentService.getPayments();
+        } else {
+            return paymentService.getPayments(user);
+        }
     }
 
     @PostMapping
     public Response addPayment(@RequestBody Payment payment, Authentication authentication) {
-        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
-                || payment.getUser().getId() == ((User)authentication.getPrincipal()).getId()) {
-            return paymentService.addPayment(payment, authentication);
+        User user = userDao.findByUsername(authentication.getName());
+        payment.setUser(user);
+
+        if (isValidCardNumber(payment.getCardNumber())
+                && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
+            return paymentService.addPayment(payment);
         } else {
-            return new Response(false, "You are not authorized to add this payment");
+            return new Response(false, "Invalid payment details");
         }
     }
 
     @PutMapping
     public Response changePayment(@RequestBody Payment payment, Authentication authentication) {
-        if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
-                || payment.getUser().getId() == ((User)authentication.getPrincipal()).getId()) {
-            return paymentService.changePayment(payment, authentication);
+        User user = userDao.findByUsername(authentication.getName());
+        payment.setUser(user);
+        if (isValidCardNumber(payment.getCardNumber())
+                && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
+            return paymentService.changePayment(payment);
         } else {
-            return new Response(false, "You are not authorized to change this payment");
+            return new Response(false, "Invalid payment details");
         }
     }
 
@@ -66,8 +80,8 @@ public class PaymentController {
         Payment payment = paymentService.getPayment(id);
         if (payment != null) {
             if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
-                    || payment.getUser().getId() == ((User)authentication.getPrincipal()).getId()) {
-                return paymentService.deletePayment(id, authentication);
+                    || payment.getUser().getUsername().equals(userDao.getUsername(authentication))) {
+                return paymentService.deletePayment(id);
             } else {
                 return new Response(false, "You are not authorized to delete this payment");
             }

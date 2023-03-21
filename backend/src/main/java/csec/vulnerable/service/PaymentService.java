@@ -22,25 +22,24 @@ public class PaymentService {
 
     @Autowired
     PaymentDao paymentDao;
+    
+    @Autowired
+    UserDao userDao;
 
-    public Payment getPayment(int id) {
+    public Payment getPayment(int id,Authentication authentication) {
         Optional<Payment> payment = paymentDao.findById(id);
         return payment.orElse(null);
     }
 
-    public List<Payment> getPayments(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            return paymentDao.findAll();
-        } else {
-            return paymentDao.findByUser(user);
-        }
+    public List<Payment> getPayments(User user) {
+        return paymentDao.findByUser(user);
+    }
+
+    public List<Payment> getPayments() {
+        return paymentDao.findAll();
     }
 
     public Response addPayment(Payment payment, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        payment.setUser(user);
-
         if (isValidCardNumber(payment.getCardNumber())
                 && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
             paymentDao.save(payment);
@@ -51,9 +50,6 @@ public class PaymentService {
     }
 
     public Response changePayment(Payment payment, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        payment.setUser(user);
-
         if (isValidCardNumber(payment.getCardNumber())
                 && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
             paymentDao.save(payment);
@@ -66,9 +62,7 @@ public class PaymentService {
     public Response deletePayment(int id, Authentication authentication) {
         Optional<Payment> payment = paymentDao.findById(id);
         if (payment.isPresent()) {
-            User user = (User) authentication.getPrincipal();
-            if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))
-                    || payment.get().getUser().getId() == user.getId()) {
+            if (payment.get().getUser().getUsername().equals(userDao.getUsername())) {
                 paymentDao.deleteById(id);
                 return new Response(true, "Payment deleted successfully");
             } else {
