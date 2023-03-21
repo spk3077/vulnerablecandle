@@ -35,7 +35,7 @@
                   <div class="vertical-center float-lg-end">
                     <!-- Save User's Favorite Products functionality? -->
                     <!-- <a href="#" class="btn btn-light"> <i class="fa fa-heart"></i></a>  -->
-                    <button (click)="delCartItem(cartItem.id)"class="btn btn-light text-danger borderBtn">Remove</button>
+                    <button (click)="removeCartItem(cartItem.id)"class="btn btn-light text-danger borderBtn">Remove</button>
                   </div>
                 </div>
               </article>
@@ -97,7 +97,7 @@
               </dl>
           
               <div class="d-grid gap-2 my-3">
-                <button routerLink="/checkout" class="btn btn-success w-100"> Make Purchase </button>
+                <button (click)="updateQuantities()" class="btn btn-success w-100"> Make Purchase </button>
                 <button routerLink="/" class="btn btn-light borderBtn w-100"> Back to shop </button>
               </div>
             </div>

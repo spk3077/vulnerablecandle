@@ -1,0 +1,46 @@
+/* ==== PRIMARY ==== */
+a.title, p, dt, dd.text-end {
+    color: #51585e
+}
+.form-control, .form-select {
+    background-color: #f9f9f9;
+}
+.card-title {
+    margin-bottom: 1rem;
+}
+
+/* ==== Delivery Options ==== */
+.box {
+    padding: .8rem;
+    border-radius: .35rem;
+    border: 1px solid #dee2e6;
+}
+.box-check {
+    position: relative;
+    margin-right: 5px;
+}
+.box-check input:checked ~ .border-oncheck {
+    border-color: #0d6efd;
+    background-color: rgba(231,241,255,.5);
+}
+.box-check .border-oncheck:hover {
+    border-color: #a8c7f5;
+}
+.box-check .border-oncheck {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border: 1px solid transparent;
+    border-radius: .35rem;
+    z-index: 1;
+    mix-blend-mode: darken;
+}
+
+/* ==== ASIDE ==== */
+.itemside .aside .badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+}

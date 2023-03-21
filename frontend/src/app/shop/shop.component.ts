@@ -58,6 +58,8 @@ export class ShopComponent implements OnInit {
     this.productService.getProducts()
       .subscribe(products => this.products = products);
   }
+
+  // Add Product Quantity: 1 to Cart
   public addToCart(productID: number): void {
     this.shoppingCartService.addToCart(new CartItemSend(productID, 1)).subscribe({
       next: (res) => {

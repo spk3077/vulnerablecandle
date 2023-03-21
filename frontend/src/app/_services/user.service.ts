@@ -5,8 +5,8 @@ import { catchError, map } from 'rxjs/operators';
 
 import { StorageService } from 'ngx-webstorage-service';
 
-import { UserCred } from '@app/_core/userCred';
-import { UserFull } from '@app/_core/userFull';
+import { UserReceive } from '@app/_core/user';
+import { UserSend } from '@app/_core/user';
 import { environment } from  '@environments/environment';
 
 const STORAGE_KEY = 'current-user';
@@ -17,9 +17,9 @@ export const USER_SERVICE_STORAGE =
     providedIn: 'root'
 })
 export class UserService {
-    private loggedInUserSubject:BehaviorSubject<UserFull>;
+    private loggedInUserSubject:BehaviorSubject<UserReceive>;
     // Use to provide currentUser details to other pages
-    public loggedInUser$:Observable<UserFull>;
+    public loggedInUser$:Observable<UserReceive>;
 
     // List of Endpoints using Environment: Production/Development
     users_endpoint = environment.apiUrl + "/users";
@@ -27,7 +27,7 @@ export class UserService {
     logout_endpoint = environment.apiUrl + "/logout";
 
     constructor(private http:HttpClient, @Inject(USER_SERVICE_STORAGE) private storage: StorageService) {
-        this.loggedInUserSubject = new BehaviorSubject<UserFull>(this.getUserFromStorage());
+        this.loggedInUserSubject = new BehaviorSubject<UserReceive>(this.getUserFromStorage());
         this.loggedInUser$ = this.loggedInUserSubject.asObservable();
     }
 
@@ -39,7 +39,7 @@ export class UserService {
 
     // setLoggedUser: Helper Function
     private getUserFromStorage(): any {
-        const currentUser: UserFull = this.storage.get(STORAGE_KEY) || null;
+        const currentUser: UserReceive = this.storage.get(STORAGE_KEY) || null;
         return currentUser;
     }
 
@@ -49,7 +49,7 @@ export class UserService {
     }
 
     // Login Function
-    public login(user: UserCred): Observable<any> {
+    public login(user: UserSend): Observable<any> {
         const form = new FormData;
         form.append("username", user.username);
         form.append("password", user.password);
@@ -80,7 +80,7 @@ export class UserService {
     }
 
     // Adding User Function
-    public register(user: UserCred): Observable<any> {
+    public register(user: UserSend): Observable<any> {
         return this.http.post(this.users_endpoint, 
             {
             username: user.username,

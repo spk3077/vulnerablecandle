@@ -73,14 +73,15 @@ export class ProductComponent implements OnInit {
         this.product = res;
 
         // Set ImageURLS
-        if (this.product.imageUrls.length >= 1) {
-          this.imageUrl1 = this.product.imageUrls[0];
+        let images = this.product.image.split(',', 3);
+        if (images.length >= 1) {
+          this.imageUrl1 = images[0];
         }
-        if (this.product.imageUrls.length >= 2) {
-          this.imageUrl2 = this.product.imageUrls[1];
+        if (this.product.image.length >= 2) {
+          this.imageUrl2 = images[1];
         }
-        if (this.product.imageUrls.length >= 3) {
-          this.imageUrl3 = this.product.imageUrls[2];
+        if (this.product.image.length >= 3) {
+          this.imageUrl3 = images[2];
         }
 
         this.primaryImageUrl = this.imageUrl1;

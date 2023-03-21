@@ -15,11 +15,14 @@
                   <div class="logReg-alert" [hidden]="!loginError">
                     Login Failed! Your username or password was incorrect.
                   </div>
+                  <div class="logReg-alert" [hidden]="!getInfoError">
+                    Login Failed! User info not received.
+                  </div>
                   <!-- === ERRORS END// === -->
 
                   <!-- === USERNAME === -->
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="username" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  id="inputusername">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="username" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  id="inputusername">
                     <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                       <div *ngIf="f.username.errors.required">Username is required</div>
                       <div *ngIf="f.username.errors.minlength">Username must be at least 4 characters</div>

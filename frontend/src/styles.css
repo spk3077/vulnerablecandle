@@ -4,10 +4,10 @@ main {
 }
 /* ==== CART BTN COLORS ==== */
 .cart-success {
-    background: darkgreen;
+    background: darkgreen !important;
 }
 .cart-fail {
-    background: darkred;
+    background: darkred !important;
 }
 
 /* ==== LOGIN & REGISTER ==== */
@@ -35,6 +35,14 @@ main {
 .content-body {
     flex: 1 1 auto;
     padding: 1.88rem;
+}
+.price-bold {
+    font-weight: 600;
+    color: initial;
+}
+.img-sm {
+    width: 72px;
+    height: 72px;
 }
 .itemside {
     position: relative;

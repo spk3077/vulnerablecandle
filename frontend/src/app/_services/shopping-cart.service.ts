@@ -34,12 +34,22 @@ export class ShoppingCartService {
 
   // Adding to Cart
   public addToCart(cartItem: CartItemSend): Observable<any> {
-    return this.http.post(this.cart_endpoint, 
-        {
-        product: {id : cartItem.productID},
-        quantity: cartItem.quantity
-        }
-        )
+    return this.http.post(this.cart_endpoint + "/add/" + cartItem.productID + "/" + cartItem.quantity,
+      {})
+      .pipe(
+          map(res => {
+              return res;
+          }),
+          catchError(error => {
+              return throwError(() => (new Error(error)));
+          })
+      );
+  }
+
+    // Updating existing cart item
+    public updateCartItem(cartItem: CartItemSend): Observable<any> {
+      return this.http.put(this.cart_endpoint + "/update/" + cartItem.productID + "/" + cartItem.quantity,
+        {})
         .pipe(
             map(res => {
                 return res;
@@ -48,19 +58,19 @@ export class ShoppingCartService {
                 return throwError(() => (new Error(error)));
             })
         );
-  }
+    }
 
     // Delete CartItem
-    public delCartItem(cartID: number): Observable<any> {
-      return this.http.delete(this.cart_endpoint + "/" + cartID)
-          .pipe(
-              map(res => {
-                  return res;
-              }),
-              catchError(error => {
-                  return of(error);
-              })
-          );
+  public removeCartItem(cartID: number): Observable<any> {
+    return this.http.delete(this.cart_endpoint + "/remove/" + cartID)
+      .pipe(
+        map(res => {
+            return res;
+        }),
+        catchError(error => {
+            return of(error);
+        })
+      );
   }
 
   public getCartItems(): Observable<any> {

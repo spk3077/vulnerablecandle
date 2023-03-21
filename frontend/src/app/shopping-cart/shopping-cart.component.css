@@ -14,10 +14,6 @@
 }
 
 /* == CONTENT == */
-.img-sm {
-    width: 72px;
-    height: 72px;
-}
 .title:hover {
     text-decoration: underline solid !important;
     color: #0000EE !important;
@@ -26,9 +22,6 @@
     position: relative;
     top: 30%;
     transform: translateY(-50%);
-}
-.price-bold {
-    font-weight: 600;
 }
 .dark-borders {
     border-top: #a6a6a6 solid;

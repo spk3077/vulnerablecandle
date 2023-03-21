@@ -10,7 +10,7 @@ export const PRODUCTS: ProductReceive[] = [
     ['isCute', 'isPopular'],
     10,
     22,
-    ['assets/images/candle1.png', 'assets/images/candle2.png', 'assets/images/candle3.png'],
+    'assets/images/candle1.png,assets/images/candle2.png,assets/images/candle3.png',
     5,
     [
       new ProductReviewReceive(1, "Neat Product", "DuckDuckGo", 5, "Better than my Browser", "2023-03-18"), 
@@ -25,7 +25,7 @@ export const PRODUCTS: ProductReceive[] = [
     ['isTrending', 'isPopular'],
     20,
     19,
-    ['assets/images/candle2.png', 'assets/images/candle1.png', 'assets/images/candle3.png'],
+    'assets/images/candle2.png,assets/images/candle1.png,assets/images/candle3.png',
     4,
     [
       new ProductReviewReceive(1, "Terrible", "Lola", 5, "10/10 Content", "2023-03-18"), 
@@ -40,7 +40,7 @@ export const PRODUCTS: ProductReceive[] = [
     ['isUnique'],
     5,
     10,
-    ['assets/images/candle3.png', 'assets/images/candle1.png', 'assets/images/candle2.png'],
+    'assets/images/candle3.png,assets/images/candle1.png,assets/images/candle2.png',
     1.5,
     [
       new ProductReviewReceive(1, "Not Cool", "Opera", 1, "Supertime", "2023-03-18"), 
@@ -55,7 +55,7 @@ export const PRODUCTS: ProductReceive[] = [
     ['isTrending', 'isPopular', 'isForCar'],
     20,
     2,
-    ['assets/images/candle1.png', 'assets/images/candle2.png'],
+    'assets/images/candle1.png,assets/images/candle2.png',
     5,
     [
       new ProductReviewReceive(1, "Corona", "Barren", 5, "Seen by Looking", "2023-03-18")
@@ -69,7 +69,7 @@ export const PRODUCTS: ProductReceive[] = [
     ['isPopular'],
     30,
     12,
-    ['assets/images/candle2.png'],
+    'assets/images/candle2.png',
     5,
     [
       new ProductReviewReceive(1, "YESS", "CASINO Mount", 5, "Lots of Poker", "2023-03-18")
@@ -83,7 +83,7 @@ export const PRODUCTS: ProductReceive[] = [
     ['isCute', 'isPopular', 'isTrending', 'isUnique', 'isForCar'],
     7,
     3,
-    ['assets/images/candle3.png'],
+    'assets/images/candle3.png',
     1,
     [
     new ProductReviewReceive(1, "Lol Awful", "Opera", 1, "Browser", "2023-03-18"), 

@@ -10,13 +10,13 @@ export class ProductReceive {
         public tagNames: string[],
         public price: number,
         public stock: number,
-        public imageUrls: string[],
+        public image: string,
         public averageReviewGrade: number,
         public productReviews: ProductReviewReceive[]
     ) {  }
 
     // Set The Color of Rating Bubble
-    setBadgeClass(): string {
+    public setBadgeClass(): string {
         if ( !this.averageReviewGrade || this.averageReviewGrade! < 2 ) {
             return 'bg-danger';
         } else if ( this.averageReviewGrade! >= 2 && this.averageReviewGrade! < 4 ) {
@@ -24,6 +24,11 @@ export class ProductReceive {
         } else {
             return 'bg-success';
         }
+    }
+
+    // Parse first image from image string
+    public getFirstImage(): string {
+        return this.image.split(',', 3)[0];
     }
 }
 
@@ -36,6 +41,6 @@ export class ProductSend {
         public tagNames: string[],
         public price: number,
         public stock: number,
-        public imageUrls: string[],
+        public image: string,
     ) {  }
 }
