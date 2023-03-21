@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
   // Login Function
   public login(form: any): void {
     this.submitted = true;
+    
     // stop here if form is invalid
     if (form.invalid) {
         return;

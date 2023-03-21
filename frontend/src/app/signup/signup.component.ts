@@ -60,7 +60,7 @@ export class SignupComponent implements OnInit {
         },
         // If fails at server
         error: () => {
-          console.log("Signup Failed: Credentials Wrong")
+          console.log("Signup Failed: Internal Server Failure")
           this.signupError = true;
           return;
         }
