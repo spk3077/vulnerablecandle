@@ -28,7 +28,7 @@ public class PaymentService {
     @Autowired
     UserDao userDao;
 
-    public Payment getPayment(int id,Authentication authentication) {
+    public Payment getPayment(int id) {
         Optional<Payment> payment = paymentDao.findById(id);
         return payment.orElse(null);
     }
@@ -41,7 +41,7 @@ public class PaymentService {
         return paymentDao.findAll();
     }
 
-    public Response addPayment(Payment payment, Authentication authentication) {
+    public Response addPayment(Payment payment) {
         if (isValidCardNumber(payment.getCardNumber())
                 && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
             paymentDao.save(payment);
@@ -51,7 +51,7 @@ public class PaymentService {
         }
     }
 
-    public Response changePayment(Payment payment, Authentication authentication) {
+    public Response changePayment(Payment payment) {
         if (isValidCardNumber(payment.getCardNumber())
                 && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
             paymentDao.save(payment);
@@ -64,18 +64,14 @@ public class PaymentService {
     public Response deletePayment(int id, Authentication authentication) {
         Optional<Payment> payment = paymentDao.findById(id);
         if (payment.isPresent()) {
-            if (payment.get().getUser().getUsername().equals(userDao.getUsername())) {
-                paymentDao.deleteById(id);
-                return new Response(true, "Payment deleted successfully");
-            } else {
-                return new Response(false, "You are not authorized to delete this payment");
-            }
+            paymentDao.deleteById(id);
+            return new Response(true, "Payment deleted successfully");
         } else {
             return new Response(false, "Payment not found");
         }
     }
 
-    private boolean isValidCardNumber(String cardNumber) {
+    public boolean isValidCardNumber(String cardNumber) {
         int[] digits = new int[cardNumber.length()];
         for (int i = 0; i < cardNumber.length(); i++) {
             digits[i] = Integer.parseInt(cardNumber.substring(i, i + 1));
@@ -95,7 +91,7 @@ public class PaymentService {
         return sum % 10 == 0;
     }
 
-    private boolean isValidExpiryDate(int expiryMonth, int expiryYear) {
+    public boolean isValidExpiryDate(int expiryMonth, int expiryYear) {
         YearMonth expiry = YearMonth.parse(String.format("%02d/%02d", expiryMonth, expiryYear), DateTimeFormatter.ofPattern("MM/yy"));
         YearMonth now = YearMonth.now();
         return !expiry.isBefore(now);

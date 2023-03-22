@@ -34,7 +34,7 @@ public class PaymentController {
         Payment payment = paymentService.getPayment(id);
         if (payment != null) {
             if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
-                    || payment.getUser().getUsername().equals(userDao.getUsername(authentication))) {
+                    || payment.getUser().equals(userDao.findByUsername(authentication.getName()))) {
                 return payment;
             }
         }
@@ -56,8 +56,8 @@ public class PaymentController {
         User user = userDao.findByUsername(authentication.getName());
         payment.setUser(user);
 
-        if (isValidCardNumber(payment.getCardNumber())
-                && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
+        if (paymentService.isValidCardNumber(payment.getCardNumber())
+                && paymentService.isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
             return paymentService.addPayment(payment);
         } else {
             return new Response(false, "Invalid payment details");
@@ -68,8 +68,8 @@ public class PaymentController {
     public Response changePayment(@RequestBody Payment payment, Authentication authentication) {
         User user = userDao.findByUsername(authentication.getName());
         payment.setUser(user);
-        if (isValidCardNumber(payment.getCardNumber())
-                && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
+        if (paymentService.isValidCardNumber(payment.getCardNumber())
+                && paymentService.isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
             return paymentService.changePayment(payment);
         } else {
             return new Response(false, "Invalid payment details");
@@ -81,8 +81,8 @@ public class PaymentController {
         Payment payment = paymentService.getPayment(id);
         if (payment != null) {
             if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
-                    || payment.getUser().getUsername().equals(userDao.getUsername(authentication))) {
-                return paymentService.deletePayment(id);
+                    || payment.getUser().getUsername().equals(userDao.findByUsername(authentication.getName()))) {
+                return paymentService.deletePayment(id,authentication);
             } else {
                 return new Response(false, "You are not authorized to delete this payment");
             }
