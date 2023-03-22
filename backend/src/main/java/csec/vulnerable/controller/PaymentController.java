@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import csec.vulnerable.beans.Payment;
 import csec.vulnerable.beans.User;
+import csec.vulnerable.dao.UserDao;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.PaymentService;
 
