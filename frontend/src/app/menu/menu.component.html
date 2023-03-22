@@ -21,7 +21,7 @@
                     <li *ngIf="currentUser" class="nav-item" ><a class="nav-link" routerLink="/transactions">Transactions</a></li>
                     
                     <!-- === ADMIN PANEL === -->
-                    <li *ngIf="currentUser && currentUser.authorities[0].type === 'ROLE_ADMIN'" class="nav-item dropdown">
+                    <li *ngIf="currentUser && currentUser.authority === 'ROLE_ADMIN'" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Admin
                           </a>
@@ -47,7 +47,7 @@
                     <li *ngIf="currentUser" class="nav-item dropdown nav-color me-4">
                         <a role="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">
                             <img class="rounded-circle me-lg-1" alt="" width="30" height="30" 
-                                [attr.src]="currentUser !== undefined && currentUser.userInfo.picture !== null ? 'currentUser.userInfo.picture' : 'assets/images/defaultprofile.png'">
+                                [attr.src]="currentUser.picture !== null ? 'currentUser.picture' : 'assets/images/defaultprofile.png'">
                             <span class="nav-item d-none d-lg-inline-flex">{{currentUser.username.length > 10 ? currentUser.username.substring(0,9) + '...' : currentUser.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end smallmenu dropdown-menu-dark">

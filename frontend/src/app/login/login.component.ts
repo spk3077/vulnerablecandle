@@ -5,6 +5,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { LoginEventService } from '@app/_helpers/login-event.service';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 import { UserReceive } from '@app/_core/user';
+import { SavedUser } from '@app/_core/savedUser';
 import { UserService } from '@app/_services/user.service';
 
 @Component({
@@ -76,15 +77,20 @@ export class LoginComponent implements OnInit {
     this.userService.getUserData().subscribe({
       next: (res) => {
         // Get User Information to Populate Components with User-relevant information
-        console.log(res);
         let userReceive: UserReceive;
+        let savedUser: SavedUser;
+
         if (res.length == 1 ) {
           userReceive = res[0];
         }
         else {
           userReceive = res.find((obj: UserReceive) => obj.username === form.value.username);
         }
-        this.userService.setLoggedUser(userReceive);
+
+        // Save the User to Local Storage
+        savedUser = new SavedUser(userReceive.username, userReceive.authorities[0].type, userReceive.userInfo.picture);
+        console.log(savedUser);
+        this.userService.setLoggedUser(savedUser);
         this.router.navigateByUrl('/');
       },
       error: () => {
