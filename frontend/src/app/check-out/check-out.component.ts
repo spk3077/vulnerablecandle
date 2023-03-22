@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { UserInfoReceive } from '@app/_core/userInfo';
 import { CartItemReceive } from '@app/_core/cartItem';
+import { PaymentReceive } from '@app/_core/payment';
 import { UserInfoService } from '@app/_services/user-info.service';
 import { ShoppingCartService } from '@app/_services/shopping-cart.service';
-
+import { PaymentService } from '@app/_services/payment.service';
 
 @Component({
   selector: 'app-check-out',
@@ -15,6 +16,7 @@ import { ShoppingCartService } from '@app/_services/shopping-cart.service';
 export class CheckOutComponent implements OnInit{
   cartItems!: CartItemReceive[];
   userInfo!: UserInfoReceive;
+  payment!: PaymentReceive;
 
   checkoutForm: any = FormGroup;
   submitted = false;
@@ -22,6 +24,7 @@ export class CheckOutComponent implements OnInit{
   constructor(
     private shoppingCartService: ShoppingCartService, 
     private userInfoService: UserInfoService,
+    private paymentService: PaymentService,
     private formBuilder: FormBuilder) {
       let zipPattern = "^[0-9]*$";
       let cardNumberPattern = "^[0-9]*$";
@@ -44,6 +47,7 @@ export class CheckOutComponent implements OnInit{
 
   ngOnInit(): void {
     this.getUserInfo();
+    this.getPayment();
     this.getCartItems();
   }
 
@@ -53,6 +57,11 @@ export class CheckOutComponent implements OnInit{
   // Retrieve UserInfo
   public getUserInfo(): void {
     this.userInfoService.getUserInfo().subscribe(userInfo => this.userInfo = userInfo);
+  }
+
+  // Retrieve Shopping Cart to Display
+  public getPayment(): void {
+    this.paymentService.getPayment().subscribe(payment => this.payment = payment);
   }
 
   // Retrieve Shopping Cart to Display

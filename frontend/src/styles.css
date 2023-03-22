@@ -28,6 +28,12 @@ main {
     color: #ff0000;
     font-size: 95%;
 }
+/* ==== RATING For NGSTARS ==== */
+.main-rating {
+    color: #ff4800;
+    font-size: 1.3rem;
+}
+
 /* ==== SHOPPING CART & CHECKOUT ==== */
 .card-title {
     font-weight: 600;

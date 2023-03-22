@@ -1,0 +1,94 @@
+<main>
+
+    <!-- ========================= CAROSEL ========================= -->
+    <div class="container-fluid p-0">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="/assets/images/home_big1.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+              <img src="/assets/images/home_big2.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+              <img src="/assets/images/home_big3.jpg" class="d-block w-100" alt="...">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+    </div>
+    <!-- ========================= CAROSEL END// ========================= -->
+    <div class="container mt-5">
+        <p class="title-p">
+            Welcome to our family-owned candle shop, nestled in the heart of Rochester, NY!
+        </p>
+        <p>
+            We are a small online business that creates hand-poured candles made with 100% natural soy wax and infused with premium fragrance oils. Each candle is carefully crafted in small batches to ensure quality and consistency.
+            Our online shop offers a variety of candle scents ranging from classic favorites like vanilla and lavender to unique blends like cinnamon apple and eucalyptus mint. We also offer seasonal scents that are perfect for the holidays or any special occasion.
+        </p>
+        <p>
+            At our mom and pop candle shop, we believe in providing our customers with a personalized experience. If you have any questions or special requests, we are always happy to help. We take pride in our attention to detail and commitment to customer satisfaction.
+            Thank you for supporting our small business and we hope you enjoy our candles as much as we do!
+        </p>
+    </div>
+    <div class="container mt-5">
+        <p class="title-p">
+            We're available for parties too!
+        </p>
+    </div>
+    <!-- ========================= IMAGE ROW ========================= -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+                <img src="/assets/images/home1.jpg" class="img-thumbnail" alt="...">
+            </div>
+            <div class="col order-5">
+                <img src="/assets/images/home2.jpg" class="img-thumbnail" alt="...">
+            </div>
+            <div class="col order-1">
+                <img src="/assets/images/home3.jpg" class="img-thumbnail" alt="...">
+            </div>
+        </div>
+    </div>
+    <!-- ========================= IMAGE ROW END// ========================= -->
+
+    <div class="container mt-5">
+        <p class="title-p">
+            Take a look at some of our products!
+        </p>
+    </div>
+
+    <!-- ========================= PRODUCT EXAMPLES ========================= -->
+    <section>
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="col mb-5" *ngFor="let product of products">
+                    <div class="card h-84">
+                        <img class="card-img-top" src={{product.getFirstImage()}} alt="...">
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder">{{product.name}}</h5>
+                                <div class="d-flex justify-content-center small text-warning mb-2">
+                                    <ngb-rating class="main-rating" [max]="5" [(rate)]="product.averageReviewGrade" [readonly]="true"></ngb-rating>
+                                </div>
+                                ${{product.price.toFixed(2)}}
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" routerLink="shop/{{product.id}}">Purchase Now</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========================= PRODUCT EXAMPLES ========================= -->
+
+</main>

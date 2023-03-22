@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { UserProfileComponent } from './userprofile/userprofile.component';
 import { SubmenuComponent } from './submenu/submenu.component';
+import { HomeComponent } from './home/home.component';
 import { ShopComponent } from './shop/shop.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
@@ -25,6 +26,7 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AdminComponent } from './admin/admin/admin.component';
 import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminProductsComponent } from './admin/products/products.component';
 import { HttpRequestInterceptor } from './_interceptors/http.interceptor';
@@ -37,6 +39,7 @@ import { USER_SERVICE_STORAGE } from './_services/user.service';
     MenuComponent,
     UserProfileComponent,
     SubmenuComponent,
+    HomeComponent,
     ShopComponent,
     TransactionsComponent,
     ShoppingCartComponent,
@@ -48,6 +51,7 @@ import { USER_SERVICE_STORAGE } from './_services/user.service';
     LoginComponent,
     LogoutComponent,
     NotFoundComponent,
+    AdminComponent,
     AdminUsersComponent,
     AdminProductsComponent
   ],
