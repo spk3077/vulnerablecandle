@@ -1,0 +1,19 @@
+p {
+    color: #333333;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.42857143;
+}
+.title-p {
+    font-family: SemiExtended;
+    text-transform: uppercase;
+    font-size: 16px;
+    text-align: center;
+}
+.card-img-top {
+    max-height: 50%;
+}
+.h-84 {
+    height: 84% !important;
+}

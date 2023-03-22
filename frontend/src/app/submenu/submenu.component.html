@@ -1,36 +1,20 @@
-    <!-- ========================= NAVBAR PAGETOP ========================= -->
-    <nav class="navbar border-top navbar-expand-lg">
-        <div class="container">
-            <div class="navbar-collapse" id="navbar_main">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                    <a class="nav-link ps-0" routerLink="/collections">Latest Collections</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" routerLink="/shop">Shop</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- ========================= NAVBAR PAGETOP END// ========================= -->    
-    <!-- ========================= BREADCRUMB PAGETOP ========================= -->
-    <section class="section-pagetop mb-4">
-        <div class="container">
-            <h2 class="title-page">{{activePage}}</h2>
-            <nav>
-                <ol class="breadcrumb text-white">
-                    <li class="breadcrumb-item"><a routerLink="">Dashboard</a></li>
-                    <li *ngIf="activePage === secondPage" class="breadcrumb-item active">{{activePage}}</li>
-                    <li *ngIf="activePage !== secondPage" class="breadcrumb-item"><a routerLink={{secondPage_URL}}>{{secondPage}}</a></li>
+<!-- ========================= BREADCRUMB PAGETOP ========================= -->
+<section class="section-pagetop mb-4">
+    <div class="container">
+        <h2 class="title-page">{{activePage}}</h2>
+        <nav>
+            <ol class="breadcrumb text-white">
+                <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+                <li *ngIf="activePage === secondPage" class="breadcrumb-item active">{{activePage}}</li>
+                <li *ngIf="activePage !== secondPage" class="breadcrumb-item"><a routerLink={{secondPage_URL}}>{{secondPage}}</a></li>
 
-                    <li *ngIf="activePage === thirdPage" class="breadcrumb-item active">{{activePage}}</li>
-                    <li *ngIf="thirdPage && activePage !== thirdPage" class="breadcrumb-item"><a routerLink={{thirdPage_URL}}>{{thirdPage}}</a></li>
+                <li *ngIf="activePage === thirdPage" class="breadcrumb-item active">{{activePage}}</li>
+                <li *ngIf="thirdPage && activePage !== thirdPage" class="breadcrumb-item"><a routerLink={{thirdPage_URL}}>{{thirdPage}}</a></li>
 
-                    <li *ngIf="activePage === fourthPage" class="breadcrumb-item active">{{activePage}}</li>
-                    <li *ngIf="fourthPage && activePage !== fourthPage" class="breadcrumb-item"><a routerLink="">{{fourthPage}}</a></li>
-                </ol>  
-            </nav>
-        </div>
-    </section>
+                <li *ngIf="activePage === fourthPage" class="breadcrumb-item active">{{activePage}}</li>
+                <li *ngIf="fourthPage && activePage !== fourthPage" class="breadcrumb-item"><a routerLink="">{{fourthPage}}</a></li>
+            </ol>  
+        </nav>
+    </div>
+</section>
     <!-- ========================= BREADCRUMB END// ========================= -->
