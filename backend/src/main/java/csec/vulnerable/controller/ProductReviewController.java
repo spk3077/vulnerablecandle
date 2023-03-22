@@ -2,6 +2,8 @@ package csec.vulnerable.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,7 @@ public class ProductReviewController {
     }
 
     @PostMapping
-    public Response addProductReview(@RequestBody ProductReview productReview, Authentication authentication) {
+    public Response addProductReview(@RequestBody @Valid ProductReview productReview, Authentication authentication) {
         return productReviewService.addProductReview(productReview, authentication);
     }
 }
