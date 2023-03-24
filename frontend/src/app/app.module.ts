@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -58,6 +58,7 @@ import { USER_SERVICE_STORAGE } from './_services/user.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    // HttpClientXsrfModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
