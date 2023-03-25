@@ -87,6 +87,7 @@ public class UserInfoService {
 		ui.setPhone(userInfo.getPhone());
 		ui.setState(userInfo.getState());
 		ui.setZip(userInfo.getZip());
+		ui.setPicture(userInfo.getPicture());
 		userInfoDao.save(ui);
 		return new Response(true);
 	}

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,21 +29,36 @@ public class UserInfo {
 		this.id = user.getId();
 	}
 	@Column
+	@Size(min = 3, max = 50)
 	String name;
+
 	@Column
+	@Size(min = 10, max = 15)
 	String phone;
+
 	@Column
+	@Size(min = 5, max = 50)
 	String email;
+
 	@Column
+	@Size(min = 3, max = 100)
 	String address;
+
 	@Column
+	@Size(min = 2, max = 20)
 	String city;
+
 	@Column
+	@Size(min = 2, max = 20)
 	String state;
+
 	@Column
+	@Size(min = 2, max = 20)
 	String zip;
+
 	@Column
 	String picture;
+
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date create_date;

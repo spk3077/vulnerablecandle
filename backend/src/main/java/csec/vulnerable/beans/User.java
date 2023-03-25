@@ -38,11 +38,13 @@ private static final long serialVersionUID = 1L;
 	private String username;
 	
 	@Column(name = "password",nullable = false)
+	@JsonIgnore
 	private String password;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "c_user_c_user_profile",joinColumns = {
 			@JoinColumn(name = "user_id",referencedColumnName = "id")},inverseJoinColumns = {
 				@JoinColumn(name = "user_profile_id",referencedColumnName = "id")})
+	@JsonIgnore
 	private List<UserProfile> profiles = new ArrayList<UserProfile>();
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private UserInfo userInfo;
@@ -56,6 +58,7 @@ private static final long serialVersionUID = 1L;
     private List<Payment> mypayments;
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
     private ShoppingCart shoppingCart;
 
 	@Override
