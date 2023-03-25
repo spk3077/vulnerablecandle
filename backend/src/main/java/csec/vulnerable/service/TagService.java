@@ -2,6 +2,7 @@ package csec.vulnerable.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import csec.vulnerable.beans.Tag;
 import csec.vulnerable.dao.TagDao;
+import csec.vulnerable.dto.ProductDTO;
+import csec.vulnerable.dto.TagDTO;
 import csec.vulnerable.http.Response;
 
 @Service
@@ -25,8 +28,10 @@ public class TagService {
         return tagDao.findByName(name);
     }
 
-    public List<Tag> findAll() {
-        return tagDao.findAll();
+    public List<TagDTO> findAll() {
+        return tagDao.findAll().stream()
+                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getProducts().stream().map(product -> new ProductDTO(product.getId(), product.getName(), product.getBrand(), product.getDescription(), product.getPrice(), product.getImage())).collect(Collectors.toList())))
+                .collect(Collectors.toList());
     }
 
     public Response addTag(Tag tag) {

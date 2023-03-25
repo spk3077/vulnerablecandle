@@ -57,6 +57,19 @@ public class ProductDTO {
         this.tagNames = tagNames;
     }
 
+    
+
+
+    public ProductDTO(int id, String name, String brand, String description, double price, String image) {
+        this.id = id;
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+    }
+
+
 
     public ProductDTO(int id2, String name2, String description2, int price2, List<ProductReview> productReviews2,
             double averageReviewGrade2, List<String> tagNames2) {

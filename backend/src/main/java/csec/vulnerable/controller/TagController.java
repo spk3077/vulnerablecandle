@@ -3,6 +3,7 @@ package csec.vulnerable.controller;
 import java.util.List;
 
 import csec.vulnerable.beans.Tag;
+import csec.vulnerable.dto.TagDTO;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class TagController {
     }
 
     @GetMapping
-    public List<Tag> getTags() {
+    public List<TagDTO> getTags() {
         return tagService.findAll();
     }
 

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "cart_item")
+@Table(name = "ecom_cart_item")
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CART_ITEM_SEQ")

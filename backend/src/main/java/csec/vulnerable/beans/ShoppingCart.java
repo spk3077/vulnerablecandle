@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class ShoppingCart {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SHOPPING_CART_SEQ")
-    @SequenceGenerator(name = "SHOPPING_CART_SEQ", sequenceName = "SHOPPING_CART_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "SHOPPING_CART_SEQ", sequenceName = "ECOM_SHOPPING_CART_SEQ", allocationSize = 1)
     @JsonIgnore
     private int id;
 

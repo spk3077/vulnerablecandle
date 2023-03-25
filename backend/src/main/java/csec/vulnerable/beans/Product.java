@@ -58,7 +58,6 @@ public class Product {
         name = "product_tag",
         joinColumns = @JoinColumn(name = "product_id"),
         inverseJoinColumns = @JoinColumn(name = "tag_id"))
-	@JsonIgnore
     private Set<Tag> tags = new HashSet<>();
 
 	@ManyToMany(mappedBy = "products")
