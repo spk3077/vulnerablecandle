@@ -80,8 +80,8 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()
-            .csrf().csrfTokenRepository(csrfTokenRepository()) // attach XSRF-TOKEN cookie to requests
-            .and()
+            .csrf().disable()//csrfTokenRepository(csrfTokenRepository()) // attach XSRF-TOKEN cookie to requests
+            //.and()
             .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
             .and()
             .httpBasic().disable().headers().addHeaderWriter(headerWriter())// pervent cross-site scripting (XSS) attack
