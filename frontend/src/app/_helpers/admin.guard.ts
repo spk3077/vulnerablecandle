@@ -13,7 +13,7 @@ export class AdminGuard implements CanActivate {
 
     canActivate() {
         // Authorized User/Admin
-        if (this.currentUser.authority === 'ROLE_ADMIN') {
+        if (this.currentUser && this.currentUser.authority === 'ROLE_ADMIN') {
             return true;
         }
 
