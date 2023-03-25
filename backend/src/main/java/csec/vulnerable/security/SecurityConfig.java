@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.header.HeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -60,10 +63,29 @@ public class SecurityConfig{
     }
 
     @Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
+        return repository;
+    }
+
+    @Bean
+    public HeaderWriter headerWriter() {
+        return (request, response) -> {
+            response.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self'");
+        };
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()
-            .csrf().disable()
+            .csrf().csrfTokenRepository(csrfTokenRepository()) // attach XSRF-TOKEN cookie to requests
+            .and()
+            .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
+            .and()
+            .httpBasic().disable().headers().addHeaderWriter(headerWriter())// pervent cross-site scripting (XSS) attack
+            .and()
             .authorizeRequests()
                 .antMatchers("/index.html", "/products", "products/*","/users").permitAll()
                 .anyRequest().authenticated()
