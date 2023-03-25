@@ -15,12 +15,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "ecom_shoppingcart")
 public class ShoppingCart {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "SHOPPING_CART_SEQ")
     @SequenceGenerator(name = "SHOPPING_CART_SEQ", sequenceName = "SHOPPING_CART_SEQ", allocationSize = 1)
+    @JsonIgnore
     private int id;
 
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -28,6 +31,7 @@ public class ShoppingCart {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     private double totalPrice = 0;
@@ -54,7 +58,6 @@ public class ShoppingCart {
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
-
 
     public User getUser() {
         return user;

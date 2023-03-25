@@ -50,12 +50,26 @@ public class ShoppingCartService {
                 return new Response(false, "Product not found");
             }
             ShoppingCart shoppingCart = getShoppingCart(authentication);
-            CartItem cartItem = new CartItem(product, quantity);
-            cartItem.setShoppingCart(shoppingCart);
-            cartItemDao.save(cartItem);
-            shoppingCart.addCartItem(cartItem);
-            double newTotalPrice = shoppingCart.getTotalPrice() + (product.getPrice() * quantity);
-            shoppingCart.setTotalPrice(newTotalPrice);
+            List<CartItem> cartItems = shoppingCart.getCartItems();
+            CartItem existingCartItem = null;
+            for (CartItem cartItem : cartItems) {
+                if (cartItem.getProduct().getId() == productId) {
+                    existingCartItem = cartItem;
+                    break;
+                }
+            }
+            if (existingCartItem == null) {
+                CartItem cartItem = new CartItem(product, quantity);
+                cartItem.setShoppingCart(shoppingCart);
+                cartItemDao.save(cartItem);
+                shoppingCart.addCartItem(cartItem);
+            } else {
+                int newQuantity = existingCartItem.getQuantity() + quantity;
+                existingCartItem.setQuantity(newQuantity);
+                cartItemDao.save(existingCartItem);
+                double newTotalPrice = shoppingCart.getTotalPrice() + (product.getPrice() * quantity);
+                shoppingCart.setTotalPrice(newTotalPrice);
+            }
             shoppingCartDao.save(shoppingCart);
             return new Response(true);
         } catch (Exception e) {
@@ -110,9 +124,6 @@ public class ShoppingCartService {
             ShoppingCart shoppingCart = getShoppingCart(authentication);
             List<CartItem> cartItems = shoppingCart.getCartItems();
             int totalPrice = 0;
-            for (CartItem cartItem : cartItems) {
-                totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
-            }
             shoppingCart.setTotalPrice(totalPrice);
             shoppingCart.getCartItems().clear();
             cartItemDao.deleteAll(cartItems);

@@ -1,6 +1,17 @@
 package csec.vulnerable.beans;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cart_item")
@@ -12,10 +23,23 @@ public class CartItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
+
+    @Column
+    private int itemId;
+    @Column
+    private String itemName;
+    @Column
+    private String itemBrand;
+    @Column
+    private double itemPrice;
+    @Column
+    private String itemImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shopping_cart_id")
+    @JsonIgnore
     private ShoppingCart shoppingCart;
 
     @Column
@@ -26,6 +50,11 @@ public class CartItem {
 
     public CartItem(Product product, int quantity) {
         this.product = product;
+        this.itemId = product.getId();
+        this.itemName = product.getName();
+        this.itemImage = product.getBrand();
+        this.itemPrice = product.getPrice();
+        this.itemBrand = product.getImage();
         this.quantity = quantity;
     }
 
@@ -41,8 +70,29 @@ public class CartItem {
         return product;
     }
 
+
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public String getItemBrand() {
+        return itemBrand;
+    }
+
+    public double getItemPrice() {
+        return itemPrice;
+    }
+
+    public String getItemImage() {
+        return itemImage;
     }
 
     public int getQuantity() {
