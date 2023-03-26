@@ -28,7 +28,8 @@ import csec.vulnerable.handler.LogoutSuccessHandlerImpl;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig{
+public class SecurityConfig {
+
     @Autowired
     AuthenticationEntryPointImpl authenticationEntryPointImpl;
 
@@ -63,6 +64,11 @@ public class SecurityConfig{
     }
 
     @Bean
+    public CsrfFilter csrfFilter() {
+        return new CsrfFilter(csrfTokenRepository());
+    }
+
+    @Bean
     public CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");
@@ -80,7 +86,7 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()
-            .csrf().disable()//csrfTokenRepository(csrfTokenRepository()) // attach XSRF-TOKEN cookie to requests
+            .csrf().disable()//.csrfTokenRepository(csrfTokenRepository()) // attach XSRF-TOKEN cookie to requests
             //.and()
             .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
             .and()
@@ -88,7 +94,7 @@ public class SecurityConfig{
             .and()
             .authorizeRequests()
                 .antMatchers("/index.html", "/products", "products/*","/users").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().            authenticated()
                 .and()
             .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPointImpl)
@@ -108,13 +114,12 @@ public class SecurityConfig{
                 .permitAll()
                 .and()
             .rememberMe();
-
+    
         http.authenticationProvider(authenticationProvider());
-
+    
         return http.build();
     }
-
-
+    
     @Bean
     public CorsConfigurationSource corsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -126,11 +131,9 @@ public class SecurityConfig{
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
-        PasswordEncoder encoder = new BCryptPasswordEncoder(11);
-
-        return encoder;
+        return new BCryptPasswordEncoder(12);
     }
 }
