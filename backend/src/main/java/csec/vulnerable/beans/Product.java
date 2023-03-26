@@ -46,7 +46,7 @@ public class Product {
 	private int stock;
 	@Column
 	private String image;
-	@Column
+	@Column(length = 2000)
 	private String description;
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
