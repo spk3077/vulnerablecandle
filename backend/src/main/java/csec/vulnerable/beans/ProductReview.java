@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -37,9 +39,12 @@ public class ProductReview {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     
-	@Column
+    @Column(nullable = false)
+    @Min(1)
+    @Max(5)
 	private int grade;
-    @Column
+
+    @Column(length = 2000)
     private String comment;
     @Column
     @JsonFormat(pattern = "yyyy-MM-dd")
