@@ -64,11 +64,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CsrfFilter csrfFilter() {
-        return new CsrfFilter(csrfTokenRepository());
-    }
-
-    @Bean
     public CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");
@@ -86,11 +81,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()
-            .csrf().disable()//.csrfTokenRepository(csrfTokenRepository()) // attach XSRF-TOKEN cookie to requests
+            .csrf().disable()//csrfTokenRepository(csrfTokenRepository()) // attach XSRF-TOKEN cookie to requests
             //.and()
             .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
             .and()
-            .httpBasic().disable().headers().addHeaderWriter(headerWriter())// pervent cross-site scripting (XSS) attack
+            .httpBasic().disable().headers().addHeaderWriter(headerWriter())// prevent cross-site scripting (XSS) attack
             .and()
             .authorizeRequests()
                 .antMatchers("/index.html", "/products", "products/*","/users").permitAll()
@@ -119,7 +114,7 @@ public class SecurityConfig {
     
         return http.build();
     }
-    
+
     @Bean
     public CorsConfigurationSource corsConfiguration() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -134,7 +129,6 @@ public class SecurityConfig {
     
     @Bean
     public PasswordEncoder passwordEncoder() {
-        PasswordEncoder encoder = new BCryptPasswordEncoder(11);
-        return encoder;
+        return new BCryptPasswordEncoder(11);
     }
 }

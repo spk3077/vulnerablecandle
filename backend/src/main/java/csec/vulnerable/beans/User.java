@@ -38,7 +38,6 @@ private static final long serialVersionUID = 1L;
 	private String username;
 	
 	@Column(name = "password",nullable = false)
-	@JsonIgnore
 	private String password;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "c_user_c_user_profile",joinColumns = {

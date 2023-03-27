@@ -44,6 +44,9 @@ public class UserService {
 	}
 	
 	public Response register(User user) {
+		if (user.getPassword() == null) {
+			return new Response(false, "Password cannot be null");
+		}
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		List<UserProfile> profiles = new ArrayList<UserProfile>();
 		profiles.add(new UserProfile(2));
