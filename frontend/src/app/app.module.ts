@@ -11,9 +11,10 @@ import { LOCAL_STORAGE } from 'ngx-webstorage-service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
+import { MenuComponent } from './ui/menu/menu.component';
+import { SubmenuComponent } from './ui/submenu/submenu.component';
+import { FooterComponent } from './ui/footer/footer.component';
 import { UserProfileComponent } from './userprofile/userprofile.component';
-import { SubmenuComponent } from './submenu/submenu.component';
 import { HomeComponent } from './home/home.component';
 import { ShopComponent } from './shop/shop.component';
 import { TransactionsComponent } from './transactions/transactions.component';
@@ -30,15 +31,15 @@ import { AdminComponent } from './admin/admin/admin.component';
 import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminProductsComponent } from './admin/products/products.component';
 import { HttpRequestInterceptor } from './_interceptors/http.interceptor';
-import { ResourceNotFoundInterceptor } from './_interceptors/notFound.interceptor';
 import { USER_SERVICE_STORAGE } from './_services/user.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    UserProfileComponent,
     SubmenuComponent,
+    FooterComponent,
+    UserProfileComponent,
     HomeComponent,
     ShopComponent,
     TransactionsComponent,
@@ -58,10 +59,10 @@ import { USER_SERVICE_STORAGE } from './_services/user.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    // HttpClientXsrfModule,
+    HttpClientModule,
+    HttpClientXsrfModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule,
     FontAwesomeModule,
     Ng2SearchPipeModule,
     NgbModule
@@ -70,11 +71,6 @@ import { USER_SERVICE_STORAGE } from './_services/user.service';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpRequestInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ResourceNotFoundInterceptor,
       multi: true
     },
 

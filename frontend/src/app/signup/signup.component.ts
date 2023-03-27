@@ -15,6 +15,8 @@ import { MustMatch } from '@app/_core/mustMatch';
 export class SignupComponent implements OnInit {
   registerForm: any = FormGroup;
   submitted: boolean = false;
+
+  // Display Booleans
   signupError:boolean = false;
 
   registerResponse!: DefaultResponse;
@@ -37,7 +39,7 @@ export class SignupComponent implements OnInit {
   //Add user form actions
   get f() { return this.registerForm.controls; }
 
-  // Login Function
+  // Form Submission
   public register(): void {
     this.submitted = true;
     // stop here if form is invalid

@@ -17,8 +17,10 @@ export class LoginComponent implements OnInit {
   // Form Variables that assist template
   loginForm:any = FormGroup;
   submitted = false;
-  loginError:boolean = false;
-  getInfoError:boolean = false;
+
+  // Display Booleans
+  loginError: boolean = false;
+  getUserDataError: boolean = false;
 
   constructor( 
     private userService: UserService, 
@@ -41,7 +43,7 @@ export class LoginComponent implements OnInit {
   //Add user form actions
   get f() { return this.loginForm.controls; }
 
-  // Login Function
+  // Form Submission
   public login(form: any): void {
     this.submitted = true;
     
@@ -49,7 +51,7 @@ export class LoginComponent implements OnInit {
     if (form.invalid) {
         return;
     }
-    //True if all the fields are filled
+    //True if all the fields are valid
     if(this.submitted) {
       this.userService.login(form.value).subscribe({
         // If Successful
@@ -64,7 +66,6 @@ export class LoginComponent implements OnInit {
         },
         // If fails at server
         error: () => {
-          console.log("Login Failed: Credentials Wrong");
           this.loginError = true;
           return;
         }
@@ -89,14 +90,12 @@ export class LoginComponent implements OnInit {
 
         // Save the User to Local Storage
         savedUser = new SavedUser(userReceive.username, userReceive.authorities[0].type, userReceive.userInfo.picture);
-        console.log(savedUser);
         this.userService.setLoggedUser(savedUser);
         this.router.navigateByUrl('/');
       },
       error: () => {
         // Failed at getting UserInfo to Store
-        console.log("Login Failed: User Info Not Received");
-        this.getInfoError = true;
+        this.getUserDataError = true;
         return;
       }
     });

@@ -26,6 +26,7 @@ export class ProductComponent implements OnInit {
   quantity: number = 1;
 
   // Display Variables
+  getProductError: boolean = false;
   showStock: boolean = false;
   showCartMessage: boolean = false;
   toCartMessage: string | undefined;
@@ -64,7 +65,6 @@ export class ProductComponent implements OnInit {
     this.productService.getProduct(this.id).subscribe({
       // If Successful
       next: (res) => {
-        console.log(res);
         if (res == undefined) {
           this.router.navigateByUrl('/');
           return;
@@ -100,12 +100,8 @@ export class ProductComponent implements OnInit {
       next: (res) => {
         // Get generic response to determine success
         let addResponse = res as DefaultResponse;
-          console.log(addResponse);
           if (addResponse.success != true) {
             this.toCartMessage = res.message;
-          }
-          else {
-            console.log("Added Cart Item Successfully");
           }
           
           this.showCartMessage = true;

@@ -13,7 +13,7 @@
                 <form [formGroup]="registerForm" (ngSubmit)="register()">
 
                   <!-- === ERRORS === -->
-                  <div class="logReg-alert" [hidden]="!signupError">
+                  <div class="alert-message" [hidden]="!signupError">
                     Registration Failed! Your username or password was incorrect.
                   </div>
                   <!-- === ERRORS END// === -->

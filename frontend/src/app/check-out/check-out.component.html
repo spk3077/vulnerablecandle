@@ -21,42 +21,66 @@
                         <!-- ========================= USERINFO & SHIPPING & PAYMENT FORM  ========================= -->
                         <article class="card">
                             <div class="content-body">
+                                 <!-- === ERRORS  === -->
+                                <div class="alert-message" [hidden]="!getCartItemsError">
+                                    Fetching CartItems Failed! Try again later!
+                                </div>
+                                <div class="alert-message" [hidden]="!createOrderError">
+                                    Create Order Failed! Try again later!
+                                </div>
+                                <div class="alert-message" [hidden]="!changeUserInfoError">
+                                    Change UserInfo Failed! Try again later!
+                                </div>
+                                <!-- === ERRORS END// === -->
                                 
                                 <!-- === BILLING SECTION === -->
                                 <h5 class="card-title">Billing Address</h5>
+                                <!-- === ERRORS  === -->
+                                <div class="alert-message" [hidden]="!getUserInfoError">
+                                    Fetching User Information Failed! Try again later!
+                                </div>
+                                <!-- === ERRORS END// === -->
                                 <div class="row">
                                     <div class="col-6 mb-3">
                                         <label class="form-label">Full name*</label>
-                                        <input type="text" class="form-control" formControlName="fullName" placeholder="John Doe" [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }">
+                                        <input type="text" class="form-control" [(ngModel)]="userInfo.name" formControlName="fullName" placeholder="John Doe" [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }">
                                         <div *ngIf="submitted && f.fullName.errors" class="invalid-feedback">
                                             <div *ngIf="f.fullName.errors.required">Full name is required</div>
+                                            <div *ngIf="f.fullName.errors.minlength">Card name must be at least 3 characters</div>
+                                            <div *ngIf="f.fullName.errors.maxlength">Card name cannot be greater than 50 characters</div>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
                                         <label class="form-label">Email*</label>
-                                        <input type="text" class="form-control" formControlName="email" placeholder="example@gmail.com" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                                        <input type="text" class="form-control" [(ngModel)]="userInfo.email" formControlName="email" placeholder="example@gmail.com" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
                                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                                             <div *ngIf="f.email.errors.required">Email is required</div>
                                             <div *ngIf="f.email.errors.email">Invalid email format</div>
+                                            <div *ngIf="f.email.errors.minlength">Card name must be at least 5 characters</div>
+                                            <div *ngIf="f.email.errors.maxlength">Card name cannot be greater than 50 characters</div>
                                         </div>
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label class="form-label">Address*</label>
-                                        <input type="text" value="" class="form-control" formControlName="address" placeholder="One Lomb Memorial Drive" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                                        <input type="text" value="" class="form-control" [(ngModel)]="userInfo.address" formControlName="address" placeholder="One Lomb Memorial Drive" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
                                         <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
                                             <div *ngIf="f.address.errors.required">Address is required</div>
+                                            <div *ngIf="f.address.errors.minlength">Card name must be at least 3 characters</div>
+                                            <div *ngIf="f.address.errors.maxlength">Card name cannot be greater than 100 characters</div>
                                         </div>
                                     </div>
                                     <div class="col-5 mb-3">
                                         <label class="form-label">City*</label>
-                                        <input type="text" value="" class="form-control" formControlName="city" placeholder="Rochester" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+                                        <input type="text" value="" class="form-control" [(ngModel)]="userInfo.city" formControlName="city" placeholder="Rochester" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
                                         <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
                                             <div *ngIf="f.city.errors.required">City is required</div>
+                                            <div *ngIf="f.city.errors.minlength">City must be at least 2 characters</div>
+                                            <div *ngIf="f.city.errors.maxlength">City cannot be greater than 40 characters</div>
                                         </div>
                                     </div>
                                     <div class="col-3 mb-3">
                                         <label for="" class="form-label">State*</label>
-                                        <select class="form-select" formControlName="state" aria-label="state" [ngClass]="{ 'is-invalid': submitted && f.state.errors }">
+                                        <select class="form-select" [(ngModel)]="userInfo.state" formControlName="state" aria-label="state" [ngClass]="{ 'is-invalid': submitted && f.state.errors }">
                                             <option value="" selected disabled hidden>Choose here</option>
                                             <option value="AL">AL</option>
                                             <option value="AK">AK</option>
@@ -115,10 +139,12 @@
                                     </div>
                                     <div class="col-3 mb-3">
                                         <label class="form-label">ZIP*</label>
-                                        <input type="text" value="" class="form-control" formControlName="zip" placeholder="14623" [ngClass]="{ 'is-invalid': submitted && f.zip.errors }">
+                                        <input type="text" value="" [(ngModel)]="userInfo.zip" class="form-control" formControlName="zip" placeholder="14623" [ngClass]="{ 'is-invalid': submitted && f.zip.errors }">
                                         <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
                                             <div *ngIf="f.zip.errors.required">ZIP is required</div>
                                             <div *ngIf="f.zip.errors.pattern">ZIP should be numeric</div>
+                                            <div *ngIf="f.zip.errors.minlength">ZIP must be at least 2 characters</div>
+                                            <div *ngIf="f.zip.errors.maxlength">ZIP cannot be greater than 20 characters</div>
                                         </div>
                                     </div>
 
@@ -178,10 +204,13 @@
 
                                 <!-- === PAYMENT SECTION === -->
                                 <h5 class="card-title">Payment</h5> 
+                                <div class="alert-message" [hidden]="!getPaymentError">
+                                    Fetching Payments Failed! Try again later!
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-6 mb-3">
                                         <label for="" class="form-label">Name on card*</label>
-                                        <input type="text" class="form-control" formControlName="cardName" placeholder="John Doe" [ngClass]="{ 'is-invalid': submitted && f.cardName.errors }">
+                                        <input type="text" class="form-control" [(ngModel)]="payment.ownerName" formControlName="cardName" placeholder="John Doe" [ngClass]="{ 'is-invalid': submitted && f.cardName.errors }">
                                         <div *ngIf="submitted && f.cardName.errors" class="invalid-feedback">
                                             <div *ngIf="f.cardName.errors.required">Card name is required</div>
                                             <div *ngIf="f.cardName.errors.minlength">Card name must be at least 2 characters</div>
@@ -191,7 +220,7 @@
         
                                     <div class="col-sm-6 mb-3">
                                         <label for="" class="form-label">Credit card number*</label>
-                                        <input type="text" class="form-control" formControlName="cardNumber" placeholder="4775121759083933" [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors }">
+                                        <input type="text" class="form-control" [(ngModel)]="payment.cardNumber" formControlName="cardNumber" placeholder="4775121759083933" [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors }">
                                         <div *ngIf="submitted && f.cardNumber.errors" class="invalid-feedback">
                                             <div *ngIf="f.cardNumber.errors.required">Card number is required</div>
                                             <div *ngIf="f.cardNumber.errors.minlength">Card number must be at least 14 characters</div>
@@ -202,18 +231,16 @@
         
                                     <div class="col-sm-2 mb-3">
                                         <label for="" class="form-label">Expiration*</label>
-                                        <input type="text" class="form-control" formControlName="expiration" placeholder="06/33" [ngClass]="{ 'is-invalid': submitted && f.expiration.errors }">
+                                        <input type="text" class="form-control" [(ngModel)]="expiration" formControlName="expiration" placeholder="06/33" [ngClass]="{ 'is-invalid': submitted && f.expiration.errors }">
                                         <div *ngIf="submitted && f.expiration.errors" class="invalid-feedback">
                                             <div *ngIf="f.expiration.errors.required">Expiration Date is required</div>
-                                            <div *ngIf="f.expiration.errors.minlength">Expiration Date must be at least 4 characters</div>
-                                            <div *ngIf="f.expiration.errors.maxlength">Expiration Date cannot be greater than 16 characters</div>
-                                            <div *ngIf="f.expiration.errors.pattern">Format: MM/YY & Valid</div>
+                                            <div *ngIf="f.expiration.errors.pattern">Format: MM/YY</div>
                                         </div>
                                     </div>
                 
                                     <div class="col-sm-2 mb-3">
                                         <label for="" class="form-label">CVV*</label>
-                                        <input type="text" class="form-control" formControlName="cvv" placeholder="123" [ngClass]="{ 'is-invalid': submitted && f.cvv.errors }">
+                                        <input type="text" class="form-control" [(ngModel)]="payment.secCode" formControlName="cvv" placeholder="123" [ngClass]="{ 'is-invalid': submitted && f.cvv.errors }">
                                         <div *ngIf="submitted && f.cvv.errors" class="invalid-feedback">
                                             <div *ngIf="f.cvv.errors.required">CVV is required</div>
                                             <div *ngIf="f.cvv.errors.minlength">CVV must be 3 characters</div>
@@ -273,7 +300,11 @@
                                 <img src={{cartItem.product.imageUrl}} class="img-sm rounded border">
                             </div>
                             <figcaption class="info">
-                                <a routerLink="/shop/{{cartItem.product.id}}" class="title">{{cartItem.product.name}} <br> {{cartItem.product.brand}}</a>
+                                <a routerLink="/shop/{{cartItem.product.id}}" class="title">
+                                    {{cartItem.product.name}} 
+                                    <br>
+                                    {{cartItem.product.brand}}
+                                </a>
                                 <div class="price text-muted">Total: ${{(cartItem.product.price * cartItem.quantity).toFixed(2)}}</div>
                             </figcaption>
                         </figure>

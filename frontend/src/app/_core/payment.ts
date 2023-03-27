@@ -1,8 +1,8 @@
 export class PaymentReceive {
     constructor(
         public id: number,
-        public cardNumber: number,
         public ownerName: string,
+        public cardNumber: number,
         public expiryMonth: number,
         public expiryYear: number,
         public secCode: number,

@@ -24,7 +24,6 @@ export class ShoppingCartComponent implements OnInit {
     this.getCartItems();
     // For updateCartItem when quantity of items change
     this.originalCartItems = this.cartItems;
-
   }
 
   // Retrieve Shopping Cart to Display
@@ -32,18 +31,33 @@ export class ShoppingCartComponent implements OnInit {
     this.shoppingCartService.getCartItems().subscribe(cartItems => this.cartItems = cartItems);
   }
 
-  // Retrieve Shopping Cart to Display
+  // Update Shopping Cart on API
   public updateCartItem(cartItem: CartItemSend): void {
-    this.shoppingCartService.updateCartItem(cartItem).subscribe(cartItems => this.cartItems = cartItems);
+    this.shoppingCartService.updateCartItem(cartItem).subscribe({
+      next: (res) => {
+        // Get generic response to determine success
+        let updateResponse = res as DefaultResponse;
+          if (updateResponse.success != true) {
+            console.log("Update Cart Failed!");
+          }
+          else {
+            console.log("Updated Cart Item Successfully");
+
+          }
+      },
+      error: () => {
+        // Failed at Server
+        console.log("Update Cart Failed at Server!");
+      }
+    });
   }
 
-  // Retrieve Products
+  // Remove a Cart Item from API
   public removeCartItem(cartID: number): void {
     this.shoppingCartService.removeCartItem(cartID).subscribe({
       next: (res) => {
         // Get generic response to determine success
         let delResponse = res as DefaultResponse;
-          console.log(delResponse);
           if (delResponse.success != true) {
             console.log("Could not delete cart item!");
           }
@@ -65,7 +79,7 @@ export class ShoppingCartComponent implements OnInit {
   // Make Purchase Button Click
   public updateQuantities(): void {
     this.cartItems.forEach((cartItem: CartItemReceive, index: number) => {
-      let originCartItem = this.originalCartItems[index]
+      let originCartItem = this.originalCartItems[index];
       if (cartItem.id == originCartItem.id && cartItem.quantity != originCartItem.quantity) {
         this.updateCartItem(new CartItemSend(cartItem.product.id, cartItem.quantity));
       }

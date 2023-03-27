@@ -1,5 +1,5 @@
 <main>
-    <app-submenu [activePage]="product.name" [secondPage]="'Our Shop'" [secondPage_URL]="'/shop'" [thirdPage]="product.name"></app-submenu>
+    <app-submenu [activePage]="product.name" [firstPage]="'Home'" [firstPage_URL]="'/'" [secondPage]="'Our Shop'" [secondPage_URL]="'/shop'" [thirdPage]="product.name"></app-submenu>
     <div class="container">
         <div class="row">
             <!-- ========================= RADIO BTN IMAGE ASIDE ========================= -->
@@ -99,6 +99,9 @@
                 </div>
                 <p *ngIf="!currentUser">
                     <a routerLink="/login">Login</a> to make purchases!
+                </p>
+                <p *ngIf="!getProductError">
+                    Internal Server Error! Cannot GET product details.
                 </p>
             </section>
         </div>

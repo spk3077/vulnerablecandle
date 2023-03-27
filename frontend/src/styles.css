@@ -2,6 +2,11 @@
 main {
     padding-top: 3.4rem;
 }
+.alert-message {
+    color: #ff0000;
+    font-size: 95%;
+}
+
 /* ==== CART BTN COLORS ==== */
 .cart-success {
     background: darkgreen !important;
@@ -23,10 +28,6 @@ main {
     font-weight: 300;
     margin-top: revert;
     margin-bottom: 0.2rem;
-}
-.logReg-alert {
-    color: #ff0000;
-    font-size: 95%;
 }
 /* ==== RATING For NGSTARS ==== */
 .main-rating {

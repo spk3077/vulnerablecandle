@@ -12,10 +12,10 @@
                 <!-- ========================= LOGIN FORM  ========================= -->
                 <form [formGroup]="loginForm" (ngSubmit)="login( loginForm )">
                   <!-- === ERRORS  === -->
-                  <div class="logReg-alert" [hidden]="!loginError">
+                  <div class="alert-message" [hidden]="!loginError">
                     Login Failed! Your username or password was incorrect.
                   </div>
-                  <div class="logReg-alert" [hidden]="!getInfoError">
+                  <div class="alert-message" [hidden]="!getUserDataError">
                     Login Failed! User info not received.
                   </div>
                   <!-- === ERRORS END// === -->

@@ -7,6 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SubmenuComponent implements OnInit {
   @Input() activePage?: string;
+  @Input() firstPage?: string;
+  @Input() firstPage_URL?: string;
   @Input() secondPage?: string;
   @Input() secondPage_URL?: string | undefined;
   @Input() thirdPage?: string | undefined;
