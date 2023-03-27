@@ -88,7 +88,7 @@ export class ProductComponent implements OnInit {
       },
       // If fails at server
       error: () => {
-        console.log("Server Error: Cannot retrieve product");
+        this.getProductError = true;
         return;
       }
     });

@@ -100,7 +100,7 @@
                 <p *ngIf="!currentUser">
                     <a routerLink="/login">Login</a> to make purchases!
                 </p>
-                <p *ngIf="!getProductError">
+                <p *ngIf="getProductError">
                     Internal Server Error! Cannot GET product details.
                 </p>
             </section>

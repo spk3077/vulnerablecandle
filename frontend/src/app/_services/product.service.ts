@@ -32,7 +32,7 @@ export class ProductService {
   //   }
   // // Retrieve Single Product
   // public getProduct(productID: number): Observable<any> {
-  //   return this.http.get(this.products_endpoint + "/" productID)
+  //   return this.http.get(this.products_endpoint + "/" + productID)
   //       .pipe(
   //           map(res => {
   //               return res;
@@ -43,6 +43,18 @@ export class ProductService {
   //       );
   //   }
 
+  // Retrieve Single Product
+  public deleteProduct(productID: number): Observable<any> {
+    return this.http.delete(this.products_endpoint + "/" + productID)
+        .pipe(
+            map(res => {
+                return res;
+            }),
+            catchError(error => {
+                return of(error);
+            })
+        );
+    }
 
   public getProduct(id: number): Observable<ProductReceive> {
     const product = of(PRODUCTS[id - 1]);

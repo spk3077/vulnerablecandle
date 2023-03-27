@@ -1,5 +1,10 @@
 /* ====FILTER GROUP==== */
 /*==HEADER==*/
+@media (min-width: 768px) { 
+    .sticky-md-top {
+        top: 5rem !important;
+    }
+}
 .card-header {
     background-color: white;
 }
