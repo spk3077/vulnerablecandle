@@ -134,6 +134,7 @@ public class SecurityConfig {
     
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
+        PasswordEncoder encoder = new BCryptPasswordEncoder(11);
+        return encoder;
     }
 }
