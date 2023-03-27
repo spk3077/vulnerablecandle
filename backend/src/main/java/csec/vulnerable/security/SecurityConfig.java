@@ -88,7 +88,7 @@ public class SecurityConfig {
             .httpBasic().disable().headers().addHeaderWriter(headerWriter())// prevent cross-site scripting (XSS) attack
             .and()
             .authorizeRequests()
-                .antMatchers("/index.html", "/products", "products/*","/users","tags").permitAll()
+                .antMatchers("/index.html", "/products", "products/*","/users","/tags").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .exceptionHandling()
