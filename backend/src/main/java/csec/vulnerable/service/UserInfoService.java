@@ -56,9 +56,6 @@ public class UserInfoService {
 		return null;
 		
 	}
-	/* public UserInfo getUserInfo(Authentication authentication) {
-		return userInfoDao.findByUser(userDao.findByUsername(authentication.getName()));
-	} */
 	
 	public Response addUserInfo(UserInfo userInfo,Authentication authentication) {
 		if(userInfo.getUser().getUsername().equals(authentication.getName())){
@@ -79,19 +76,23 @@ public class UserInfoService {
 	}
 
 	public Response changeUserInfo(UserInfo userInfo, Authentication authentication) {
-		UserInfo ui = userInfoDao.findByUser(userDao.findByUsername(authentication.getName()));
-		ui.setAddress(userInfo.getAddress());
-		ui.setCity(userInfo.getCity());
-		ui.setEmail(userInfo.getEmail());
-		ui.setName(userInfo.getName());
-		ui.setPhone(userInfo.getPhone());
-		ui.setState(userInfo.getState());
-		ui.setZip(userInfo.getZip());
-		ui.setPicture(userInfo.getPicture());
-		userInfoDao.save(ui);
+		if(userInfo.getUser().getUsername().equals(authentication.getName())){
+			UserInfo ui = userInfoDao.findByUser(userDao.findByUsername(authentication.getName()));
+			ui.setAddress(userInfo.getAddress());
+			ui.setCity(userInfo.getCity());
+			ui.setEmail(userInfo.getEmail());
+			ui.setName(userInfo.getName());
+			ui.setPhone(userInfo.getPhone());
+			ui.setState(userInfo.getState());
+			ui.setZip(userInfo.getZip());
+			ui.setPicture(userInfo.getPicture());
+			userInfoDao.save(ui);
+		}else{
+			return new Response(false);
+		}
 		return new Response(true);
 	}
-	
+
 	public Response deleteUserInfo(int id) {
 		if (userInfoDao.findById(id) != null) {
 			userInfoDao.deleteById(id);
