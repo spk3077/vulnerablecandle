@@ -19,18 +19,18 @@ export class ShoppingCartService {
 
   constructor(private http: HttpClient) { }
 
-//   // Retrieve Cart
-//   public getCartItems(): Observable<any> {
-//     return this.http.get(this.cart_endpoint)
-//         .pipe(
-//             map(res => {
-//                 return res;
-//             }),
-//             catchError(error => {
-//                 return of(error);
-//             })
-//         );
-// }
+  // Retrieve Cart
+  public getCartItems(): Observable<any> {
+    return this.http.get(this.cart_endpoint)
+        .pipe(
+            map(res => {
+                return res;
+            }),
+            catchError(error => {
+                return of(error);
+            })
+        );
+}
 
   // Adding to Cart
   public addToCart(cartItem: CartItemSend): Observable<any> {
@@ -73,8 +73,8 @@ export class ShoppingCartService {
       );
   }
 
-  public getCartItems(): Observable<any> {
-    const cartItems = of(CARTITEMS);
-    return cartItems;
-  }
+  // public getCartItems(): Observable<any> {
+  //   const cartItems = of(CARTITEMS);
+  //   return cartItems;
+  // }
 }

@@ -18,30 +18,30 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  //  // Retrieve Products
-  //  public getProducts(): Observable<any> {
-  //   return this.http.get(this.products_endpoint)
-  //       .pipe(
-  //           map(res => {
-  //               return res;
-  //           }),
-  //           catchError(error => {
-  //               return of(error);
-  //           })
-  //       );
-  //   }
-  // // Retrieve Single Product
-  // public getProduct(productID: number): Observable<any> {
-  //   return this.http.get(this.products_endpoint + "/" + productID)
-  //       .pipe(
-  //           map(res => {
-  //               return res;
-  //           }),
-  //           catchError(error => {
-  //               return of(error);
-  //           })
-  //       );
-  //   }
+   // Retrieve Products
+   public getProducts(): Observable<any> {
+    return this.http.get(this.products_endpoint)
+        .pipe(
+            map(res => {
+                return res;
+            }),
+            catchError(error => {
+                return of(error);
+            })
+        );
+    }
+  // Retrieve Single Product
+  public getProduct(productID: number): Observable<any> {
+    return this.http.get(this.products_endpoint + "/" + productID)
+        .pipe(
+            map(res => {
+                return res;
+            }),
+            catchError(error => {
+                return of(error);
+            })
+        );
+    }
 
   // Retrieve Single Product
   public deleteProduct(productID: number): Observable<any> {
@@ -56,13 +56,13 @@ export class ProductService {
         );
     }
 
-  public getProduct(id: number): Observable<ProductReceive> {
-    const product = of(PRODUCTS[id - 1]);
-    return product;
-  }
+  // public getProduct(id: number): Observable<ProductReceive> {
+  //   const product = of(PRODUCTS[id - 1]);
+  //   return product;
+  // }
   
-  public getProducts(): Observable<ProductReceive[]> {
-    const products = of(PRODUCTS);
-    return products;
-  }
+  // public getProducts(): Observable<ProductReceive[]> {
+  //   const products = of(PRODUCTS);
+  //   return products;
+  // }
 }
