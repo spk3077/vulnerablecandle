@@ -5,7 +5,7 @@ INSERT INTO ecom_user_profile (id, type) VALUES (2,'ROLE_USER');
 INSERT INTO ecom_user (id, password, username) VALUES (1, 'tacotuesday', 'maryJaneForevar');
 INSERT INTO ecom_user_info (id, address, city, create_date, email, name, picture, phone, state, zip, user_id) VALUES (1, '342 Milan Ave', 'Norwalk', '2018-02-27', 'maryJane@foobar.com', 'Mary Jane', 'vulnerablecandle/frontend/src/assets/profiles/maryPFP.jpg', '(979)268-5892', 'Ohio', '44857', (SELECT id FROM ecom_user WHERE id=1));
 INSERT INTO ecom_payment (id, card_number, expiry_month, expiry_year, owner_name, sec_code, user_id) VALUES (1, '8699113478488935', '6', '30', 'Mary Jane', '307', (SELECT id FROM ecom_user WHERE id=1));
-INSERT INTO c_user_c_user_profile (user_id, user_profile_id) VALUES ((SELECT id FROM ecom_user WHERE id=1), (SELECT id FROM ecom_user_profile WHERE id=1));
+INSERT INTO c_user_c_user_profile (user_id, user_profile_id) VALUES ((SELECT id FROM ecom_user WHERE id=1), (SELECT id FROM ecom_user_profile WHERE id=2));
 
 INSERT INTO ecom_user (id, password, username) VALUES (2, 'P@triot@ndPr0ud', 'american_born_300');
 INSERT INTO ecom_user_info (id, address, city, create_date, email, name, picture, phone, state, zip, user_id) VALUES (2, '57 Eliot St #7', 'Natick', '2018-07-11', 'johnMichaelAmerican@gmail.com', 'John Michael', 'vulnerablecandle/frontend/src/assets/profiles/johnPFP.jpg', '(504)309-6360', 'Maine', '01760', (SELECT id FROM ecom_user WHERE id=2));
@@ -31,3 +31,8 @@ INSERT INTO ecom_user (id, password, username) VALUES (6, 'password987', 'Grandm
 INSERT INTO ecom_user_info (id, address, city, create_date, email, name, picture, phone, state, zip, user_id) VALUES (6, '329 Warren Ave', 'East Providence', '2020-01-17', 'GrandmaCarolBell@yahoo.com', 'Carol Bellbird', 'vulnerablecandle/frontend/src/assets/profiles/carolPFP.png', '(401)438-4653', 'Rhode Island', '02914', (SELECT id FROM ecom_user WHERE id=6));
 INSERT INTO ecom_payment (id, card_number, expiry_month, expiry_year, owner_name, sec_code, user_id) VALUES (6, '371904143373052', '11', '25', 'Carol Bellbird', '698', (SELECT id FROM ecom_user WHERE id=6));
 INSERT INTO c_user_c_user_profile (user_id, user_profile_id) VALUES ((SELECT id FROM ecom_user WHERE id=6), (SELECT id FROM ecom_user_profile WHERE id=2));
+
+INSERT INTO ecom_user (id, password, username) VALUES (7, 'password', 'admin');
+INSERT INTO ecom_user_info (id, address, city, create_date, email, name, picture, phone, state, zip, user_id) VALUES (7, '329 Warren Ave', 'Rochester', '2017-01-01', 'admin@foobar.com', 'Admin User', 'vulnerablecandle/frontend/src/assets/profiles/carolPFP.png', '(123)456-7890', 'New YOrK', '01234', (SELECT id FROM ecom_user WHERE id=7));
+INSERT INTO ecom_payment (id, card_number, expiry_month, expiry_year, owner_name, sec_code, user_id) VALUES (7, '371904143373052', '11', '25', 'Carol Bellbird', '698', (SELECT id FROM ecom_user WHERE id=7));
+INSERT INTO c_user_c_user_profile (user_id, user_profile_id) VALUES ((SELECT id FROM ecom_user WHERE id=7), (SELECT id FROM ecom_user_profile WHERE id=1));
