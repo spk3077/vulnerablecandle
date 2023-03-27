@@ -1,3 +1,4 @@
+use csec;
 #Mary Jane Reviews (12 total)
 INSERT INTO ecom_product_review (id, comment, grade, review_date, title, product_id, user_id) VALUES (1, 'Hello there! My name is Mary Jane, and I recently purchased a vanilla scented candle online, and I must say, I am thoroughly impressed with my purchase!
 The scent is warm and inviting, enveloping my home with a comforting aroma that creates a cozy and relaxing atmosphere. The vanilla fragrance is perfectly balanced, not too overpowering, and not too subtle. It\'s just right, and I find myself eagerly looking forward to lighting it every evening.

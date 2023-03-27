@@ -1,3 +1,4 @@
+USE csec;
 INSERT INTO ecom_user (id, password, username) VALUES (1, 'tacotuesday', 'maryJaneForevar');
 INSERT INTO ecom_user_info (id, address, city, create_date, email, name, picture, phone, state, zip, user_id) VALUES (1, '342 Milan Ave', 'Norwalk', '2018-02-27', 'maryJane@foobar.com', 'Mary Jane', 'vulnerablecandle/frontend/src/assets/profiles/maryPFP.jpg', '(979)268-5892', 'Ohio', '44857', (SELECT id FROM ecom_user WHERE id=1));
 INSERT INTO ecom_payment (id, card_number, expiry_month, expiry_year, owner_name, sec_code, user_id) VALUES (1, '8699113478488935', '6', '30', 'Mary Jane', '307', (SELECT id FROM ecom_user WHERE id=1));
