@@ -32,7 +32,7 @@ INSERT INTO ecom_user_info (id, address, city, create_date, email, name, picture
 INSERT INTO ecom_payment (id, card_number, expiry_month, expiry_year, owner_name, sec_code, user_id) VALUES (6, '371904143373052', '11', '25', 'Carol Bellbird', '698', (SELECT id FROM ecom_user WHERE id=6));
 INSERT INTO c_user_c_user_profile (user_id, user_profile_id) VALUES ((SELECT id FROM ecom_user WHERE id=6), (SELECT id FROM ecom_user_profile WHERE id=2));
 
-INSERT INTO ecom_user (id, password, username) VALUES (7, 'password', 'admin');
+INSERT INTO ecom_user (id, password, username) VALUES (7, '$2a$12$x78D2xbC8opTQjHqyiyNoeykBgzU7ybNLxXSj3ljfLyzCprbJafVm', 'admin');
 INSERT INTO ecom_user_info (id, address, city, create_date, email, name, picture, phone, state, zip, user_id) VALUES (7, '329 Warren Ave', 'Rochester', '2017-01-01', 'admin@foobar.com', 'Admin User', 'vulnerablecandle/frontend/src/assets/profiles/carolPFP.png', '(123)456-7890', 'New YOrK', '01234', (SELECT id FROM ecom_user WHERE id=7));
 INSERT INTO ecom_payment (id, card_number, expiry_month, expiry_year, owner_name, sec_code, user_id) VALUES (7, '371904143373052', '11', '25', 'Carol Bellbird', '698', (SELECT id FROM ecom_user WHERE id=7));
 INSERT INTO c_user_c_user_profile (user_id, user_profile_id) VALUES ((SELECT id FROM ecom_user WHERE id=7), (SELECT id FROM ecom_user_profile WHERE id=1));
