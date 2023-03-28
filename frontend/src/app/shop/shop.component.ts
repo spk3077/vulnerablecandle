@@ -20,7 +20,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 })
 export class ShopComponent implements OnInit {  
   currentUser: any | undefined;
-  products!: ProductReceive[];
+  products: ProductReceive[] = [];
 
   filterSearch!: string;
   filters = {
@@ -35,6 +35,8 @@ export class ShopComponent implements OnInit {
     price4: false,
   };
 
+  // Display Variables
+  getProductsError: boolean = false;
   cartBtnNum: number | null = null;
   cartBtnBool: boolean | null = null;
   
@@ -55,8 +57,24 @@ export class ShopComponent implements OnInit {
   
   // Retrieve Products
   private getProducts(): void {
-    this.productService.getProducts()
-      .subscribe(products => this.products = products);
+    this.productService.getProducts().subscribe({
+      next: (res) => {
+        if (res.length <= 0) {
+          this.getProductsError = true;
+        }
+        res.every((product: ProductReceive) => this.products.push(
+          new ProductReceive(product.id, product.name, product.brand, product.description,
+            product.tagNames, product.price, product.stock, product.image, product.averageReviewGrade,
+              product.productReviews)
+          )
+        );
+
+      },
+      error: () => {
+        // Failed at server
+        this.getProductsError = true;
+      }}
+    );
   }
 
   // Add Product Quantity: 1 to Cart
@@ -90,15 +108,15 @@ export class ShopComponent implements OnInit {
   public getFilterCount(type: number): number {
     switch ( type ) {
       case 1:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("isPopular") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("Popular") ? acc += 1 : acc, 0);
       case 2:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("isCute") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("Cute") ? acc += 1 : acc, 0);
       case 3:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("isTrending") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("Trending") ? acc += 1 : acc, 0);
       case 4:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("isForCar") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("ForCar") ? acc += 1 : acc, 0);
       case 5:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("isUnique") ? acc += 1 : acc, 0);
+        return this.products.reduce((acc, obj) => obj.tagNames.includes("Unique") ? acc += 1 : acc, 0);
       case 6:
         return this.products.reduce((acc, obj) => obj.price < 10 ? acc += 1 : acc, 0);
       case 7:
