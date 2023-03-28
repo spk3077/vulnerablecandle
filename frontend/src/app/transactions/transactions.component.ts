@@ -6,6 +6,12 @@ import { OrderService } from '@app/_services/order.service';
 import { NgModule } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 
+@NgModule({
+  imports: [
+    MatTableModule
+  ]
+})
+
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
