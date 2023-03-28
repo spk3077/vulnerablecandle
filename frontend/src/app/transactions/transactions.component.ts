@@ -4,13 +4,6 @@ import { Router } from '@angular/router';
 import { OrderReceive } from '@app/_core/order';
 import { OrderService } from '@app/_services/order.service';
 import { NgModule } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
-
-@NgModule({
-  imports: [
-    MatTableModule
-  ]
-})
 
 @Component({
   selector: 'app-transactions',
@@ -56,7 +49,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 /**
  * @title Basic use of `<table mat-table>`
- */
+
 @Component({
   selector: 'table-basic-example',
   styleUrls: ['table-basic-example.css'],
@@ -66,3 +59,4 @@ export class TableBasicExample {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = ELEMENT_DATA;
 }
+ */
