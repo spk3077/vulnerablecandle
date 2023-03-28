@@ -19,7 +19,7 @@ export class TransactionsComponent {
   }
 
   // Retrive order to display
-  public getOrders(); void {
+  public getOrders(): void {
     this.orderService.getOrders().subscribe(orderItems => this.orderItems = orderItems);
   }
 }
