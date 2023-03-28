@@ -96,6 +96,9 @@
                 <div class="alert-message" [hidden]="!getProductsError">
                     Retrieving Failed! No Products. Try again later
                 </div>
+                <div class="alert-message" [hidden]="!getTagsError">
+                    Retrieving Failed! No Tags. Try again later
+                </div>
                 <div class="row">
                 <div class="col-lg-4 col-md-6" *ngFor="let product of (products | products:filters) | filter:filterSearch">
                     <article class="card card-product-grid">
@@ -114,7 +117,7 @@
                                 <h6 class="card-title mb-0">
                                     <a routerLink="{{product.id}}">{{product.name}}</a>
                                 </h6>
-                                <p class="mb-1 text-muted">{{getTags(product.tagNames)}}</p>
+                                <p class="mb-1 text-muted">{{formatTags(product.tagNames)}}</p>
                                 <span class="badge" [ngClass]="product.setBadgeClass()">
                                     <fa-icon [icon]="faStar"></fa-icon> {{product.averageReviewGrade ? product.averageReviewGrade.toFixed(2) : 'No Rating'}}
                                 </span>

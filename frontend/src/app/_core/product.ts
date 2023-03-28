@@ -38,7 +38,7 @@ export class ProductSend {
         public name: string,
         public brand: string,
         public description: string,
-        public tagNames: string[],
+        public tagNames: number[],
         public price: number,
         public stock: number,
         public image: string,

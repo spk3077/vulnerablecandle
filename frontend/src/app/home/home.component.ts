@@ -9,7 +9,10 @@ import { ProductService } from '@app/_services/product.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  products!: ProductReceive[];
+  products: ProductReceive[] = [];
+
+  // Display Variables
+  getProductsError: boolean = false;
 
   constructor(private productService: ProductService){}
 
@@ -19,7 +22,30 @@ export class HomeComponent {
 
   // Retrieve Products
   private getProducts(): void {
-    this.productService.getProducts().subscribe(products => this.products = products.slice(0, 5));
+    this.productService.getProducts().subscribe({
+      next: (res) => {
+        if (res.length <= 0) {
+          this.getProductsError = true;
+        }
+
+        console.log(res);
+        res.forEach((product: ProductReceive, index: number) => {
+          if (index <= 8) {
+            this.products.push(
+              new ProductReceive(product.id, product.name, product.brand, product.description,
+                product.tagNames, product.price, product.stock, product.image, product.averageReviewGrade,
+                  product.productReviews)
+            );
+          }
+        });
+
+      },
+      error: () => {
+        // Failed at server
+        this.getProductsError = true;
+      }
+    });
+    
   }
 
 }

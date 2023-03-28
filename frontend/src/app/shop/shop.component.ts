@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ProductReceive } from '@app/_core/product';
+import { TagReceive } from '@app/_core/tag';
 import { CartItemSend } from '@app/_core/cartItem';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 import { ProductService } from '@app/_services/product.service';
 import { ShoppingCartService } from '@app/_services/shopping-cart.service';
+import { TagService } from '@app/_services/tag.service';
 import { UserService } from '@app/_services/user.service';
 
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
@@ -21,6 +23,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 export class ShopComponent implements OnInit {  
   currentUser: any | undefined;
   products: ProductReceive[] = [];
+  tags: TagReceive[] = [];
 
   filterSearch!: string;
   filters = {
@@ -37,12 +40,17 @@ export class ShopComponent implements OnInit {
 
   // Display Variables
   getProductsError: boolean = false;
+  getTagsError: boolean = false;
   cartBtnNum: number | null = null;
   cartBtnBool: boolean | null = null;
   
-  constructor(private productService: ProductService, private shoppingCartService: ShoppingCartService, private userService: UserService) { 
-    this.userService.loggedInUser$.subscribe(x => this.currentUser = x);
-  }
+  constructor(
+    private productService: ProductService,
+    private shoppingCartService: ShoppingCartService,
+    private tagService: TagService,
+    private userService: UserService) { 
+      this.userService.loggedInUser$.subscribe(x => this.currentUser = x);
+    }
   
   // Font Awesome Exports
   faMagnifyingGlass = faMagnifyingGlass;
@@ -53,6 +61,7 @@ export class ShopComponent implements OnInit {
   
   ngOnInit(): void {
     this.getProducts();
+    this.getTags();
   }
   
   // Retrieve Products
@@ -68,11 +77,29 @@ export class ShopComponent implements OnInit {
               product.productReviews)
           )
         );
-
       },
       error: () => {
         // Failed at server
         this.getProductsError = true;
+      }}
+    );
+  }
+  
+  // Retrieve Products
+  private getTags(): void {
+    this.tagService.getTags().subscribe({
+      next: (res) => {
+        if (res.length <= 0) {
+          this.getTagsError = true;
+        }
+        res.every((tag: TagReceive) => this.tags.push(
+          new TagReceive(tag.id, tag.name, tag.type)
+          )
+        );
+      },
+      error: () => {
+        // Failed at server
+        this.getTagsError = true;
       }}
     );
   }
@@ -130,7 +157,7 @@ export class ShopComponent implements OnInit {
   }
 
   // Get the Tags formatted for HTML
-  public getTags(tags: string[]): string {
+  public formatTags(tags: string[]): string {
     if ( tags.length <= 2 ) {
       return tags.join(', ');
     }
