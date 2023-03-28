@@ -13,6 +13,8 @@ export class TransactionsComponent {
   orderItems!: OrderReceive[];
   originalOrderItems!: OrderReceive[];
 
+  constructor(private orderService: OrderService, private router: Router) {}
+
   ngOnInit(): void {
     this.getOrders();
     this.originalOrderItems = this.orderItems;
