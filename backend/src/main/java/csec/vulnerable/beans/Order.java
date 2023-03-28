@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ORDER_SEQ")
-    @SequenceGenerator(name = "ORDER_SEQ", sequenceName = "ECOM_ORDER_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "ORDER_SEQ", sequenceName = "ECOM_ORDER_SEQ", allocationSize = 1,initialValue = 10)
     private int id;
 
     @Column

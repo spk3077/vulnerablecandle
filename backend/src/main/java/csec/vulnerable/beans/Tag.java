@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "TAG_SEQ")
-    @SequenceGenerator(name = "TAG_SEQ", sequenceName = "ECOM_TAG_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "TAG_SEQ", sequenceName = "ECOM_TAG_SEQ", allocationSize = 1,initialValue = 17)
     private int id;
 
     @Column

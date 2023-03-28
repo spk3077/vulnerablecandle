@@ -32,7 +32,7 @@ public class User implements UserDetails{
 private static final long serialVersionUID = 1L;
 	@Id //primary key
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "USER_SEQ")
-	@SequenceGenerator(name = "USER_SEQ",sequenceName = "ECOM_USER_SEQ",allocationSize = 1)
+	@SequenceGenerator(name = "USER_SEQ",sequenceName = "ECOM_USER_SEQ",allocationSize = 1, initialValue = 8)
 	private int id;
 	@Column(name = "username",unique = true,nullable = false)
 	private String username;
