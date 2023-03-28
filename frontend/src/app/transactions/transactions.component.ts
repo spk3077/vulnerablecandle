@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { OrderReceive } from '@app/_core/order';
 import { OrderService } from '@app/_services/order.service';
+import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-transactions',
