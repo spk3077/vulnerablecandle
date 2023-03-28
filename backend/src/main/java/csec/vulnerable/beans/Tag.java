@@ -25,6 +25,11 @@ public class Tag {
     @Column
     private String name;
 
+    @Column
+    private String type;
+
+
+
     @ManyToMany
     @JoinTable(
             name = "product_tag",
@@ -40,6 +45,20 @@ public class Tag {
         this.id = id;
         this.name = name;
         this.products = products;
+    }
+
+    
+    public Tag(int id, String name, String type, Set<Product> products) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.products = products;
+    }
+
+    
+    public Tag(String name, String type) {
+        this.name = name;
+        this.type = type;
     }
 
     public Tag(int id, String name) {
@@ -75,8 +94,17 @@ public class Tag {
         this.products = products;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    
     @Override
     public String toString() {
-        return "Tag [id=" + id + ", name=" + name + ", products=" + products + "]";
+        return "Tag [id=" + id + ", name=" + name + ", type=" + type + ", products=" + products + "]";
     }
 }

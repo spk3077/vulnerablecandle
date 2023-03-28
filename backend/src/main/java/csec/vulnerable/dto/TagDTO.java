@@ -5,11 +5,21 @@ import java.util.List;
 public class TagDTO {
     private int id;
     private String name;
+    private String type;
     private List<ProductDTO> products;
 
     public TagDTO(int id, String name, List<ProductDTO> products) {
         this.id = id;
         this.name = name;
+        this.products = products;
+    }
+
+    
+
+    public TagDTO(int id, String name, String type, List<ProductDTO> products) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
         this.products = products;
     }
 
@@ -36,4 +46,16 @@ public class TagDTO {
     public void setProducts(List<ProductDTO> products) {
         this.products = products;
     }
+
+    public String getType() {
+        return type;
+    }
+
+
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    
 }

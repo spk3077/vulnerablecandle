@@ -30,7 +30,7 @@ public class TagService {
 
     public List<TagDTO> findAll() {
         return tagDao.findAll().stream()
-                .map(tag -> new TagDTO(tag.getId(), tag.getName(), tag.getProducts().stream().map(product -> new ProductDTO(product.getId(), product.getName(), product.getBrand(), product.getDescription(), product.getPrice(), product.getImage())).collect(Collectors.toList())))
+                .map(tag -> new TagDTO(tag.getId(), tag.getName(),tag.getType(), tag.getProducts().stream().map(product -> new ProductDTO(product.getId(), product.getName(), product.getBrand(), product.getDescription(), product.getPrice(), product.getImage())).collect(Collectors.toList())))
                 .collect(Collectors.toList());
     }
 
