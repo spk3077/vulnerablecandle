@@ -7,13 +7,13 @@
           The actual rendered columns are set as a property on the row definition" -->
 
       <!-- Position Column -->
-      <ng-container matColumnDef="position">
+      <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{order.id}} </mat-cell>
       </ng-container>
 
       <!-- Name Column -->
-      <ng-container matColumnDef="name">
+      <ng-container matColumnDef="purchase date">
         <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{order.purchase_date}} </mat-cell>
       </ng-container>
