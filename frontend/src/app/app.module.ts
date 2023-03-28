@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table'; 
 import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -32,6 +33,7 @@ import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminProductsComponent } from './admin/products/products.component';
 import { HttpRequestInterceptor } from './_interceptors/http.interceptor';
 import { USER_SERVICE_STORAGE } from './_services/user.service';
+import { CallbackPipe } from './_helpers/callback.pipe';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import { USER_SERVICE_STORAGE } from './_services/user.service';
     NotFoundComponent,
     AdminComponent,
     AdminUsersComponent,
-    AdminProductsComponent
+    AdminProductsComponent,
+    CallbackPipe
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import { USER_SERVICE_STORAGE } from './_services/user.service';
     FormsModule,
     FontAwesomeModule,
     Ng2SearchPipeModule,
-    NgbModule
+    NgbModule,
+    MatTableModule
   ],
   providers: [
     {

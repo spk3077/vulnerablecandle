@@ -24,6 +24,7 @@ export class ShopComponent implements OnInit {
   currentUser: any | undefined;
   products: ProductReceive[] = [];
   tags: TagReceive[] = [];
+  tagHeads: string[] = [];
 
   filterSearch!: string;
   filters = {
@@ -71,7 +72,7 @@ export class ShopComponent implements OnInit {
         if (res.length <= 0) {
           this.getProductsError = true;
         }
-        res.every((product: ProductReceive) => this.products.push(
+        res.forEach((product: ProductReceive) => this.products.push(
           new ProductReceive(product.id, product.name, product.brand, product.description,
             product.tagNames, product.price, product.stock, product.image, product.averageReviewGrade,
               product.productReviews)
@@ -84,7 +85,7 @@ export class ShopComponent implements OnInit {
       }}
     );
   }
-  
+
   // Retrieve Products
   private getTags(): void {
     this.tagService.getTags().subscribe({
@@ -92,10 +93,12 @@ export class ShopComponent implements OnInit {
         if (res.length <= 0) {
           this.getTagsError = true;
         }
-        res.every((tag: TagReceive) => this.tags.push(
-          new TagReceive(tag.id, tag.name, tag.type)
-          )
-        );
+        res.forEach((tag: TagReceive) => {
+          this.tags.push(new TagReceive(tag.id, tag.name, tag.type));
+          if (!this.tagHeads.includes(tag.type)) {
+            this.tagHeads.push(tag.type);
+          }
+        });
       },
       error: () => {
         // Failed at server

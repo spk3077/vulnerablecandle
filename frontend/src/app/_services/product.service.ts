@@ -6,9 +6,6 @@ import { catchError, map } from 'rxjs/operators';
 import { ProductReceive, ProductSend } from '@app/_core/product';
 import { environment } from  '@environments/environment';
 
-import { PRODUCTS } from '@app/mock-products';
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -44,29 +41,28 @@ export class ProductService {
     }
 
     // Add Tag
-  public addProduct(product: ProductSend): Observable<any> {
-    let tags: any = [];
-    product.tagNames
-    return this.http.post(this.product_endpoint, 
-      {
-        name : product.name,
-        brand : product.brand,
-        price : product.price,
-        stock : product.stock,
-        image : product.image,
-        description : product.description,
-        tags : [{id : 4}]
-      }
-      )
-      .pipe(
-          map(res => {
-              return res;
-          }),
-          catchError(error => {
-              return throwError(() => (new Error(error)));
-          })
-      );
-  }
+    public addProduct(product: ProductSend): Observable<any> {
+        let tags: any = [];
+        return this.http.post(this.product_endpoint, 
+        {
+            name : product.name,
+            brand : product.brand,
+            price : product.price,
+            stock : product.stock,
+            image : product.image,
+            description : product.description,
+            tags : [{id : 4}]
+        }
+        )
+        .pipe(
+            map(res => {
+                return res;
+            }),
+            catchError(error => {
+                return throwError(() => (new Error(error)));
+            })
+        );
+    }
 
     // Retrieve Single Product
     public deleteProduct(productID: number): Observable<any> {

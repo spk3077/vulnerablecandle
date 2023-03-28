@@ -3,28 +3,28 @@ import { Router } from '@angular/router';
 
 import { OrderReceive } from '@app/_core/order';
 import { OrderService } from '@app/_services/order.service';
-import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css']
 })
-export class TransactionsComponent {
-  orderItems!: OrderReceive[];
-  originalOrderItems!: OrderReceive[];
+export class TransactionsComponent implements OnInit {
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource = ELEMENT_DATA;
+  
+  // orderItems!: OrderReceive[];
 
   constructor(private orderService: OrderService, private router: Router) {}
 
   ngOnInit(): void {
-    this.getOrders();
-    this.originalOrderItems = this.orderItems;
+    // this.getOrders();
   }
 
-  // Retrive order to display
-  public getOrders(): void {
-    this.orderService.getOrders().subscribe(orderItems => this.orderItems = orderItems);
-  }
+  // // Retrive order to display
+  // public getOrders(): void {
+  //   this.orderService.getOrders().subscribe(orderItems => this.orderItems = orderItems);
+  // }
 }
 
 export interface PeriodicElement {
@@ -33,7 +33,6 @@ export interface PeriodicElement {
   weight: number;
   symbol: string;
 }
-
 const ELEMENT_DATA: PeriodicElement[] = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
@@ -46,17 +45,3 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
-
-/**
- * @title Basic use of `<table mat-table>`
- *
- *@Component({
- *  selector: 'table-basic-example',
- *  styleUrls: ['table-basic-example.css'],
- *  templateUrl: 'table-basic-example.html',
- *})
- *export class TableBasicExample {
- *  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
- *  dataSource = ELEMENT_DATA;
- *}
- */

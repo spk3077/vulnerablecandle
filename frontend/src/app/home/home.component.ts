@@ -30,7 +30,7 @@ export class HomeComponent {
 
         console.log(res);
         res.forEach((product: ProductReceive, index: number) => {
-          if (index <= 8) {
+          if (index <= 7) {
             this.products.push(
               new ProductReceive(product.id, product.name, product.brand, product.description,
                 product.tagNames, product.price, product.stock, product.image, product.averageReviewGrade,
