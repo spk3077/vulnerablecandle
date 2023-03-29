@@ -20,49 +20,49 @@
                     </article>
                     <article class="filter-group" *ngFor="let tagHead of tagHeads">
                         <header class="card-header">
-                            <a role="button" data-bs-toggle="collapse" href="#{{tagHead}}" aria-expanded="true">
+                            <a role="button" data-bs-toggle="collapse" href="#{{tagHead}}" aria-expanded="false" [attr.aria-controls]="tagHead">
                                 <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
                                 <h6 class="title">{{tagHead}}</h6>
                             </a>
                         </header>
-                        <div class="filter-content collapse show" id={{tagHead}}>
+                        <div class="filter-content collapse" id={{tagHead}}>
                             <div class="card-body">
-                                <div class="form-check" *ngFor="let tag of tags">
-                                    <input class="form-check-input" type="checkbox" value="" id="{{tag.name}}" [(ngModel)]="filters.popular">
+                                <div class="form-check" *ngFor="let tag of tags | tags: tagHead">
+                                    <input class="form-check-input" type="checkbox" value="" id="{{tag.name}}" [(ngModel)]="filters[tag.name]">
                                     <label class="form-check-label" for="{{tag.name}}">{{tag.name}}</label>
-                                    <b class="float-end badge badge-light rounded-pill">1</b>
+                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(tag)}}</b>
                                 </div>
                             </div>
                         </div>
                     </article>
                     <article class="filter-group">
                         <header class="card-header">
-                            <a role="button" data-bs-toggle="collapse" href="#collapse_3" aria-expanded="true" aria-controls="collapse_3">
+                            <a role="button" data-bs-toggle="collapse" href="#collapse_3" aria-expanded="false" aria-controls="collapse_3">
                                 <fa-icon class="fa-filter" [icon]="faChevronDown"></fa-icon>
                                 <h6 class="title">Price range</h6>
                             </a>
                         </header>
-                        <div class="filter-content collapse show" id="collapse_3">
+                        <div class="filter-content collapse" id="collapse_3">
                             <div class="card-body">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="LessThan10" [(ngModel)]="filters.price1">
                                     <label class="form-check-label" for="LessThan10">&lt; $10</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(6)}}</b>
+                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(1)}}</b>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="10to20" [(ngModel)]="filters.price2">
                                     <label class="form-check-label" for="10to20">$10 - $20</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(7)}}</b>
+                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(2)}}</b>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="20to30" [(ngModel)]="filters.price3">
                                     <label class="form-check-label" for="20to30">$20 - $30</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(8)}}</b>
+                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(3)}}</b>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="MoreThan30" [(ngModel)]="filters.price4">
                                     <label class="form-check-label" for="MoreThan30"> >$30</label>
-                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(9)}}</b>
+                                    <b class="float-end badge badge-light rounded-pill">{{getFilterCount(4)}}</b>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                     Retrieving Failed! No Tags. Try again later
                 </div>
                 <div class="row">
-                <div class="col-lg-4 col-md-6" *ngFor="let product of (products | products:filters) | filter:filterSearch">
+                <div class="col-lg-4 col-md-6" *ngFor="let product of (products |slice:0:42 | products:filters) | filter:filterSearch">
                     <article class="card card-product-grid">
                         <a routerLink="{{product.id}}">
                             <img src={{product.getFirstImage()}} height="200" class="card-img-top" alt="product image">

@@ -22,7 +22,6 @@ import { TransactionsComponent } from './transactions/transactions.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { CheckOutComponent } from './check-out/check-out.component';
 import { ProductComponent } from './product/product.component';
-import { ProductsPipe } from './shop/products.pipe';
 import { CollectionsComponent } from './collections/collections.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
@@ -33,7 +32,9 @@ import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminProductsComponent } from './admin/products/products.component';
 import { HttpRequestInterceptor } from './_interceptors/http.interceptor';
 import { USER_SERVICE_STORAGE } from './_services/user.service';
+import { ProductsPipe } from './shop/products.pipe';
 import { CallbackPipe } from './_helpers/callback.pipe';
+import { TagsPipe } from './shop/tags.pipe';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,6 @@ import { CallbackPipe } from './_helpers/callback.pipe';
     ShoppingCartComponent,
     CheckOutComponent,
     ProductComponent,
-    ProductsPipe,
     CollectionsComponent,
     SignupComponent,
     LoginComponent,
@@ -57,7 +57,9 @@ import { CallbackPipe } from './_helpers/callback.pipe';
     AdminComponent,
     AdminUsersComponent,
     AdminProductsComponent,
-    CallbackPipe
+    ProductsPipe,
+    CallbackPipe,
+    TagsPipe
   ],
   imports: [
     BrowserModule,

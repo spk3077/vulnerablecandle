@@ -10,26 +10,18 @@ import { ProductReceive } from '../_core/product';
 export class ProductsPipe implements PipeTransform {
     transform(values: ProductReceive[], filters:any): ProductReceive[]{
         // Return same array if no filter
-        if( !filters )
+        if( !filters ) {
             return values;
-        
-        // Tag Filters
-        if( filters.popular ){
-            values = values.filter(item => item.tagNames.includes("isPopular"));
-        } 
-        if( filters.cute ){
-            values = values.filter(item => item.tagNames.includes("isCute"));
-        } 
-        if( filters.trending ){
-            values = values.filter(item => item.tagNames.includes("isTrending"));
-        }
-        if( filters.car ){
-            values = values.filter(item => item.tagNames.includes("isForCar"));
-        }
-        if( filters.unique ){
-            values = values.filter(item => item.tagNames.includes("isUnique"));
         }
 
+        // Tag Filters
+        for (const [key, value] of Object.entries(filters)) {
+            // if filter hasn't been selected, skip
+            if (value && !(key.substring(0, 4) == 'price') ) {
+                values = values.filter(item => item.tagNames.includes(key));
+            }
+        }
+        
         // Price Filters
         if( !filters.price1 && !filters.price2 && !filters.price3 && !filters.price4 ){
             return values;

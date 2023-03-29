@@ -27,12 +27,7 @@ export class ShopComponent implements OnInit {
   tagHeads: string[] = [];
 
   filterSearch!: string;
-  filters = {
-    popular: false,
-    cute: false,
-    trending: false,
-    car: false,
-    unique: false,
+  filters: any = {
     price1: false,
     price2: false,
     price3: false,
@@ -73,11 +68,7 @@ export class ShopComponent implements OnInit {
           this.getProductsError = true;
         }
         res.forEach((product: ProductReceive) => this.products.push(
-          new ProductReceive(product.id, product.name, product.brand, product.description,
-            product.tagNames, product.price, product.stock, product.image, product.averageReviewGrade,
-              product.productReviews)
-          )
-        );
+          ProductReceive.forShop(product.id, product.name, product.tagNames, product.price, product.image, product.averageReviewGrade)));
       },
       error: () => {
         // Failed at server
@@ -98,6 +89,8 @@ export class ShopComponent implements OnInit {
           if (!this.tagHeads.includes(tag.type)) {
             this.tagHeads.push(tag.type);
           }
+          this.filters[tag.id] = false;
+          // this.filters.
         });
       },
       error: () => {
@@ -135,27 +128,23 @@ export class ShopComponent implements OnInit {
   }
 
   // Retrieve Count by Filter for Badge
-  public getFilterCount(type: number): number {
-    switch ( type ) {
-      case 1:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("Popular") ? acc += 1 : acc, 0);
-      case 2:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("Cute") ? acc += 1 : acc, 0);
-      case 3:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("Trending") ? acc += 1 : acc, 0);
-      case 4:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("ForCar") ? acc += 1 : acc, 0);
-      case 5:
-        return this.products.reduce((acc, obj) => obj.tagNames.includes("Unique") ? acc += 1 : acc, 0);
-      case 6:
-        return this.products.reduce((acc, obj) => obj.price < 10 ? acc += 1 : acc, 0);
-      case 7:
-        return this.products.reduce((acc, obj) => obj.price >= 10 && obj.price < 20 ? acc += 1 : acc, 0);
-      case 8:
-        return this.products.reduce((acc, obj) => obj.price >= 20 && obj.price <= 30 ? acc += 1 : acc, 0);
-      case 9:
-        return this.products.reduce((acc, obj) => obj.price > 30 ? acc += 1 : acc, 0);
+  public getFilterCount(filter: TagReceive | number): number {
+    if (filter instanceof TagReceive) {
+      return this.products.reduce((acc, obj) => obj.tagNames.includes(filter.name) ? acc += 1 : acc, 0);
     }
+    else {
+      switch ( filter ) {
+        case 1:
+          return this.products.reduce((acc, obj) => obj.price < 10 ? acc += 1 : acc, 0);
+        case 2:
+          return this.products.reduce((acc, obj) => obj.price >= 10 && obj.price < 20 ? acc += 1 : acc, 0);
+        case 3:
+          return this.products.reduce((acc, obj) => obj.price >= 20 && obj.price <= 30 ? acc += 1 : acc, 0);
+        case 4:
+          return this.products.reduce((acc, obj) => obj.price > 30 ? acc += 1 : acc, 0);
+      }
+    }
+
     return 0;
   }
 
