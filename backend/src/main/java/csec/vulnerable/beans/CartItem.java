@@ -52,9 +52,9 @@ public class CartItem {
         this.product = product;
         this.itemId = product.getId();
         this.itemName = product.getName();
-        this.itemImage = product.getBrand();
+        this.itemImage = product.getImage();
         this.itemPrice = product.getPrice();
-        this.itemBrand = product.getImage();
+        this.itemBrand = product.getBrand();
         this.quantity = quantity;
     }
 
