@@ -76,20 +76,16 @@ public class UserInfoService {
 	}
 
 	public Response changeUserInfo(UserInfo userInfo, Authentication authentication) {
-		if(userInfo.getUser().getUsername().equals(authentication.getName())){
-			UserInfo ui = userInfoDao.findByUser(userDao.findByUsername(authentication.getName()));
-			ui.setAddress(userInfo.getAddress());
-			ui.setCity(userInfo.getCity());
-			ui.setEmail(userInfo.getEmail());
-			ui.setName(userInfo.getName());
-			ui.setPhone(userInfo.getPhone());
-			ui.setState(userInfo.getState());
-			ui.setZip(userInfo.getZip());
-			ui.setPicture(userInfo.getPicture());
-			userInfoDao.save(ui);
-		}else{
-			return new Response(false);
-		}
+		UserInfo ui = userInfoDao.findByUser(userDao.findByUsername(authentication.getName()));
+		ui.setAddress(userInfo.getAddress());
+		ui.setCity(userInfo.getCity());
+		ui.setEmail(userInfo.getEmail());
+		ui.setName(userInfo.getName());
+		ui.setPhone(userInfo.getPhone());
+		ui.setState(userInfo.getState());
+		ui.setZip(userInfo.getZip());
+		ui.setPicture(userInfo.getPicture());
+		userInfoDao.save(ui);
 		return new Response(true);
 	}
 
