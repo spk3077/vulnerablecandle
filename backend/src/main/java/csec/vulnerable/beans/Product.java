@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Product {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "PRODUCT_SEQ")
-	@SequenceGenerator(name = "PRODUCT_SEQ",sequenceName = "ECOM_PRODUCT_SEQ",allocationSize = 44)
+	@SequenceGenerator(name = "PRODUCT_SEQ",sequenceName = "ECOM_PRODUCT_SEQ",allocationSize = 1, initialValue = 44)
 	private int id;
 	@Column
 	@NotEmpty

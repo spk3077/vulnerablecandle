@@ -26,7 +26,7 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "PAYMENT_SEQ")
-    @SequenceGenerator(name = "PAYMENT_SEQ", sequenceName = "ECOM_PAYMENT_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "PAYMENT_SEQ", sequenceName = "ECOM_PAYMENT_SEQ", allocationSize = 1, initialValue = 8)
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
