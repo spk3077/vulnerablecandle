@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.header.HeaderWriter;
@@ -81,7 +82,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()
-            .csrf().disable()//csrfTokenRepository(csrfTokenRepository()) // attach XSRF-TOKEN cookie to requests
+            .csrf().disable()//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())// attach XSRF-TOKEN cookie to requests
             //.and()
             .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
             .and()
@@ -106,6 +107,7 @@ public class SecurityConfig {
             .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandlerImpl)
+                .deleteCookies("JSESSIONID", "XSRF-TOKEN", "remember-me")
                 .permitAll()
                 .and()
             .rememberMe();

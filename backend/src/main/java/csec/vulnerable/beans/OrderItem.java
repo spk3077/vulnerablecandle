@@ -23,6 +23,17 @@ public class OrderItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @Column
+    private int itemId;
+    @Column
+    private String itemName;
+    @Column
+    private String itemBrand;
+    @Column
+    private double itemPrice;
+    @Column
+    private String itemImage;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
@@ -35,6 +46,11 @@ public class OrderItem {
 
     public OrderItem(Product product, int quantity) {
         this.product = product;
+        this.itemId = product.getId();
+        this.itemName = product.getName();
+        this.itemImage = product.getImage();
+        this.itemPrice = product.getPrice();
+        this.itemBrand = product.getBrand();
         this.quantity = quantity;
     }
 
@@ -52,6 +68,26 @@ public class OrderItem {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public String getItemBrand() {
+        return itemBrand;
+    }
+
+    public double getItemPrice() {
+        return itemPrice;
+    }
+
+    public String getItemImage() {
+        return itemImage;
     }
 
     public int getQuantity() {
