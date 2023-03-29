@@ -1,9 +1,10 @@
 package csec.vulnerable.service;
 
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import csec.vulnerable.beans.OrderItem;
 import csec.vulnerable.beans.ShoppingCart;
 import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.OrderDao;
+import csec.vulnerable.dao.ShoppingCartDao;
 import csec.vulnerable.dao.UserDao;
 
 @Service
@@ -27,6 +29,12 @@ public class OrderService {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    ShoppingCartService shoppingCartService;
+
+    @Autowired
+    ShoppingCartDao shoppingCartDao;
+
     public List<Order> getOrdersByUser(User user) {
         return orderDao.findAllByUser(user);
     }
@@ -35,19 +43,21 @@ public class OrderService {
         return orderDao.findById(id).orElse(null);
     }
 
-    public Order createOrder(ShoppingCart shoppingCart, User user) {
+    public Order createOrder(Authentication authentication) {
+        User user = userDao.findByUsername(authentication.getName());
+        ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(authentication);
         Order order = new Order();
         order.setUser(user);
-        order.setOrderItems(new ArrayList<>());
-        
         for (CartItem cartItem : shoppingCart.getCartItems()) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setProduct(cartItem.getProduct());
-            orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setOrder(order);
-            order.getOrderItems().add(orderItem);
+            OrderItem orderItem = new OrderItem(cartItem.getProduct(), cartItem.getQuantity());
+            order.addOrderItem(orderItem);
         }
-        
-        return orderDao.save(order);
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date now = calendar.getTime();
+        java.sql.Date currentDate = new java.sql.Date(now.getTime());
+        order.setPurchase_date(currentDate);
+        order = orderDao.save(order);
+        shoppingCartService.clearShoppingCart(authentication);
+        return order;
     }
 }

@@ -1,6 +1,7 @@
 package csec.vulnerable.beans;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +17,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "ecom_order")
 public class Order {
@@ -25,13 +29,15 @@ public class Order {
     private int id;
 
     @Column
+	@JsonFormat(pattern = "yyyy-MM-dd")
     private Date purchase_date;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<OrderItem> orderItems = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+	@JsonIgnore
     private User user;
 
 	public Order() {
@@ -68,6 +74,11 @@ public class Order {
 		this.orderItems = orderItems;
 	}
 
+	public void addOrderItem(OrderItem orderItem) {
+		this.orderItems.add(orderItem);
+		orderItem.setOrder(this);
+	}
+	
 	public User getUser() {
 		return user;
 	}
@@ -76,7 +87,10 @@ public class Order {
 		this.user = user;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", purchase_date=" + purchase_date + ", orderItems=" + orderItems + ", user=" + user
+				+ "]";
+	}
 
-    
 }

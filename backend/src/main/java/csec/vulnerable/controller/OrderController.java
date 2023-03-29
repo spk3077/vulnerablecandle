@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import csec.vulnerable.beans.Order;
-import csec.vulnerable.beans.ShoppingCart;
 import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.UserDao;
 import csec.vulnerable.service.OrderService;
@@ -42,8 +41,6 @@ public class OrderController {
 
     @PostMapping
     public Order createOrder(Authentication authentication) {
-        User user = userDao.findByUsername(authentication.getName());
-        ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(authentication);
-        return orderService.createOrder(shoppingCart, user);
+        return orderService.createOrder(authentication);
     }
 }
