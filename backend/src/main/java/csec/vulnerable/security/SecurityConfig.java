@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -89,7 +90,8 @@ public class SecurityConfig {
             .httpBasic().disable().headers().addHeaderWriter(headerWriter())// prevent cross-site scripting (XSS) attack
             .and()
             .authorizeRequests()
-                .antMatchers("/index.html", "/products", "/products/*","/users","/tags").permitAll()
+                .antMatchers("/index.html", "/products", "/products/*","/tags").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").permitAll() // allow unauthenticated access to POST /users
                 .anyRequest().authenticated()
                 .and()
             .exceptionHandling()
@@ -112,6 +114,7 @@ public class SecurityConfig {
                 .and()
             .rememberMe();
     
+        http.csrf().ignoringAntMatchers("/users","/login"); // ignore CSRF
         http.authenticationProvider(authenticationProvider());
     
         return http.build();

@@ -1,15 +1,15 @@
 package csec.vulnerable.beans;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "ecom_order_item")
+@DiscriminatorValue("order_item")
 public class OrderItem extends CartItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
