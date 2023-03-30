@@ -17,6 +17,13 @@ export class HttpRequestInterceptor implements HttpInterceptor {
       withCredentials: true,
     });
 
+    const xsrfToken = this.getXsrfToken();
+    if (xsrfToken) {
+      req = req.clone({
+        headers: req.headers.set('X-XSRF-TOKEN', xsrfToken),
+      });
+    }
+
     return next.handle(req).pipe(
         catchError((error) => {
             console.log("Error response status: ", error.status);
@@ -27,5 +34,20 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             return throwError(() => (new Error("User Not Authorized")));
         }));
 
+    }
+    private getXsrfToken(): string | null {
+      const name = 'XSRF-TOKEN=';
+      const decodedCookie = decodeURIComponent(document.cookie);
+      const cookieArray = decodedCookie.split(';');
+      for(let i = 0; i < cookieArray.length; i++) {
+        let cookie = cookieArray[i];
+        while (cookie.charAt(0) === ' ') {
+          cookie = cookie.substring(1);
+        }
+        if (cookie.indexOf(name) === 0) {
+          return cookie.substring(name.length, cookie.length);
+        }
+      }
+      return null;
     }
 }
