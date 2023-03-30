@@ -114,7 +114,7 @@ public class SecurityConfig {
                 .and()
             .rememberMe();
     
-        http.csrf().ignoringAntMatchers("/users","/login"); // ignore CSRF
+        http.csrf().ignoringAntMatchers("/users","/login","/logout"); // ignore CSRF
         http.authenticationProvider(authenticationProvider());
     
         return http.build();
