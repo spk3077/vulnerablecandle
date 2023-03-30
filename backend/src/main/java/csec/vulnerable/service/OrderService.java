@@ -14,6 +14,7 @@ import csec.vulnerable.beans.OrderItem;
 import csec.vulnerable.beans.ShoppingCart;
 import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.OrderDao;
+import csec.vulnerable.dao.OrderItemDao;
 import csec.vulnerable.dao.ShoppingCartDao;
 import csec.vulnerable.dao.UserDao;
 
@@ -35,6 +36,9 @@ public class OrderService {
     @Autowired
     ShoppingCartDao shoppingCartDao;
 
+    @Autowired
+    OrderItemDao orderItemDao;
+
     public List<Order> getOrdersByUser(User user) {
         return orderDao.findAllByUser(user);
     }
@@ -51,6 +55,7 @@ public class OrderService {
         for (CartItem cartItem : shoppingCart.getCartItems()) {
             OrderItem orderItem = new OrderItem(cartItem.getProduct(), cartItem.getQuantity());
             order.addOrderItem(orderItem);
+            orderItemDao.save(orderItem);
         }
         Calendar calendar = Calendar.getInstance();
         java.util.Date now = calendar.getTime();
