@@ -4,11 +4,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table'; 
-import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LOCAL_STORAGE } from 'ngx-webstorage-service';
+import { CookieModule } from 'ngx-cookie';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
@@ -63,6 +64,7 @@ import { TagsPipe } from './shop/tags.pipe';
   ],
   imports: [
     BrowserModule,
+    CookieModule.withOptions(),
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
