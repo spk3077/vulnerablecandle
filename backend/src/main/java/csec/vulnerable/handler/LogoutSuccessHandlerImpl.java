@@ -18,6 +18,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
+		
 		SecurityUtils.sendResponse(response, HttpServletResponse.SC_OK, "Logout successfully!", null);
 
 	}

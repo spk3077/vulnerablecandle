@@ -109,7 +109,7 @@ public class SecurityConfig {
             .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandlerImpl)
-                .deleteCookies("JSESSIONID", "XSRF-TOKEN", "remember-me")
+                .deleteCookies("JSESSIONID", "XSRF-TOKEN")
                 .permitAll()
                 .and()
             .rememberMe();
