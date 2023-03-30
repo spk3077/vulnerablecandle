@@ -65,7 +65,6 @@ import { TagsPipe } from './shop/tags.pipe';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    HttpClientXsrfModule,
     ReactiveFormsModule,
     FormsModule,
     FontAwesomeModule,
