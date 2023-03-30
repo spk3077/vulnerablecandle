@@ -20,7 +20,7 @@ import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
 export class ProductComponent implements OnInit {
   currentUser: any | undefined;
   id!: number;
-  product!: ProductReceive;
+  product: ProductReceive = ProductReceive.forProduct(0, '', '', '', [], 0, 0, '', 0, []);
 
   // Purchase Variables
   quantity: number = 1;
@@ -70,7 +70,8 @@ export class ProductComponent implements OnInit {
           return;
         }
         // Assign Product
-        this.product = res;
+        this.product = ProductReceive.forProduct(res.id, res.name, res.brand, res.description,
+            res.tagNames, res.price, res.stock, res.image, res.averageReviewGrade, res.productReviews);
 
         // Set ImageURLS
         let images = this.product.image.split(',', 3);

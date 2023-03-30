@@ -36,7 +36,7 @@
                 <h4 class="text-dark">{{product.name}}</h4>
                 <div class="mb-3">
                     <span class="badge" [ngClass]="product.setBadgeClass()">
-                        <fa-icon [icon]="faStar"></fa-icon> {{product.averageReviewGrade ? product.averageReviewGrade : 'No Rating'}}
+                        <fa-icon [icon]="faStar"></fa-icon> {{product.averageReviewGrade ? product.averageReviewGrade.toFixed(2) : 'No Rating'}}
                     </span>
                     <i class="dot"></i>
                     <span *ngIf="product.price > 0" class="label-rating text-success">In Stock</span>

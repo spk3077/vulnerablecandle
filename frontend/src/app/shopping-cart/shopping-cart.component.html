@@ -8,11 +8,20 @@
               <h4 class="card-title mb-4">Your shopping cart</h4>
 
               <!-- ========================= SHOPPING CART ENTRY ========================= -->
+              <!-- === ERRORS  === -->
+              <div class="text-muted mb-5" [hidden]="!getCartItemsEmpty">
+                Cart is empty
+              </div>
+              <div class="text-muted mb-5" [hidden]="!getCartItemsError">
+                Cart item retrieval failed
+              </div>
+              <!-- === ERRORS  === -->
+
               <article class="light-borders row gy-3 mb-4" *ngFor="let cartItem of cartItems">
                 <div class="col-lg-5">
                   <figure class="itemside me-lg-5">
                     <div class="aside">
-                      <img src={{cartItem.product.imageUrl}} class="img-sm img-thumbnail">
+                      <img src={{cartItem.product.getFirstImage()}} class="img-sm img-thumbnail">
                     </div>
                     <figcaption class="info">
                       <a routerLink="/shop/{{cartItem.product.id}}" class="title">{{cartItem.product.name}}</a>

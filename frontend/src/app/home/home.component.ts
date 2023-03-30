@@ -27,10 +27,10 @@ export class HomeComponent {
         if (res.length <= 0) {
           this.getProductsError = true;
         }
-
-        console.log(res);
-        res.forEach((product: ProductReceive, index: number) => {
+        
+        Array.from(res).forEach((element: unknown, index: number) => {
           if (index <= 7) {
+            let product: any = element;
             this.products.push(ProductReceive.forHome(product.id, product.name, product.price, product.image, product.averageReviewGrade));
           }
         });

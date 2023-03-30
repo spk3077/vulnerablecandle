@@ -79,8 +79,10 @@ import { TagsPipe } from './shop/tags.pipe';
       useClass: HttpRequestInterceptor,
       multi: true
     },
-
-    {provide: USER_SERVICE_STORAGE, useExisting: LOCAL_STORAGE}
+    {
+      provide: USER_SERVICE_STORAGE, 
+      useExisting: LOCAL_STORAGE
+    }
   ],
   bootstrap: [AppComponent]
 })

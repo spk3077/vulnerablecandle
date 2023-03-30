@@ -10,6 +10,7 @@ import { UserInfoService } from '@app/_services/user-info.service';
 import { ShoppingCartService } from '@app/_services/shopping-cart.service';
 import { PaymentService } from '@app/_services/payment.service';
 import { OrderService } from '@app/_services/order.service';
+import { ProductReceive } from '@app/_core/product';
 
 @Component({
   selector: 'app-check-out',
@@ -19,13 +20,14 @@ import { OrderService } from '@app/_services/order.service';
 export class CheckOutComponent implements OnInit{
   userInfo!: UserInfoReceive;
   payment!: PaymentReceive;
-  cartItems!: CartItemReceive[];
+  cartItems: CartItemReceive[] = [];
 
   originalUserInfo!: UserInfoReceive;
   originalPayment!: PaymentReceive;
 
+  // Form Values
   checkoutForm: any = FormGroup;
-  expiration: string = "06/33";
+  expiration: string = "";
   submitted = false;
 
   // Display Booleans
@@ -42,10 +44,10 @@ export class CheckOutComponent implements OnInit{
     private orderService: OrderService,
     private formBuilder: FormBuilder,
     private router: Router) {
-      let zipPattern = "^[0-9]*$";
-      let cardNumberPattern = "^[0-9]*$";
-      let expirationPattern = "^(0[1-9]|1[012])/(2[3-9]|3[0-3])$";
-      let cvvPattern = "^[0-9]*$";
+      const zipPattern = "^[0-9]*$";
+      const cardNumberPattern = "^[0-9]*$";
+      const expirationPattern = "^(0[1-9]|1[012])/(2[3-9]|3[0-3])$";
+      const cvvPattern = "^[0-9]*$";
 
       this.checkoutForm = this.formBuilder.group({
         fullName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -81,6 +83,7 @@ export class CheckOutComponent implements OnInit{
   public getUserInfo(): void {
     this.userInfoService.getUserInfo().subscribe({
       next: (res) => {
+        console.log(res[0]);
         this.userInfo = res;
       },
       error: () => {
@@ -95,6 +98,7 @@ export class CheckOutComponent implements OnInit{
   public getPayment(): void {
     this.paymentService.getPayment().subscribe({
       next: (res) => {
+        console.log(res);
         this.payment = res;
       },
       error: () => {
@@ -109,7 +113,11 @@ export class CheckOutComponent implements OnInit{
   public getCartItems(): void {
     this.shoppingCartService.getCartItems().subscribe({
       next: (res) => {
-        this.cartItems = res;
+        res.cartItems.forEach((cartItem: any) => {
+          this.cartItems.push(
+            new CartItemReceive(cartItem.id, ProductReceive.forCart(cartItem.itemId, cartItem.itemName,
+               cartItem.itemBrand, cartItem.itemPrice, cartItem.itemImage), cartItem.quantity));
+        });
       },
       error: () => {
         // Failed at getting UserInfo to Store
@@ -142,7 +150,7 @@ export class CheckOutComponent implements OnInit{
     if (this.userInfo != this.originalUserInfo) {
       const userInfo: UserInfoSend = new UserInfoSend("", "", "", "", "", "", 0, "");
       const Properties = Object.keys(userInfo);
-      console.log(Properties);
+      // console.log(Properties);
 
       // Object.assign({}, this.userInfo);
 

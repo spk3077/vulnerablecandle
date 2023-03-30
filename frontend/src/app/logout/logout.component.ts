@@ -18,7 +18,6 @@ export class LogoutComponent implements OnInit {
   logout(): void {
     this.userService.logout().subscribe({
       next: (res) => {
-        // Get User Information to Populate Components with User-relevant information
         let logoutResponse: DefaultResponse = res as DefaultResponse;
           console.log(logoutResponse);
           if (logoutResponse.success != true) {
@@ -30,7 +29,7 @@ export class LogoutComponent implements OnInit {
           }
       },
       error: () => {
-        // Failed at getting UserInfo to Store
+        // Failed at Server
         console.log("Logout Errored!");
       }
     });

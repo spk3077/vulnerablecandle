@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { UserInfoReceive } from '@app/_core/userInfo';
 import { UserInfoSend } from '@app/_core/userInfo';
 import { environment } from  '@environments/environment';
 

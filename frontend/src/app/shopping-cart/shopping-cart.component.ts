@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { CartItemReceive, CartItemSend } from '@app/_core/cartItem';
 import { DefaultResponse } from '@app/_core/defaultResponse';
+import { ProductReceive } from '@app/_core/product';
 import { ShoppingCartService } from '@app/_services/shopping-cart.service';
 
 import { faTruck } from '@fortawesome/free-solid-svg-icons';
@@ -13,8 +14,12 @@ import { faTruck } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./shopping-cart.component.css']
 })
 export class ShoppingCartComponent implements OnInit {
-  cartItems!: CartItemReceive[];
+  cartItems: CartItemReceive[] = [];
   originalCartItems!: CartItemReceive[];
+
+  // Display Booleans
+  getCartItemsEmpty: boolean = false;
+  getCartItemsError: boolean = false;
 
   constructor(private shoppingCartService: ShoppingCartService, private router: Router) {}
 
@@ -28,7 +33,24 @@ export class ShoppingCartComponent implements OnInit {
 
   // Retrieve Shopping Cart to Display
   public getCartItems(): void {
-    this.shoppingCartService.getCartItems().subscribe(cartItems => this.cartItems = cartItems);
+    this.shoppingCartService.getCartItems().subscribe({
+      next: (res) => {
+        console.log(res);
+        if (res.cartItems.length <= 0) {
+          this.getCartItemsEmpty = true;
+        }
+        res.cartItems.forEach((cartItem: any) => {
+          this.cartItems.push(
+            new CartItemReceive(cartItem.id, ProductReceive.forCart(cartItem.itemId, cartItem.itemName,
+               cartItem.itemBrand, cartItem.itemPrice, cartItem.itemImage), cartItem.quantity));
+        });
+      },
+      error: () => {
+        // Failed at server
+        this.getCartItemsError = true;
+      }
+    });
+    
   }
 
   // Update Shopping Cart on API

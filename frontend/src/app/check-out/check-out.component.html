@@ -297,7 +297,7 @@
                         <figure class="itemside align-items-center mb-4" *ngFor="let cartItem of cartItems">
                             <div class="aside">
                                 <b class="badge bg-secondary rounded-pill">{{cartItem.quantity}}</b>
-                                <img src={{cartItem.product.imageUrl}} class="img-sm rounded border">
+                                <img src={{cartItem.product.getFirstImage()}} class="img-sm rounded border">
                             </div>
                             <figcaption class="info">
                                 <a routerLink="/shop/{{cartItem.product.id}}" class="title">

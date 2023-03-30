@@ -13,6 +13,7 @@ export class ProductReceive {
     public averageReviewGrade: number = 0;
     public productReviews: ProductReviewReceive[] = [];
 
+    // Product Class for storing products for HomePage
     public static forHome(id: number, name: string, price: number, image: string, averageReviewGrade: number): ProductReceive {
     const cls = new ProductReceive();
     cls.id = id;
@@ -22,6 +23,19 @@ export class ProductReceive {
     cls.averageReviewGrade = averageReviewGrade;
     return cls;
 }
+
+    // Product Class for storing products for ShoppingCartPage
+    public static forCart(id: number, name: string, brand: string, price: number, image: string): ProductReceive {
+        const cls = new ProductReceive();
+        cls.id = id;
+        cls.name = name;
+        cls.brand = brand;
+        cls.price = price;
+        cls.image = image;
+        return cls;
+    }
+
+    // Product Class for storing products for ShopPage
     public static forShop(id: number, name: string, tagNames: string[], 
             price: number, image: string, averageReviewGrade: number): ProductReceive {
         const cls = new ProductReceive();
@@ -34,6 +48,7 @@ export class ProductReceive {
         return cls;
     }
 
+    // Product Class for storing products for ProductPage
     public static forProduct(id: number, name: string, brand: string, description: string, tagNames: string[], 
         price: number, stock: number, image: string, averageReviewGrade: number, productReviews: ProductReviewReceive[]): ProductReceive {
         const cls = new ProductReceive();

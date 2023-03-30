@@ -1,5 +1,5 @@
 import { Injectable, Inject, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -67,7 +67,7 @@ export class UserService {
 
     // Logout Function
     public logout(): Observable<any> {
-        return this.http.get(this.logout_endpoint)
+        return this.http.post(this.logout_endpoint, {})
             .pipe(
                 map(res => {
                     this.setLoggedUser(null);

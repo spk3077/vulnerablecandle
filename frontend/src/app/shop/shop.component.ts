@@ -67,8 +67,12 @@ export class ShopComponent implements OnInit {
         if (res.length <= 0) {
           this.getProductsError = true;
         }
-        res.forEach((product: ProductReceive) => this.products.push(
-          ProductReceive.forShop(product.id, product.name, product.tagNames, product.price, product.image, product.averageReviewGrade)));
+        Array.from(res).forEach((element: unknown) => {
+          let product: any = element;
+          this.products.push(ProductReceive.forShop(product.id, product.name, product.tagNames, product.price,
+            product.image, product.averageReviewGrade));
+          }
+        );
       },
       error: () => {
         // Failed at server
@@ -84,7 +88,8 @@ export class ShopComponent implements OnInit {
         if (res.length <= 0) {
           this.getTagsError = true;
         }
-        res.forEach((tag: TagReceive) => {
+        Array.from(res).forEach((element: unknown) => {
+          let tag: any = element;
           this.tags.push(new TagReceive(tag.id, tag.name, tag.type));
           if (!this.tagHeads.includes(tag.type)) {
             this.tagHeads.push(tag.type);
