@@ -3,13 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './_helpers/auth.guard';
 import { AdminGuard } from './_helpers/admin.guard';
-import { ProductComponent } from './product/product.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { SignupComponent } from './signup/signup.component';
-import { UserProfileComponent } from './userprofile/userprofile.component';
-import { NotFoundComponent } from './not-found/not-found.component';
 import { AdminComponent } from './admin/admin/admin.component';
 import { AdminProductsComponent } from './admin/products/products.component';
 import { AdminUsersComponent } from './admin/users/users.component';
@@ -44,8 +41,8 @@ const routes: Routes = [
     canActivate:[AuthGuard] 
   },
   { 
-    path: 'shop/:productid', 
-    component: ProductComponent 
+    path: 'shop/:productid',
+    loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
   },
   { 
     path: 'collections', 
@@ -57,7 +54,8 @@ const routes: Routes = [
   },
   { 
     path: 'logout', 
-    component: LogoutComponent, 
+    component: LogoutComponent,
+    loadChildren: () => import('./logout/logout.module').then(m => m.LogoutModule),
     canActivate:[AuthGuard] 
   },
   { 
@@ -66,7 +64,7 @@ const routes: Routes = [
   },
   { 
     path: 'userprofile', 
-    component: UserProfileComponent, 
+    loadChildren: () => import('./userprofile/userprofile.module').then(m => m.UserProfileModule),
     canActivate:[AuthGuard] 
   },
   { 
@@ -86,7 +84,7 @@ const routes: Routes = [
   },
   { 
     path: 'not-found', 
-    component: NotFoundComponent 
+    loadChildren: () => import('./not-found/not-found.module').then(m => m.NotFoundModule) 
   },
 
   // Default to Shop if not valid path

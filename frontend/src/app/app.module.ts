@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LOCAL_STORAGE } from 'ngx-webstorage-service';
 import { CookieModule } from 'ngx-cookie';
@@ -14,12 +13,9 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './ui/menu/menu.component';
 import { FooterComponent } from './ui/footer/footer.component';
 import { UserProfileComponent } from './userprofile/userprofile.component';
-import { ProductComponent } from './product/product.component';
 import { CollectionsComponent } from './collections/collections.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
-import { LogoutComponent } from './logout/logout.component';
-import { NotFoundComponent } from './not-found/not-found.component';
 import { AdminComponent } from './admin/admin/admin.component';
 import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminProductsComponent } from './admin/products/products.component';
@@ -32,14 +28,10 @@ import { SubmenuModule } from './ui/submenu/submenu.module';
   declarations: [
     AppComponent,
     MenuComponent,
-    UserProfileComponent,
     FooterComponent,
-    ProductComponent,
     CollectionsComponent,
     SignupComponent,
     LoginComponent,
-    LogoutComponent,
-    NotFoundComponent,
     AdminComponent,
     AdminUsersComponent,
     AdminProductsComponent
@@ -52,7 +44,6 @@ import { SubmenuModule } from './ui/submenu/submenu.module';
     ReactiveFormsModule,
     FormsModule,
     FontAwesomeModule,
-    NgbModule,
     AppRoutingModule
   ],
   providers: [
