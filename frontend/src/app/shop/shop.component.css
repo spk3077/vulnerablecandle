@@ -88,6 +88,9 @@ border-bottom: 0;
     font-weight: 600;
     text-decoration: none;
 }
+.card-img-top {
+    width: unset !important;
+}
 
 
 

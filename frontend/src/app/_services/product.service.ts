@@ -27,6 +27,7 @@ export class ProductService {
                 })
             );
     }
+    
     // Retrieve Single Product
     public getProduct(productID: number): Observable<any> {
         return this.http.get(this.product_endpoint + "/" + productID)

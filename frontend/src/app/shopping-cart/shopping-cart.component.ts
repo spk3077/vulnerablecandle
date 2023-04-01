@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -15,11 +16,13 @@ import { faTruck } from '@fortawesome/free-solid-svg-icons';
 })
 export class ShoppingCartComponent implements OnInit {
   cartItems: CartItemReceive[] = [];
-  originalCartItems!: CartItemReceive[];
+  originalCartItems: CartItemReceive[] = [];
 
   // Display Booleans
-  getCartItemsEmpty: boolean = false;
   getCartItemsError: boolean = false;
+  updateCartItemError: boolean = false;
+  removeCartItemError: boolean = false;
+  cannotCheckout: boolean = false;
 
   constructor(private shoppingCartService: ShoppingCartService, private router: Router) {}
 
@@ -27,23 +30,20 @@ export class ShoppingCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCartItems();
-    // For updateCartItem when quantity of items change
-    this.originalCartItems = this.cartItems;
   }
 
   // Retrieve Shopping Cart to Display
   public getCartItems(): void {
     this.shoppingCartService.getCartItems().subscribe({
       next: (res) => {
-        console.log(res);
-        if (res.cartItems.length <= 0) {
-          this.getCartItemsEmpty = true;
-        }
         res.cartItems.forEach((cartItem: any) => {
           this.cartItems.push(
             new CartItemReceive(cartItem.id, ProductReceive.forCart(cartItem.itemId, cartItem.itemName,
                cartItem.itemBrand, cartItem.itemPrice, cartItem.itemImage), cartItem.quantity));
         });
+
+        // For updateCartItem when quantity of items change
+        this.cartItems.forEach(val => this.originalCartItems.push(Object.assign({}, val)));
       },
       error: () => {
         // Failed at server
@@ -60,16 +60,15 @@ export class ShoppingCartComponent implements OnInit {
         // Get generic response to determine success
         let updateResponse = res as DefaultResponse;
           if (updateResponse.success != true) {
-            console.log("Update Cart Failed!");
+            this.updateCartItemError = true;
           }
           else {
-            console.log("Updated Cart Item Successfully");
-
+            this.updateCartItemError = false;
           }
       },
       error: () => {
         // Failed at Server
-        console.log("Update Cart Failed at Server!");
+        this.updateCartItemError = true;
       }
     });
   }
@@ -81,19 +80,18 @@ export class ShoppingCartComponent implements OnInit {
         // Get generic response to determine success
         let delResponse = res as DefaultResponse;
           if (delResponse.success != true) {
-            console.log("Could not delete cart item!");
+            this.removeCartItemError = true;
           }
           else {
             const index = this.cartItems.map(item => item.id).indexOf(cartID)
             this.cartItems.splice(index, 1);
             this.originalCartItems.splice(index, 1);
-            console.log("Deleted Cart Item Successfully");
-
+            this.removeCartItemError = false;
           }
       },
       error: () => {
         // Failed at Server
-        console.log("Cart Item Deletion Errored");
+        this.removeCartItemError = true;
       }
     });
   }
@@ -102,12 +100,22 @@ export class ShoppingCartComponent implements OnInit {
   public updateQuantities(): void {
     this.cartItems.forEach((cartItem: CartItemReceive, index: number) => {
       let originCartItem = this.originalCartItems[index];
-      if (cartItem.id == originCartItem.id && cartItem.quantity != originCartItem.quantity) {
-        this.updateCartItem(new CartItemSend(cartItem.product.id, cartItem.quantity));
-      }
 
+      if (cartItem.id == originCartItem.id && cartItem.quantity != originCartItem.quantity) {
+        let n = Math.floor(Number(cartItem.quantity));
+        if (n !== Infinity && String(n) === String(cartItem.quantity) && n > 0) {
+          console.log("DOGGO");
+          this.updateCartItem(new CartItemSend(cartItem.id, cartItem.quantity));
+        }
+      }
     });
-    this.router.navigateByUrl('/checkout');
+    
+    if (!this.updateCartItemError && !this.removeCartItemError) {
+      this.router.navigateByUrl('/checkout', {  onSameUrlNavigation: 'reload' });
+    }
+    else {
+      this.cannotCheckout = true;
+    }
   }
 
   public calculateTotal(): number {

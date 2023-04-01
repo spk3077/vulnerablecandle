@@ -9,11 +9,20 @@
 
               <!-- ========================= SHOPPING CART ENTRY ========================= -->
               <!-- === ERRORS  === -->
-              <div class="text-muted mb-5" [hidden]="!getCartItemsEmpty">
+              <div class="text-muted mb-5" [hidden]="cartItems.length > 0">
                 Cart is empty
               </div>
-              <div class="text-muted mb-5" [hidden]="!getCartItemsError">
+              <div class="alert-message mb-5" [hidden]="!getCartItemsError">
                 Cart item retrieval failed
+              </div>
+              <div class="alert-message mb-5" [hidden]="!updateCartItemError">
+                Cart update failed
+              </div>
+              <div class="alert-message mb-5" [hidden]="!removeCartItemError">
+                Remove cart item failed
+              </div>
+              <div class="alert-message mb-5" [hidden]="!removeCartItemError">
+                Try again later
               </div>
               <!-- === ERRORS  === -->
 
@@ -97,16 +106,16 @@
               </dl> -->
               <dl class="dlist-align">
                 <dt>Tax:</dt>
-                <dd class="text-end">$14.00</dd>
+                <dd class="text-end">${{(calculateTotal() * .10).toFixed(2)}}</dd>
               </dl>
               <hr>
               <dl class="dlist-align">
                 <dt>Total:</dt>
-                <dd class="text-end price-bold h5">${{(calculateTotal() + 14.00).toFixed(2)}}</dd>
+                <dd class="text-end price-bold h5">${{(calculateTotal() + (calculateTotal() * .10)).toFixed(2)}}</dd>
               </dl>
           
               <div class="d-grid gap-2 my-3">
-                <button (click)="updateQuantities()" class="btn btn-success w-100"> Make Purchase </button>
+                <button (click)="updateQuantities()" class="btn btn-success w-100" [attr.disabled]="cartItems.length <= 0 || getCartItemsError ? true : null"> Make Purchase </button>
                 <button routerLink="/" class="btn btn-light borderBtn w-100"> Back to shop </button>
               </div>
             </div>

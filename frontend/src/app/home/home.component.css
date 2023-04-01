@@ -14,7 +14,9 @@ p {
 }
 .card-img-top {
     max-height: 50%;
+    max-width: 70%;
+    align-self: center;
 }
-.h-84 {
-    height: 84% !important;
+.h-97 {
+    height: 97% !important;
 }

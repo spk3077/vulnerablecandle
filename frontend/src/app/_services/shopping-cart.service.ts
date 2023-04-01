@@ -29,9 +29,9 @@ export class ShoppingCartService {
         );
 }
 
-  // Adding to Cart
+  // Adding to Cart | cartitem.id is productID
   public addToCart(cartItem: CartItemSend): Observable<any> {
-    return this.http.post(this.cart_endpoint + "/add/" + cartItem.productID + "/" + cartItem.quantity,
+    return this.http.post(this.cart_endpoint + "/add/" + cartItem.id + "/" + cartItem.quantity,
       {})
       .pipe(
           map(res => {
@@ -43,9 +43,9 @@ export class ShoppingCartService {
       );
   }
 
-    // Updating existing cart item
+    // Updating existing cart item | cartitem.id is cartitemID
     public updateCartItem(cartItem: CartItemSend): Observable<any> {
-      return this.http.put(this.cart_endpoint + "/update/" + cartItem.productID + "/" + cartItem.quantity,
+      return this.http.put(this.cart_endpoint + "/update/" + cartItem.id + "/" + cartItem.quantity,
         {})
         .pipe(
             map(res => {

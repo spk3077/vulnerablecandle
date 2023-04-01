@@ -1,11 +1,11 @@
 export class PaymentReceive {
     constructor(
-        public id: number,
-        public ownerName: string,
-        public cardNumber: number,
-        public expiryMonth: number,
-        public expiryYear: number,
-        public secCode: number,
+        public id: number | null,
+        public ownerName: string | null,
+        public cardNumber: number | null,
+        public expiryMonth: number | null,
+        public expiryYear: number | null,
+        public secCode: number | null
     ) {  }
 }
 
@@ -16,6 +16,6 @@ export class PaymentSend {
         public ownerName: string,
         public expiryMonth: number,
         public expiryYear: number,
-        public secCode: number,
+        public secCode: number
     ) {  }
 }
