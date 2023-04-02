@@ -145,25 +145,25 @@
               <div class="col-sm-6 col-md-5">
                 <div class="mb-4">
                   <label class="form-label">Email address</label>
-                  <input class="form-control" type="email" placeholder="Email">
+                  <input class="form-control" formControlName="email" placeholder="example@gmail.com" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.email.errors }">
                 </div>
               </div>
               <div class="col-sm-6 col-md-3">
                 <div class="mb-4">
                   <label class="form-label">Phone number</label>
-                  <input class="form-control" type="phone" placeholder="Phone">
+                  <input class="form-control" formControlName="phone" placeholder="###-###-####" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.phone.errors }">
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="mb-4">
                   <label class="form-label">Address</label>
-                  <input class="form-control" type="text" placeholder="Home Address">
+                  <input class="form-control" formControlName="address" placeholder="One Lomb Memorial Drive" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.address.errors }">
                 </div>
               </div>
               <div class="col-sm-6 col-md-4">
                 <div class="mb-4">
                   <label class="form-label">City</label>
-                  <input class="form-control" type="text" placeholder="City">
+                  <input class="form-control" formControlName="city" placeholder="Rochester" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.city.errors }">
                 </div>
               </div>
               <div class="col-md-2">

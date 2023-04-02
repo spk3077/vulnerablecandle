@@ -74,7 +74,10 @@ export class UserProfileComponent implements OnInit {
     this.getPayment();
   }
 
-  // get f() { return this.checkoutForm.controls; }
+  get fPic() { return this.picForm.controls; }
+  get fPass() { return this.passForm.controls; }
+  get fInfo() { return this.infoForm.controls; }
+  get fPay() { return this.payForm.controls; }
 
   // Retrieve UserInfo
   public getUserInfo(): void {

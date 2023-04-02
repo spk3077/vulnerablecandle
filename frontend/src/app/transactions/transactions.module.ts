@@ -13,8 +13,6 @@ import { SubmenuModule } from '@app/ui/submenu/submenu.module';
     SubmenuModule,
     MatTableModule
   ],
-  declarations: [
-    TransactionsComponent
-  ]
+  declarations: [TransactionsComponent]
 })
 export class TransactionsModule { }

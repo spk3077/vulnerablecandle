@@ -22,7 +22,7 @@ export class OrderService {
               return res;
           }),
           catchError(error => {
-              return of(error);
+            return throwError(() => (new Error(error)));
           })
       );
   }

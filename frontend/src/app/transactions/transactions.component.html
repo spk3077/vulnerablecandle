@@ -1,12 +1,14 @@
 <main>
-  <app-submenu [activePage]="'Transactions'" [firstPage]="'Home'" [firstPage_URL]="'/'"[secondPage]="'Transactions'"></app-submenu>
-  <div class='text-muted mb-5" [hidden]='orderItems.length > 0">
-    No orders.
+  <app-submenu [activePage]="'Transactions'" [firstPage]="'Home'" [firstPage_URL]="'/'" [secondPage]="'Transactions'"></app-submenu>
+  
+  <!-- === ERRORS  === -->
+  <div class="alert-message mb-5" [hidden]="!getOrdersError">
+    Order retrieval failed
   </div>
-
-  <div class="alert-message-mb5" [hidden]="!getOrderItemsError">
-    No previous orders.
+  <div class="text-muted mb-5" [hidden]="!getOrdersEmpty">
+    No previous orders
   </div>
+  <!-- === ERRORS END// === -->
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
