@@ -3,45 +3,42 @@ import { Router } from '@angular/router';
 
 import { OrderReceive } from '@app/_core/order';
 import { OrderService } from '@app/_services/order.service';
+import { UserService } from '@app/_services/user.service';
 
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css']
 })
-export class TransactionsComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
-  
-  // orderItems!: OrderReceive[];
 
-  constructor(private orderService: OrderService, private router: Router) {}
+export class TransactionsComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'purchase_date', 'user_id'];
+  dataSource = TRANSACTION_DATA;
+  currentUser: any | undefined;
+  // order: OrderReceive = OrderReceive;
+  
+  orderItems!: OrderReceive[];
+
+  constructor(private orderService: OrderService, private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
-    // this.getOrders();
+    this.userService.loggedInUser$.subscribe( x => this.currentUser = x);
+    this.getOrders();
   }
 
-  // // Retrive order to display
-  // public getOrders(): void {
-  //   this.orderService.getOrders().subscribe(orderItems => this.orderItems = orderItems);
-  // }
+  // Retrive order to display
+  public getOrders(): void {
+    this.orderService.getOrders().subscribe(orderItems => this.orderItems = orderItems);
+  }
 }
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+
+export interface TransactionHistory {
+  id: number;
+  purchase_date: string;
+  user_id: number;
 }
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+
+const TRANSACTION_DATA: TransactionHistory[] = [
+  {id: 1, purchase_date: '11-21-2022', user_id: 1},
 ];
