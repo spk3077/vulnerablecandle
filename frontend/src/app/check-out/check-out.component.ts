@@ -11,6 +11,7 @@ import { UserInfoService } from '@app/_services/user-info.service';
 import { ShoppingCartService } from '@app/_services/shopping-cart.service';
 import { PaymentService } from '@app/_services/payment.service';
 import { OrderService } from '@app/_services/order.service';
+import { PATTERNS } from '@app/_core/constants';
 
 @Component({
   selector: 'app-check-out',
@@ -43,22 +44,17 @@ export class CheckOutComponent implements OnInit{
     private orderService: OrderService,
     private formBuilder: FormBuilder,
     private router: Router) {
-      const zipPattern = "^[0-9]*$";
-      const cardNumberPattern = "^[0-9]*$";
-      const expirationPattern = "^(0[1-9]|1[012])/(2[3-9]|3[0-3])$";
-      const cvvPattern = "^[0-9]*$";
-
       this.checkoutForm = this.formBuilder.group({
         fullName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
         email: ['', [Validators.required, Validators.email, Validators.minLength(5), Validators.maxLength(50)]],
         address: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
         city: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
         state: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
-        zip: ['', [Validators.required, Validators.pattern(zipPattern), Validators.minLength(2), Validators.maxLength(20)]],
+        zip: ['', [Validators.required, Validators.pattern(PATTERNS.ZIP), Validators.minLength(2), Validators.maxLength(20)]],
         cardName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-        cardNumber: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(19), Validators.pattern(cardNumberPattern)]],
-        expiration: ['', [Validators.required, Validators.pattern(expirationPattern)]],
-        cvv: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern(cvvPattern)]]
+        cardNumber: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(19), Validators.pattern(PATTERNS.CARDNUM)]],
+        expiration: ['', [Validators.required, Validators.pattern(PATTERNS.EXPIRE)]],
+        cvv: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern(PATTERNS.CVV)]]
       });
     }
 

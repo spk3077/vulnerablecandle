@@ -2,9 +2,6 @@
 a.title, p, dt, dd.text-end {
     color: #51585e
 }
-.form-control, .form-select {
-    background-color: #f9f9f9;
-}
 .card-title {
     margin-bottom: 1rem;
 }

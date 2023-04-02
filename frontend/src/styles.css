@@ -2,6 +2,9 @@
 main {
     padding-top: 3.4rem;
 }
+.form-control, .form-select {
+    background-color: #f9f9f9;
+}
 .alert-message {
     color: #ff0000;
     font-size: 95%;
