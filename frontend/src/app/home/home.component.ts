@@ -8,7 +8,7 @@ import { ProductService } from '@app/_services/product.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   products: ProductReceive[] = [];
 
   // Display Variables

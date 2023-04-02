@@ -5,14 +5,14 @@ export class CartItemReceive {
     constructor(
         public id: number,
         public product: ProductReceive,
-        public quantity: number,
+        public quantity: number
     ) {  }
 }
 
 // CLASS FOR SENDING SHOPPING CART ITEM
 export class CartItemSend {
     constructor(
-        public productID: number,
-        public quantity: number,
+        public id: number,
+        public quantity: number
     ) {  }
 }

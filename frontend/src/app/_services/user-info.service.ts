@@ -16,14 +16,14 @@ export class UserInfoService {
   constructor(private http: HttpClient) { }
 
    // Retrieve UserInfo
-   public getUserInfo(): Observable<any> {
+  public getUserInfo(): Observable<any> {
     return this.http.get(this.userinfo_endpoint)
       .pipe(
           map(res => {
               return res;
           }),
           catchError(error => {
-              return throwError(() => (new Error(error)));
+              return of(error);
           })
       );
   }
@@ -54,25 +54,14 @@ export class UserInfoService {
 
     // Add user info to account (keeps unincluded)
     public changeUserInfo(userInfo: UserInfoSend): Observable<any> {
-      return this.http.put(this.userinfo_endpoint,
-        {
-          name: userInfo.name,
-          phone: userInfo.phone,
-          email: userInfo.email,
-          address: userInfo.address,
-          city: userInfo.city,
-          state: userInfo.state,
-          zip: userInfo.zip,
-          picture: userInfo.picture
-        }
-        )
+      return this.http.put(this.userinfo_endpoint, userInfo)
         .pipe(
-            map(res => {
-                return res;
-            }),
-            catchError(error => {
-                return of(error);
-            })
+          map(res => {
+              return res;
+          }),
+          catchError(error => {
+              return of(error);
+          })
         );
   }
 }

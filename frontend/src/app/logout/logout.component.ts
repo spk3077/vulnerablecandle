@@ -18,7 +18,7 @@ export class LogoutComponent implements OnInit {
   logout(): void {
     this.userService.logout().subscribe({
       next: (res) => {
-        let logoutResponse: DefaultResponse = res as DefaultResponse;
+        const logoutResponse: DefaultResponse = res as DefaultResponse;
           console.log(logoutResponse);
           if (logoutResponse.success != true) {
             console.log("Logout Failed!  Will be terminated anyways");

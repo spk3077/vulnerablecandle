@@ -3,6 +3,6 @@ export class SavedUser {
     constructor(
         public username: string,
         public authority: string,
-        public picture: string
+        public picture: string | null
     ){}
 }

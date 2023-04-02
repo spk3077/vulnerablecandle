@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <section class="col-xl-8 col-lg-8">
-                    <form [formGroup]="checkoutForm" (ngSubmit)="checkout( checkoutForm )">
+                    <form [formGroup]="checkoutForm" (ngSubmit)="checkout()">
                         
                         <!-- ========================= CONFIRMATION ARTICLE ========================= -->
                         <article class="card mb-4">
@@ -31,6 +31,9 @@
                                 <div class="alert-message" [hidden]="!changeUserInfoError">
                                     Change UserInfo Failed! Try again later!
                                 </div>
+                                <div class="alert-message" [hidden]="!changePaymentError">
+                                    Change Payment Failed! Try again later!
+                                </div>
                                 <!-- === ERRORS END// === -->
                                 
                                 <!-- === BILLING SECTION === -->
@@ -43,7 +46,7 @@
                                 <div class="row">
                                     <div class="col-6 mb-3">
                                         <label class="form-label">Full name*</label>
-                                        <input type="text" class="form-control" [(ngModel)]="userInfo.name" formControlName="fullName" placeholder="John Doe" [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }">
+                                        <input type="text" class="form-control" formControlName="fullName" placeholder="John Doe" [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }">
                                         <div *ngIf="submitted && f.fullName.errors" class="invalid-feedback">
                                             <div *ngIf="f.fullName.errors.required">Full name is required</div>
                                             <div *ngIf="f.fullName.errors.minlength">Card name must be at least 3 characters</div>
@@ -52,7 +55,7 @@
                                     </div>
                                     <div class="col-6 mb-3">
                                         <label class="form-label">Email*</label>
-                                        <input type="text" class="form-control" [(ngModel)]="userInfo.email" formControlName="email" placeholder="example@gmail.com" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                                        <input type="text" class="form-control" formControlName="email" placeholder="example@gmail.com" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
                                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                                             <div *ngIf="f.email.errors.required">Email is required</div>
                                             <div *ngIf="f.email.errors.email">Invalid email format</div>
@@ -62,7 +65,7 @@
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label class="form-label">Address*</label>
-                                        <input type="text" value="" class="form-control" [(ngModel)]="userInfo.address" formControlName="address" placeholder="One Lomb Memorial Drive" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                                        <input type="text" class="form-control" formControlName="address" placeholder="One Lomb Memorial Drive" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
                                         <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
                                             <div *ngIf="f.address.errors.required">Address is required</div>
                                             <div *ngIf="f.address.errors.minlength">Card name must be at least 3 characters</div>
@@ -71,7 +74,7 @@
                                     </div>
                                     <div class="col-5 mb-3">
                                         <label class="form-label">City*</label>
-                                        <input type="text" value="" class="form-control" [(ngModel)]="userInfo.city" formControlName="city" placeholder="Rochester" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+                                        <input type="text" class="form-control" formControlName="city" placeholder="Rochester" [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
                                         <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
                                             <div *ngIf="f.city.errors.required">City is required</div>
                                             <div *ngIf="f.city.errors.minlength">City must be at least 2 characters</div>
@@ -80,8 +83,8 @@
                                     </div>
                                     <div class="col-3 mb-3">
                                         <label for="" class="form-label">State*</label>
-                                        <select class="form-select" [(ngModel)]="userInfo.state" formControlName="state" aria-label="state" [ngClass]="{ 'is-invalid': submitted && f.state.errors }">
-                                            <option value="" selected disabled hidden>Choose here</option>
+                                        <select class="form-select" formControlName="state" aria-label="state" [ngClass]="{ 'is-invalid': submitted && f.state.errors }">
+                                            <option selected disabled hidden>Choose here</option>
                                             <option value="AL">AL</option>
                                             <option value="AK">AK</option>
                                             <option value="AZ">AZ</option>
@@ -139,7 +142,7 @@
                                     </div>
                                     <div class="col-3 mb-3">
                                         <label class="form-label">ZIP*</label>
-                                        <input type="text" value="" [(ngModel)]="userInfo.zip" class="form-control" formControlName="zip" placeholder="14623" [ngClass]="{ 'is-invalid': submitted && f.zip.errors }">
+                                        <input type="text" class="form-control" formControlName="zip" placeholder="14623" [ngClass]="{ 'is-invalid': submitted && f.zip.errors }">
                                         <div *ngIf="submitted && f.zip.errors" class="invalid-feedback">
                                             <div *ngIf="f.zip.errors.required">ZIP is required</div>
                                             <div *ngIf="f.zip.errors.pattern">ZIP should be numeric</div>
@@ -210,7 +213,7 @@
                                 <div class="row">
                                     <div class="col-sm-6 mb-3">
                                         <label for="" class="form-label">Name on card*</label>
-                                        <input type="text" class="form-control" [(ngModel)]="payment.ownerName" formControlName="cardName" placeholder="John Doe" [ngClass]="{ 'is-invalid': submitted && f.cardName.errors }">
+                                        <input type="text" class="form-control" formControlName="cardName" placeholder="John Doe" [ngClass]="{ 'is-invalid': submitted && f.cardName.errors }">
                                         <div *ngIf="submitted && f.cardName.errors" class="invalid-feedback">
                                             <div *ngIf="f.cardName.errors.required">Card name is required</div>
                                             <div *ngIf="f.cardName.errors.minlength">Card name must be at least 2 characters</div>
@@ -220,7 +223,7 @@
         
                                     <div class="col-sm-6 mb-3">
                                         <label for="" class="form-label">Credit card number*</label>
-                                        <input type="text" class="form-control" [(ngModel)]="payment.cardNumber" formControlName="cardNumber" placeholder="4775121759083933" [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors }">
+                                        <input type="text" class="form-control" formControlName="cardNumber" placeholder="4775121759083933" [ngClass]="{ 'is-invalid': submitted && f.cardNumber.errors }">
                                         <div *ngIf="submitted && f.cardNumber.errors" class="invalid-feedback">
                                             <div *ngIf="f.cardNumber.errors.required">Card number is required</div>
                                             <div *ngIf="f.cardNumber.errors.minlength">Card number must be at least 14 characters</div>
@@ -231,7 +234,7 @@
         
                                     <div class="col-sm-2 mb-3">
                                         <label for="" class="form-label">Expiration*</label>
-                                        <input type="text" class="form-control" [(ngModel)]="expiration" formControlName="expiration" placeholder="06/33" [ngClass]="{ 'is-invalid': submitted && f.expiration.errors }">
+                                        <input type="text" class="form-control" formControlName="expiration" placeholder="06/33" [ngClass]="{ 'is-invalid': submitted && f.expiration.errors }">
                                         <div *ngIf="submitted && f.expiration.errors" class="invalid-feedback">
                                             <div *ngIf="f.expiration.errors.required">Expiration Date is required</div>
                                             <div *ngIf="f.expiration.errors.pattern">Format: MM/YY</div>
@@ -240,7 +243,7 @@
                 
                                     <div class="col-sm-2 mb-3">
                                         <label for="" class="form-label">CVV*</label>
-                                        <input type="text" class="form-control" [(ngModel)]="payment.secCode" formControlName="cvv" placeholder="123" [ngClass]="{ 'is-invalid': submitted && f.cvv.errors }">
+                                        <input type="text" class="form-control w-75" formControlName="cvv" placeholder="123" [ngClass]="{ 'is-invalid': submitted && f.cvv.errors }">
                                         <div *ngIf="submitted && f.cvv.errors" class="invalid-feedback">
                                             <div *ngIf="f.cvv.errors.required">CVV is required</div>
                                             <div *ngIf="f.cvv.errors.minlength">CVV must be 3 characters</div>
@@ -272,7 +275,7 @@
                         
                         <dl class="dlist-align">
                             <dt>Total price:</dt>
-                            <dd class="text-end"> $195.90</dd>
+                            <dd class="text-end"> ${{total.toFixed(2)}}</dd>
                         </dl>
                         <!-- <dl class="dlist-align">
                             <dt>Discount:</dt>
@@ -285,7 +288,7 @@
                         <hr>
                         <dl class="dlist-align">
                             <dt> Total: </dt>
-                            <dd class="text-end"> <strong class="price-bold">$252.90</strong> </dd>
+                            <dd class="text-end"> <strong class="price-bold">${{total.toFixed(2)}}</strong> </dd>
                         </dl>
                         <!-- === PRICE SECTION END// === -->
                 

@@ -78,10 +78,10 @@ export class ProductComponent implements OnInit {
         if (images.length >= 1) {
           this.imageUrl1 = images[0];
         }
-        if (this.product.image.length >= 2) {
+        if (images.length >= 2) {
           this.imageUrl2 = images[1];
         }
-        if (this.product.image.length >= 3) {
+        if (images.length >= 3) {
           this.imageUrl3 = images[2];
         }
 
@@ -100,7 +100,7 @@ export class ProductComponent implements OnInit {
     this.shoppingCartService.addToCart(new CartItemSend(this.id, this.quantity)).subscribe({
       next: (res) => {
         // Get generic response to determine success
-        let addResponse = res as DefaultResponse;
+        const addResponse = res as DefaultResponse;
           if (addResponse.success != true) {
             this.toCartMessage = res.message;
           }

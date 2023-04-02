@@ -47,7 +47,7 @@
                     <li *ngIf="currentUser" class="nav-item dropdown nav-color me-4">
                         <a role="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">
                             <img class="rounded-circle me-lg-1" alt="" width="30" height="30" 
-                                [attr.src]="currentUser.picture !== null ? 'currentUser.picture' : 'assets/images/defaultprofile.png'">
+                                [attr.src]="currentUser.picture !== null ? currentUser.picture : 'assets/images/defaultprofile.png'">
                             <span class="nav-item d-none d-lg-inline-flex">{{currentUser.username.length > 10 ? currentUser.username.substring(0,9) + '...' : currentUser.username }}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end smallmenu dropdown-menu-dark">

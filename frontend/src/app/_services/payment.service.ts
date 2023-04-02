@@ -28,25 +28,17 @@ export class PaymentService {
       );
   }
 
-    // Add payment for current user
-    public addPayment(payment: PaymentSend): Observable<any> {
-      return this.http.post(this.payment_endpoint, 
-        {
-          cardNumber: payment.cardNumber,
-          ownerName: payment.ownerName,
-          expiryMonth: payment.expiryMonth,
-          expiryYear: payment.expiryYear,
-          secCode: payment.secCode
-        }
-        )
-        .pipe(
-            map(res => {
-                return res;
-            }),
-            catchError(error => {
-                return throwError(() => (new Error(error)));
-            })
-        );
-    }
+  // Add payment for current user
+  public addPayment(payment: PaymentSend): Observable<any> {
+    return this.http.post(this.payment_endpoint, payment)
+      .pipe(
+        map(res => {
+            return res;
+        }),
+        catchError(error => {
+            return throwError(() => (new Error(error)));
+        })
+      );
+  }
 
 }

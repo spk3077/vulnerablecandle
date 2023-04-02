@@ -82,7 +82,7 @@
                 <div class="row">
                 <div class="col-lg-4 col-md-6" *ngFor="let product of (products |slice:0:42 | products:filters) | filter:filterSearch">
                     <article class="card card-product-grid">
-                        <a routerLink="{{product.id}}">
+                        <a class="text-center" routerLink="{{product.id}}">
                             <img src={{product.getFirstImage()}} height="200" class="card-img-top" alt="product image">
                         </a>
                         <div class="card-body pt-0">
