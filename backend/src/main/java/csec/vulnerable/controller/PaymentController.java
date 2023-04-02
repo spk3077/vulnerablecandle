@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import csec.vulnerable.beans.Payment;
 import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.UserDao;
-import csec.vulnerable.dto.PaymentDTO;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.PaymentService;
 
@@ -31,18 +30,16 @@ public class PaymentController {
     UserDao userDao;
 
     @GetMapping
-    public List<PaymentDTO> getPayments(Authentication authentication) {
-        return paymentService.getPayments(authentication);
+    public List<Payment> getPayments(Authentication authentication) {
+        User user = userDao.findByUsername(authentication.getName());
+        return paymentService.getPaymentsByUser(user);
     }
 
     @PostMapping
     public Response addPayment(@RequestBody Payment payment, Authentication authentication) {
-        User user = userDao.findByUsername(authentication.getName());
-        payment.setUser(user);
-
         if (paymentService.isValidCardNumber(payment.getCardNumber())
                 && paymentService.isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
-            return paymentService.addPayment(payment);
+            return paymentService.addPayment(payment,authentication);
         } else {
             return new Response(false, "Invalid payment details");
         }

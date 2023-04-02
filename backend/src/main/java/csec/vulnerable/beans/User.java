@@ -48,13 +48,13 @@ private static final long serialVersionUID = 1L;
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private UserInfo userInfo;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ProductReview> myreviews;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonIgnore
-    private List<Payment> mypayments;
+    private List<Payment> payments;
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
@@ -147,12 +147,7 @@ private static final long serialVersionUID = 1L;
 	public void setMyreviews(List<ProductReview> myreviews) {
 		this.myreviews = myreviews;
 	}
-	public List<Payment> getMypayments() {
-		return mypayments;
-	}
-	public void setMypayments(List<Payment> mypayments) {
-		this.mypayments = mypayments;
-	}
+	
 	public ShoppingCart getShoppingCart() {
 		return shoppingCart;
 	}

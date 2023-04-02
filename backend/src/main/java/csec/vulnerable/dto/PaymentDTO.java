@@ -21,6 +21,14 @@ public class PaymentDTO {
         this.secCode = secCode;
     }
 
+    public PaymentDTO(int id, String cardNumber, String ownerName, int expiryMonth, int expiryYear) {
+        this.id = id;
+        this.cardNumber = cardNumber;
+        this.ownerName = ownerName;
+        this.expiryMonth = expiryMonth;
+        this.expiryYear = expiryYear;
+    }
+
     public int getId() {
         return id;
     }
@@ -73,8 +81,11 @@ public class PaymentDTO {
         PaymentDTO result = new PaymentDTO();
         result.setOwnerName(ownerName);
         result.setCardNumber("**** **** **** " + cardNumber.substring(cardNumber.length() - 4));
+        result.setExpiryMonth(expiryMonth);
+        result.setExpiryYear(expiryYear);
         return result;
     }
+    
 
     @Override
     public String toString() {

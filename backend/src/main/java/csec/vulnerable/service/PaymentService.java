@@ -4,7 +4,6 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -16,7 +15,6 @@ import csec.vulnerable.beans.Payment;
 import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.PaymentDao;
 import csec.vulnerable.dao.UserDao;
-import csec.vulnerable.dto.PaymentDTO;
 import csec.vulnerable.http.Response;
 
 
@@ -35,16 +33,15 @@ public class PaymentService {
         return payment.orElse(null);
     }
 
-    public List<PaymentDTO> getPayments(Authentication authentication) {
-        User user = userDao.findByUsername(authentication.getName());
-        List<Payment> payments = paymentDao.findByUser(user);
-        List<PaymentDTO> paymentDTOs = payments.stream().map(Payment::toPaymentDTO).collect(Collectors.toList());
-        return paymentDTOs;
+    public List<Payment> getPaymentsByUser(User user) {
+        return paymentDao.findAllByUser(user);
     }
 
-    public Response addPayment(Payment payment) {
+    public Response addPayment(Payment payment,Authentication authentication) {
+        User user = userDao.findByUsername(authentication.getName());
         if (isValidCardNumber(payment.getCardNumber())
                 && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
+            payment.setUser(user);
             paymentDao.save(payment);
             return new Response(true, "Payment added successfully");
         } else {

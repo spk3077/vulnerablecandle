@@ -11,6 +11,6 @@ import csec.vulnerable.beans.User;
 @Repository
 public interface PaymentDao extends JpaRepository<Payment, Integer> {
 
-    List<Payment> findByUser(User user);
+    List<Payment> findAllByUser(User user);
 	
 }

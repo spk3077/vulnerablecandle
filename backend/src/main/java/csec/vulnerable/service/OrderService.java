@@ -65,7 +65,7 @@ public class OrderService {
         Order order = new Order();
         order.setUser(user);
     
-        List<Payment> thePayments = paymentDao.findByUser(user);
+        List<Payment> thePayments = paymentDao.findAllByUser(user);
         List<PaymentDTO> payments = thePayments.stream().map(Payment::toPaymentDTO).collect(Collectors.toList());
         if (payments == null || payments.isEmpty()) {
             throw new RuntimeException("The payment method missing.");

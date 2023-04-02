@@ -36,10 +36,8 @@ public class Payment {
     @JsonIgnore
     private User user;
 
-
     @Column
     @NotNull
-    @CreditCardNumber
     private String cardNumber;
 
     @Column
@@ -62,15 +60,40 @@ public class Payment {
     @Column
     @NotNull
     @Digits(integer = 3, fraction = 0)
-    private int secCode;
+    private Integer secCode;
 
     public Payment() {
     }
 
     
+    public Payment(int id, @NotNull @CreditCardNumber String cardNumber,
+            @NotNull @Size(min = 2, max = 50) String ownerName, @NotNull @Min(1) @Max(12) int expiryMonth,
+            @NotNull @Min(23) @Max(33) int expiryYear, @NotNull @Digits(integer = 3, fraction = 0) Integer secCode) {
+        this.id = id;
+        this.cardNumber = cardNumber;
+        this.ownerName = ownerName;
+        this.expiryMonth = expiryMonth;
+        this.expiryYear = expiryYear;
+        this.secCode = secCode;
+    }
+
+
+    public Payment(int id, User user, @NotNull @CreditCardNumber String cardNumber,
+            @NotNull @Size(min = 2, max = 50) String ownerName, @NotNull @Min(1) @Max(12) int expiryMonth,
+            @NotNull @Min(23) @Max(33) int expiryYear, @NotNull @Digits(integer = 3, fraction = 0) Integer secCode) {
+        this.id = id;
+        this.user = user;
+        this.cardNumber = cardNumber;
+        this.ownerName = ownerName;
+        this.expiryMonth = expiryMonth;
+        this.expiryYear = expiryYear;
+        this.secCode = secCode;
+    }
+
+
     public Payment(@NotNull @CreditCardNumber String cardNumber, @NotNull @Size(min = 2, max = 50) String ownerName,
             @NotNull @Min(1) @Max(12) int expiryMonth, @NotNull @Min(23) @Max(33) int expiryYear,
-            @NotNull @Digits(integer = 3, fraction = 0) int secCode) {
+            @NotNull @Digits(integer = 3, fraction = 0) Integer secCode) {
         this.cardNumber = cardNumber;
         this.ownerName = ownerName;
         this.expiryMonth = expiryMonth;
@@ -80,7 +103,7 @@ public class Payment {
 
     public Payment(User user, @NotNull @CreditCardNumber String cardNumber,
             @NotNull @Size(min = 2, max = 50) String ownerName, @NotNull @Min(1) @Max(12) int expiryMonth,
-            @NotNull @Min(23) @Max(33) int expiryYear, @NotNull @Digits(integer = 3, fraction = 0) int secCode) {
+            @NotNull @Min(23) @Max(33) int expiryYear, @NotNull @Digits(integer = 3, fraction = 0) Integer secCode) {
         this.user = user;
         this.cardNumber = cardNumber;
         this.ownerName = ownerName;
@@ -150,28 +173,22 @@ public class Payment {
     }
 
 
-    public int getSecCode() {
+    public Integer getSecCode() {
         return secCode;
     }
 
 
-    public void setSecCode(int secCode) {
+    public void setSecCode(Integer secCode) {
         this.secCode = secCode;
-    }
-
-
-    public Payment getAnonymousPayment() {
-        Payment result = new Payment();
-        result.setOwnerName(ownerName);
-        result.setCardNumber("**** **** **** " + cardNumber.substring(cardNumber.length() - 4));
-        return result;
     }
 
     @Override
     public String toString() {
-        return "Payment [cardNumber=" + cardNumber + ", ownerName=" + ownerName + ", expiryMonth=" + expiryMonth
-                + ", expiryYear=" + expiryYear + ", secCode=" + secCode + "]";
+        return "Payment [id=" + id + ", user=" + user + ", cardNumber=" + cardNumber + ", ownerName=" + ownerName
+                + ", expiryMonth=" + expiryMonth + ", expiryYear=" + expiryYear + ", secCode=" + secCode + "]";
     }
+
+    
 
     public PaymentDTO toPaymentDTO() {
         PaymentDTO dto = new PaymentDTO();
@@ -182,6 +199,13 @@ public class Payment {
         dto.setExpiryYear(expiryYear);
         dto.setSecCode(secCode);
         return dto;
+    }
+
+    public PaymentDTO getAnonymousPayment() {
+        PaymentDTO result = new PaymentDTO();
+        result.setOwnerName(ownerName);
+        result.setCardNumber("**** **** **** " + cardNumber.substring(cardNumber.length() - 4));
+        return result;
     }
 
 }
