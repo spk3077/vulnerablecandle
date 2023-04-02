@@ -12,26 +12,33 @@ import { UserService } from '@app/_services/user.service';
 })
 
 export class TransactionsComponent implements OnInit {
+  orderItems: OrderReceive[] = [];
   displayedColumns: string[] = ['id', 'purchase_date', 'user_id'];
   dataSource = TRANSACTION_DATA;
   currentUser: any | undefined;
-  // order: OrderReceive = OrderReceive;
   
-  orderItems!: OrderReceive[];
 
   constructor(private orderService: OrderService, private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.loggedInUser$.subscribe( x => this.currentUser = x);
+    this.userService.loggedInUser$.subscribe( x => this.currentUser = x );
     this.getOrders();
   }
 
+
   // Retrive order to display
   public getOrders(): void {
-    this.orderService.getOrders().subscribe(orderItems => this.orderItems = orderItems);
+    this.orderService.getOrders().subscribe({
+      next: (res) => {
+        res.orderItems.forEach((orderItem: any) => {
+          this.orderItems.push(
+            new OrderReceive(orderItem.id, orderItem.purchase_date, orderItem.user_id));
+        });
+      },
+    });
+
   }
 }
-
 
 export interface TransactionHistory {
   id: number;
