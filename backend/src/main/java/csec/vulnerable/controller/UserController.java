@@ -1,5 +1,6 @@
 package csec.vulnerable.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import csec.vulnerable.beans.ChangePasswordRequest;
 import csec.vulnerable.beans.User;
+import csec.vulnerable.dto.UserDTO;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.UserService;
 
@@ -23,10 +25,15 @@ import csec.vulnerable.service.UserService;
 public class UserController {
 	@Autowired
 	UserService userService;
-	
+
 	@GetMapping
-	public List<User> getusers(Authentication authentication){
-		return userService.getusers(authentication);
+	public List<UserDTO> getUsers(Authentication authentication) {
+		List<User> users = userService.getusers(authentication);
+		List<UserDTO> userDTOs = new ArrayList<>();
+		for (User user : users) {
+			userDTOs.add(new UserDTO(user.getId(), user.getUsername(), user.getUserInfo()));
+		}
+		return userDTOs;
 	}
 
 	@PostMapping
