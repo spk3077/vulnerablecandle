@@ -9,9 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.CreditCardNumber;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "ecom_billing_info")
@@ -21,39 +20,32 @@ public class BillingInfo {
     private int id;
 
     @Column(name = "name")
-    @Size(min = 3, max = 50)
     private String name;
 
     @Column(name = "email")
-    @Size(min = 5, max = 50)
     private String email;
 
     @Column(name = "address")
-    @Size(min = 3, max = 100)
     private String address;
 
     @Column(name = "city")
-    @Size(min = 2, max = 20)
     private String city;
 
     @Column(name = "state")
-    @Size(min = 2, max = 20)
     private String state;
 
     @Column(name = "zip")
-    @Size(min = 2, max = 20)
     private String zip;
 
     @Column(name = "card_number")
-    @CreditCardNumber
     private String cardNumber;
 
     @Column(name = "payment_owner_name")
-    @Size(min = 2, max = 50)
     private String paymentOwnerName;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     public BillingInfo() {}
