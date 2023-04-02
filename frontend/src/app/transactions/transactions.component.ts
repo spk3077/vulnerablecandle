@@ -13,7 +13,7 @@ import { UserService } from '@app/_services/user.service';
 
 export class TransactionsComponent implements OnInit {
   orderItems: OrderReceive[] = [];
-  displayedColumns: string[] = ['id', 'purchase_date', 'user_id'];
+  displayedColumns: string[] = ['id', 'address', 'card_number', 'city', 'email', 'name', 'payment_owner_name', 'purchase_date', 'state', 'zip', 'user_id'];
   dataSource = TRANSACTION_DATA;
   currentUser: any | undefined;
   
@@ -32,7 +32,7 @@ export class TransactionsComponent implements OnInit {
       next: (res) => {
         res.orderItems.forEach((orderItem: any) => {
           this.orderItems.push(
-            new OrderReceive(orderItem.id, orderItem.purchase_date, orderItem.user_id));
+            new OrderReceive(orderItem.id, orderItem.address, orderItem.card_number, orderItem.city, orderItem.email, orderItem.name,orderItem.payment_owner_name, orderItem.purchase_date, orderItem.state, orderItem.zip, orderItem.user_id));
         });
       },
     });
