@@ -1,12 +1,15 @@
 <main>
   <app-submenu [activePage]="'Transactions'" [firstPage]="'Home'" [firstPage_URL]="'/'"[secondPage]="'Transactions'"></app-submenu>
+  <div class="alert-message-mb5" [hidden]="!getOrderItemsError">
+    No previous orders.
+  </div>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
   
-    <!-- ID Column -->s
+    <!-- ID Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> Order ID </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>

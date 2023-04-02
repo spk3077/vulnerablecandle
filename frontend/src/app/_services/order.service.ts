@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { environment } from  '@environments/environment';
@@ -22,7 +22,7 @@ export class OrderService {
               return res;
           }),
           catchError(error => {
-              return throwError(() => (new Error(error)));
+              return of(error);
           })
       );
   }

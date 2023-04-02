@@ -13,9 +13,11 @@ import { UserService } from '@app/_services/user.service';
 
 export class TransactionsComponent implements OnInit {
   orderItems: OrderReceive[] = [];
+  originalOrderItems: OrderReceive[] = [];
   displayedColumns: string[] = ['id', 'address', 'card_number', 'city', 'email', 'name', 'payment_owner_name', 'purchase_date', 'state', 'zip', 'user_id'];
   dataSource = TRANSACTION_DATA;
   currentUser: any | undefined;
+  getOrderItemsError: boolean = false;
   
 
   constructor(private orderService: OrderService, private router: Router, private userService: UserService) {}
@@ -32,9 +34,13 @@ export class TransactionsComponent implements OnInit {
       next: (res) => {
         res.orderItems.forEach((orderItem: any) => {
           this.orderItems.push(
-            new OrderReceive(orderItem.id, orderItem.address, orderItem.card_number, orderItem.city, orderItem.email, orderItem.name,orderItem.payment_owner_name, orderItem.purchase_date, orderItem.state, orderItem.zip, orderItem.user_id));
+            new OrderReceive(orderItem.id, orderItem.address, orderItem.card_number, orderItem.city, orderItem.email, orderItem.name, orderItem.payment_owner_name, orderItem.purchase_date, orderItem.state, orderItem.zip, orderItem.user_id));
         });
       },
+      error: () => {
+        // Failed at server
+        this.getOrderItemsError = true;
+      }
     });
 
   }
