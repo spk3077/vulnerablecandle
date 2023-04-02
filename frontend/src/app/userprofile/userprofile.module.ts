@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { UserProfileComponent } from './userprofile.component';
 import { UserProfileRoutingModule } from './userprofile-routing.module';
@@ -11,9 +9,7 @@ import { UserProfileRoutingModule } from './userprofile-routing.module';
   imports: [
     CommonModule,
     UserProfileRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FontAwesomeModule
+    ReactiveFormsModule
   ],
   declarations: [UserProfileComponent]
 })

@@ -14,9 +14,60 @@
         </div>
         <!-- === TOP INFO END// === -->
 
+        <!-- =================== NAME & PFP =================== -->
+        <!-- === VIEW NAME & PFP === -->
+        <div *ngIf="!picFormDisplay" class="card mb-4">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" src="https://therichpost.com/wp-content/uploads/2021/03/avatar2.png" alt="Jassa Rich"></div>
+              <div class="flex-grow-1 ps-3">
+                <h4>Jassa Rich</h4>
+                <p class="text-muted mb-0">Coder</p>
+                <span class="float-end">
+                  <button (click)="picFormDisplay = true;" class="btn btn-primary">Edit</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- === VIEW NAME & PFP END// === -->
+
+        <!-- === EDIT NAME & PFP === -->
+        <form *ngIf="picFormDisplay" [formGroup]="picForm" (ngSubmit)="picSubmit()" class="card mb-4">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" src="https://therichpost.com/wp-content/uploads/2021/03/avatar2.png" alt="Jassa Rich"></div>
+              <div class="flex-grow-1 ps-3">
+                <h4>Jassa Rich</h4>
+                <p class="text-muted mb-0">&nbsp;</p>
+                <span class="float-end">
+                  <button (click)="picFormDisplay = false;" class="btn btn-dark">Cancel</button>
+                  <button class="btn btn-success ms-2" type="submit">Save</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- === EDIT NAME & PFP END// === -->
+        <!-- =================== NAME & PFP END// =================== -->
+
+        <!-- =================== PASSWORD =================== -->
+        <!-- === VIEW PASSWORD === -->
+        <div *ngIf="!passFormDisplay" class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Password</h5>
+
+              <div class="float-end">
+                  <button (click)="passFormDisplay = true;" class="btn btn-primary">Change Password</button>
+              </div>
+              <p class="mb-0">Don't like your current password?</p>
+          </div>
+        </div>
+        <!-- === VIEW PASSWORD === -->
+
         <!-- === CHANGE PASSWORD === -->
-        <form class="card mb-4">
-          <div class="card-header">
+        <form *ngIf="passFormDisplay" [formGroup]="passForm" (ngSubmit)="passSubmit()" class="card mb-4">
+          <div class="card-header ps-3">
             <h5 class="card-heading">Change Password</h5>
           </div>
           <div class="card-body">
@@ -28,10 +79,12 @@
             <input class="form-control" type="password" placeholder="Password">
           </div>
           <div class="card-footer text-end">
-            <button class="btn btn-primary">Save</button>
+            <button (click)="passFormDisplay = false;" class="btn btn-dark">Cancel</button>
+            <button class="btn btn-success ms-2" type="submit">Save</button>
           </div>
         </form>
         <!-- === CHANGE PASSWORD END// === -->
+        <!-- =================== PASSWORD END// =================== -->
 
       </aside>
       <!-- ========================= PROFILE ASIDE END// ========================= -->
@@ -39,30 +92,56 @@
       <!-- ========================= MAIN SECTION ========================= -->
       <section class="col-lg-8">
 
-        <!-- ========================= EDIT PROFILE FORM ========================= -->
-        <form class="card mb-4">
-          <div class="card-header">
-            <h5 class="card-heading">Edit Profile</h5>
+        <!-- =================== USERINFO =================== -->
+        <!-- === VIEW USERINFO === -->
+        <div *ngIf="!infoFormDisplay" class="card mb-4">
+          <div class="card-header ps-3">
+            <h5 class="card-heading">User Info</h5>
+          </div>
+          <div class="card-body">
+            <!-- === ERRORS === -->
+            <div class="alert-message" [hidden]="!getUserInfoError">
+              Fetching User Info Failed! Try again later!
+            </div>
+            <!-- === ERRORS END// === -->
+            <dl class="dlist-align">
+              <dt>Email: </dt>
+              <dd class="text-muted">example@gmail.com</dd>
+            </dl>
+            <dl class="dlist-align mt-3">
+              <dt>Phone: </dt>
+              <dd class="text-muted">512-515-1464</dd>
+            </dl>
+            <dl class="dlist-align mt-3">
+              <dt>Address: </dt>
+              <dd class="text-muted">One Lomb Memorial Drive</dd>
+            </dl>
+            <dl class="dlist-align mt-3">
+              <dt>City: </dt>
+              <dd class="text-muted">Rochester</dd>
+            </dl>
+            <dl class="dlist-align mt-3">
+              <dt>State: </dt>
+              <dd class="text-muted">NY</dd>
+            </dl>
+            <dl class="dlist-align mt-3 mb-3">
+              <dt>ZIP: </dt>
+              <dd class="text-muted">12345</dd>
+            </dl>
+          </div>
+          <div class="card-footer text-end">
+            <button (click)="infoFormDisplay = true;" class="btn btn-primary" type="submit">Edit</button>
+          </div>
+        </div>
+        <!-- === VIEW USERINFO //END === -->
+
+        <!-- === EDIT USERINFO === -->
+        <form *ngIf="infoFormDisplay" [formGroup]="infoForm" (ngSubmit)="infoSubmit()" class="card mb-4">
+          <div class="card-header ps-3">
+            <h5 class="card-heading">Edit User Info</h5>
           </div>
           <div class="card-body">
             <div class="row">
-
-              <!-- ================ EDIT USERINFO FIELDS ================ -->
-              <div class="card-title">
-                <h5 class="card-title fs-6">Edit User Info</h5>
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <div class="mb-4">
-                  <label class="form-label">First Name</label>
-                  <input class="form-control" type="text" placeholder="First name">
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <div class="mb-4">
-                  <label class="form-label">Last Name</label>
-                  <input class="form-control" type="text" placeholder="Last Name">
-                </div>
-              </div>
               <div class="col-sm-6 col-md-5">
                 <div class="mb-4">
                   <label class="form-label">Email address</label>
@@ -151,14 +230,57 @@
                   <input class="form-control" type="number" placeholder="ZIP">
                 </div>
               </div>
-              <!-- ================ EDIT USERINFO FIELDS END// ================ -->
+            </div>
+          </div>
+          <div class="card-footer text-end">
+            <button (click)="infoFormDisplay = false;" class="btn btn-dark">Cancel</button>
+            <button class="btn btn-success ms-2" type="submit">Save</button>
+          </div>
+        </form>
+        <!-- === EDIT USERINFO END// === -->
 
-              <hr />
+        <!-- =================== PAYMENT =================== -->
+        <!-- === VIEW PAYMENT === -->
+        <div *ngIf="!payFormDisplay" class="card mb-4">
+          <div class="card-header ps-3">
+            <h5 class="card-heading">Payment</h5>
+          </div>
+          <div class="card-body">
+            <!-- === ERRORS === -->
+            <div class="alert-message" [hidden]="!getPaymentError">
+              Fetching Payment Failed! Try again later!
+            </div>
+            <!-- === ERRORS END// === -->
+            <dl class="dlist-align">
+              <dt>Name on card: </dt>
+              <dd class="text-muted">John Doe</dd>
+            </dl>
+            <dl class="dlist-align mt-3">
+              <dt>Card number: </dt>
+              <dd class="text-muted">4775121759083933</dd>
+            </dl>
+            <dl class="dlist-align mt-3">
+              <dt>Expiration date: </dt>
+              <dd class="text-muted">12/23</dd>
+            </dl>
+            <dl class="dlist-align mt-3 mb-3">
+              <dt>CVV: </dt>
+              <dd class="text-muted">123</dd>
+            </dl>
+          </div>
+          <div class="card-footer text-end">
+            <button (click)="payFormDisplay = true;" class="btn btn-primary" type="submit">Edit</button>
+          </div>
+        </div>
+        <!-- === VIEW PAYMENT END// === -->
 
-              <!-- ================ EDIT PAYMENT FIELDS ================ -->
-              <div class="card-title">
-                <h5 class="card-title fs-6">Edit Payment Info</h5>
-              </div>
+        <!-- === EDIT PAYMENT === -->
+        <form *ngIf="payFormDisplay" [formGroup]="infoForm" (ngSubmit)="paySubmit()" class="card mb-4">
+          <div class="card-header ps-3">
+            <h5 class="card-heading">Edit Payment</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
               <div class="col-sm-6 col-md-6">
                 <div class="mb-4">
                   <label class="form-label">Name on card</label>
@@ -183,14 +305,16 @@
                   <input class="form-control" type="text" placeholder="Security Code">
                 </div>
               </div>
-
             </div>
           </div>
           <div class="card-footer text-end">
-            <button class="btn btn-primary" type="submit">Update Profile</button>
+            <button (click)="payFormDisplay = false;" class="btn btn-dark">Cancel</button>
+            <button class="btn btn-success ms-2" type="submit">Save</button>
           </div>
         </form>
+        <!-- === EDIT PAYMENT END// === -->
         <!-- ========================= EDIT PROFILE FORM END// ========================= -->
+
       </section>
       <!-- ========================= MAIN SECTION END// ========================= -->
 

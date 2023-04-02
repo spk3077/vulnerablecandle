@@ -87,9 +87,10 @@ export class LoginComponent implements OnInit {
         else {
           userReceive = res.find((obj: UserReceive) => obj.username === form.value.username);
         }
+        console.log(userReceive);
 
         // Save the User to Local Storage
-        savedUser = new SavedUser(userReceive.username, userReceive.authorities[0].type, userReceive.userInfo.picture);
+        savedUser = new SavedUser(userReceive.username, userReceive.profiles[0].type, userReceive.userInfo.picture);
         this.userService.setLoggedUser(savedUser);
         this.router.navigateByUrl('/');
       },
