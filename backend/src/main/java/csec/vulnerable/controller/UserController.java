@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import csec.vulnerable.beans.ChangePasswordRequest;
 import csec.vulnerable.beans.User;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.UserService;
@@ -34,9 +35,13 @@ public class UserController {
 	}
 
 	@PutMapping
-	public Response changeUser(@RequestBody User user,Authentication authentication) {
-		return userService.changePassword(user, authentication);
+	public Response changeUser(@RequestBody ChangePasswordRequest request, Authentication authentication) {
+		User user = new User();
+		user.setUsername(request.getUsername());
+		user.setPassword(request.getNewPassword());
+		return userService.changePassword(user, authentication, request.getOldPassword());
 	}
+
 	
 	@DeleteMapping("/{id}")
 	public Response deleteUser(@PathVariable int id) {

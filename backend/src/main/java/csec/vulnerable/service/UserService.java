@@ -73,15 +73,19 @@ public class UserService {
 		return new Response(true);
 	}
 	
-	public Response changePassword(User user, Authentication authentication) {
-		if(user.getUsername().equals(authentication.getName()) || isAdmin(authentication.getAuthorities())){
+	public Response changePassword(User user, Authentication authentication, String oldPassword) {
+		if (user.getUsername().equals(authentication.getName()) || isAdmin(authentication.getAuthorities())) {
 			User u = userDao.findByUsername(user.getUsername());
-			u.setPassword(passwordEncoder.encode(user.getPassword()));
-			userDao.save(u);
-		}else{
+			if (passwordEncoder.matches(oldPassword, u.getPassword())) {
+				u.setPassword(passwordEncoder.encode(user.getPassword()));
+				userDao.save(u);
+				return new Response(true);
+			} else {
+				return new Response(false, "Old password is incorrect");
+			}
+		} else {
 			return new Response(false);
 		}
-		return new Response(true);
 	}
 	
 	
