@@ -2,7 +2,15 @@
 export class OrderReceive {
     constructor(
         public id: number,
+        public address: string,
+        public card_number: string,
+        public city: string,
+        public email: string,
+        public name: string,
+        public payment_owner_name: string,
         public purchase_date: string,
+        public state: string,
+        public zip: string,
         public user_id: number
     ) {  }
 }

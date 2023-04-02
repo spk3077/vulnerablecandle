@@ -30,10 +30,6 @@ body {
     box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
     border-radius: 1rem;
 }
-.card-title > .card-title {
-    padding: 0rem 0.3rem;
-    border-bottom: 1px grey solid;
-}
 
 /*== PROFILE PICTURE ==*/
 .card-profile-img {

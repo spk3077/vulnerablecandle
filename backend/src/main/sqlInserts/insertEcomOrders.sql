@@ -1,4 +1,4 @@
 use csec;
-INSERT INTO ecom_order (id, purchase_date, user_id) VALUES (1, '2020-06-22', (SELECT id from ecom_user WHERE id=7));
-INSERT INTO ecom_order_item (id, quantity, order_id, product_id) VALUES (1, 10, (SELECT id from ecom_order WHERE id=1), (SELECT id from ecom_product WHERE id=1));
-INSERT INTO ecom_order_item (id, quantity, order_id, product_id) VALUES (2, 3, (SELECT id from ecom_order WHERE id=1), (SELECT id from ecom_product WHERE id=3));
+INSERT INTO ecom_order (id, purchase_date, address, card_number, city, email, name, payment_owner_name, state, zip, user_id) VALUES (2, '2020-06-22',(SELECT address from ecom_user_info WHERE user_id=7), (SELECT card_number from ecom_payment WHERE user_id=7), (SELECT city from ecom_user_info WHERE user_id=7), (SELECT email from ecom_user_info WHERE user_id=7), (SELECT name from ecom_user_info WHERE user_id=7), (SELECT owner_name from ecom_payment WHERE user_id=7), (SELECT state from ecom_user_info WHERE user_id=7), (SELECT zip from ecom_user_info WHERE user_id=7), (SELECT id from ecom_user WHERE id=7));
+INSERT INTO ecom_cart_item (item_type, id, item_brand, item_id, item_name, item_price, quantity, order_id, product_id) VALUES ('order_item', 1, (SELECT brand from ecom_product WHERE id=3), (SELECT id from ecom_product WHERE id=3), (SELECT name from ecom_product WHERE id=3), (SELECT price from ecom_product WHERE id=3), 5, (SELECT id from ecom_order WHERE id=1), (SELECT id from ecom_product WHERE id=1));
+

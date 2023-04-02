@@ -100,7 +100,7 @@ export class UserService {
     // get User Data
     // USER_ROLE: For User Content
     // ADMIN_ROLE: For all Users
-    getUserData(): Observable<any> {
+    public getUserData(): Observable<any> {
         return this.http.get(this.users_endpoint)
             .pipe(
                 map(res => {

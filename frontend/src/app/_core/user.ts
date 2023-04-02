@@ -6,11 +6,7 @@ export class UserReceive {
         public id: number,
         public username: string,
         public userInfo: UserInfoReceive,
-        public enabled: boolean,
-        public authorities: UserAuthority[],
-        public accountNonExpired: boolean,
-        public accountNonLocked: boolean,
-        public credentialsNonExpired: boolean
+        public profiles: UserAuthority[]
     ) {  }
 }
 

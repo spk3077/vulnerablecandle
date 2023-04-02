@@ -97,7 +97,8 @@ export class CheckOutComponent implements OnInit{
     this.paymentService.getPayment().subscribe({
       next: (res) => {
         const payment: any = Array.from(res)[0];
-        // Payment 
+        console.log(res);
+        // Payment not stored by API
         if (payment == undefined) {
           this.originalPayment = new PaymentReceive(null, null, null, null, null, null);
           return;
@@ -126,6 +127,7 @@ export class CheckOutComponent implements OnInit{
     this.shoppingCartService.getCartItems().subscribe({
       next: (res) => {
         this.total = res.totalPrice;
+        console.log(res);
         res.cartItems.forEach((cartItem: any) => {
           this.cartItems.push(
             new CartItemReceive(cartItem.id, ProductReceive.forCart(cartItem.itemId, cartItem.itemName,

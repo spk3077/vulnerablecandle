@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { OrderReceive } from '@app/_core/order';
 import { OrderService } from '@app/_services/order.service';
-import { UserService } from '@app/_services/user.service';
 
 @Component({
   selector: 'app-transactions',
@@ -13,28 +11,40 @@ import { UserService } from '@app/_services/user.service';
 
 export class TransactionsComponent implements OnInit {
   orderItems: OrderReceive[] = [];
-  displayedColumns: string[] = ['id', 'purchase_date', 'user_id'];
-  dataSource = TRANSACTION_DATA;
-  currentUser: any | undefined;
-  
+  originalOrderItems: OrderReceive[] = [];
 
-  constructor(private orderService: OrderService, private router: Router, private userService: UserService) {}
+  // Table Variables
+  displayedColumns: string[] = ['id', 'address', 'card_number', 'city', 'email', 'name', 'payment_owner_name', 'purchase_date', 'state', 'zip', 'user_id'];
+  dataSource = TRANSACTION_DATA;
+
+  // Display Booleans
+  getOrdersEmpty: boolean = false;
+  getOrdersError: boolean = false;
+
+  constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
-    this.userService.loggedInUser$.subscribe( x => this.currentUser = x );
     this.getOrders();
   }
 
-
-  // Retrive order to display
+  // Retrive orders to display
   public getOrders(): void {
     this.orderService.getOrders().subscribe({
       next: (res) => {
+        if (res.length <= 0) {
+          this.getOrdersEmpty = true;
+          return;
+        }
+
         res.orderItems.forEach((orderItem: any) => {
           this.orderItems.push(
-            new OrderReceive(orderItem.id, orderItem.purchase_date, orderItem.user_id));
+            new OrderReceive(orderItem.id, orderItem.address, orderItem.card_number, orderItem.city, orderItem.email, orderItem.name, orderItem.payment_owner_name, orderItem.purchase_date, orderItem.state, orderItem.zip, orderItem.user_id));
         });
       },
+      error: () => {
+        // Failed at server
+        this.getOrdersError = true;
+      }
     });
 
   }
