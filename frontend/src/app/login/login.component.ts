@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
       this.userService.login(form.value).subscribe({
         // If Successful
         next: (res) => {
-          let loginResponse: DefaultResponse = res as DefaultResponse;
+          const loginResponse: DefaultResponse = res as DefaultResponse;
           if (loginResponse.success != true) {
             this.loginError = true;
             return;

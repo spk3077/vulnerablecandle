@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { CheckOutRoutingModule } from './check-out-routing.module';
 import { CheckOutComponent } from './check-out.component';
@@ -9,7 +9,6 @@ import { CheckOutComponent } from './check-out.component';
   imports: [
     CommonModule,
     CheckOutRoutingModule,
-    FormsModule,
     ReactiveFormsModule
   ],
   declarations: [CheckOutComponent]

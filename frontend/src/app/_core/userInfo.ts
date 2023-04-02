@@ -16,14 +16,24 @@ export class UserInfoReceive {
 
 // CLASS FOR RECEIVING USERINFO
 export class UserInfoSend {
-    constructor(
-        public name: string,
-        public phone: string,
-        public email: string,
-        public address: string,
-        public city: string,
-        public state: string,
-        public zip: number,
-        public picture: string,
-    ) {  }
+    public name: string | null = null;
+    public phone: string | null = null;
+    public email: string | null = null;
+    public address: string | null = null;
+    public city: string | null = null;
+    public state: string | null = null;
+    public zip: number | null = null;
+    public picture: string | null = null;
+
+    // UserInfo Send Class for 
+    public static forCheckOut(name: string, email: string, address: string, city: string, state: string, zip: number): UserInfoSend {
+        const cls = new UserInfoSend();
+        cls.name = name;
+        cls.email = email;
+        cls.address = address;
+        cls.city = city;
+        cls.state = state;
+        cls.zip = zip;
+        return cls;
+    }
 }

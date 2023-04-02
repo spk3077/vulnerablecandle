@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { UserInfoReceive } from '@app/_core/userInfo';
+import { UserInfoReceive, UserInfoSend } from '@app/_core/userInfo';
 import { CartItemReceive } from '@app/_core/cartItem';
-import { PaymentReceive } from '@app/_core/payment';
+import { PaymentReceive, PaymentSend } from '@app/_core/payment';
 import { ProductReceive } from '@app/_core/product';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 import { UserInfoService } from '@app/_services/user-info.service';
@@ -34,6 +34,7 @@ export class CheckOutComponent implements OnInit{
   getCartItemsError: boolean = false;
   createOrderError: boolean = false;
   changeUserInfoError: boolean = false;
+  changePaymentError: boolean = false;
 
   constructor(
     private shoppingCartService: ShoppingCartService, 
@@ -106,11 +107,10 @@ export class CheckOutComponent implements OnInit{
           return;
         }
 
-        console.log(res);
         this.checkoutForm.patchValue({
           cardName: payment.ownerName,
           cardNumber: payment.cardNumber,
-          expiration: payment.expiryYear + "/" + payment.expiryYear,
+          expiration: String(payment.expiryMonth).padStart(2, '0') + "/" + payment.expiryYear,
           cvv: payment.secCode
         });
 
@@ -144,15 +144,69 @@ export class CheckOutComponent implements OnInit{
     });
   }
 
-  // Retrieve Shopping Cart to Display
+  // Update UserInfo on API if changed & if succeeds go to Payment Function
+  public changeUserInfo(): void {
+    const formValues = this.checkoutForm.value;
+    const userInfo = UserInfoSend.forCheckOut(formValues.fullName, formValues.email, formValues.address, 
+      formValues.city, formValues.state, formValues.zip);
+    
+    this.userInfoService.changeUserInfo(userInfo).subscribe({
+      next: (res) => {
+        const infoResponse: DefaultResponse = res as DefaultResponse;
+        if (infoResponse.success != true) {
+          this.changeUserInfoError = true;
+          return;
+        }
+        
+        if (formValues.cardName != this.originalPayment.ownerName || formValues.cardNumber != this.originalPayment.cardNumber ||
+          formValues.expiration != (this.originalPayment.expiryMonth + "/" + this.originalPayment.expiryYear) ||  
+          formValues.cvv != this.originalPayment.secCode) {
+            this.changePayment();
+        }
+        else {
+          this.createOrder();
+        }
+
+      },
+      error: () => {
+        // Failed at getting UserInfo to Store
+        this.changeUserInfoError = true;
+      }
+    });
+  }
+
+  // Update Payment on API if changed & if succeeds go to CreateOrder
+  public changePayment(): void {
+    const formValues = this.checkoutForm.value;
+    const payment = new PaymentSend(formValues.cardNumber, formValues.cardName, formValues.expiration.substring(0,2),
+    formValues.expiration.substring(3,5), formValues.cvv);
+
+    this.paymentService.addPayment(payment).subscribe({
+      next: (res) => {
+        const paymentResponse: DefaultResponse = res as DefaultResponse;
+        if (paymentResponse.success != true) {
+          this.changePaymentError = true;
+          return;
+        }
+
+        this.createOrder();
+      },
+      error: () => {
+        // Failed at getting Payment to Store
+        this.changePaymentError = true;
+      }
+    });
+  }
+
+  // Create Order
   public createOrder(): void {
     this.orderService.createOrder().subscribe({
       next: (res) => {
-        let orderResponse: DefaultResponse = res as DefaultResponse;
-        if (orderResponse.success != true) {
+        if (res.orderItems.length <= 0) {
           this.createOrderError = true;
+          return;
         }
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/shop');
 
       },
       error: () => {
@@ -162,46 +216,33 @@ export class CheckOutComponent implements OnInit{
     });
   }
 
-  // Update UserInfo on API if changed & if succeeds go to Payment Function
-  // public changeUserInfo(): void {
-    // if (this.userInfo != this.originalUserInfo) {
-    //   const userInfo: UserInfoSend = new UserInfoSend("", "", "", "", "", "", 0, "");
-      // const Properties = Object.keys(userInfo);
-      // console.log(Properties);
-
-      // Object.assign({}, this.userInfo);
-
-
-  //     this.userInfoService.changeUserInfo(userInfo).subscribe({
-  //       next: (res) => {
-  //         let orderResponse: DefaultResponse = res as DefaultResponse;
-  //         if (orderResponse.success != true) {
-  //           this.changeUserInfoError = true;
-  //         }
-  //         this.router.navigateByUrl('/');
-
-  //       },
-  //       error: () => {
-  //         // Failed at getting UserInfo to Store
-  //         this.changeUserInfoError = true;
-  //       }
-  //     });
-  //   }
-  //   else {
-
-  //   }
-  // }
-
   // Form Submission
-  public checkout(form: any): void {
+  public checkout(): void {
     this.submitted = true;
     // stop here if form is invalid
-    if (form.invalid) {
+    if (this.checkoutForm.invalid) {
         return;
     }
     //True if all the fields are valid
     if(this.submitted) {
-      // this.changeUserInfo();
+      const formValues = this.checkoutForm.value;
+
+      // If UserInfo has changed
+      if (formValues.fullName != this.originalUserInfo.name || formValues.email != this.originalUserInfo.email ||
+        formValues.address != this.originalUserInfo.address ||  formValues.city != this.originalUserInfo.city ||
+        formValues.state != this.originalUserInfo.state ||  formValues.zip != this.originalUserInfo.zip) {
+          this.changeUserInfo();
+      }
+      // If UserInfo hasn't changed, Payment has changed
+      else if (formValues.cardName != this.originalPayment.ownerName || formValues.cardNumber != this.originalPayment.cardNumber ||
+        formValues.expiration != (this.originalPayment.expiryMonth + "/" + this.originalPayment.expiryYear) ||  
+        formValues.cvv != this.originalPayment.secCode) {
+          this.changePayment();
+      }
+      // Neither have changed
+      else {
+        this.createOrder();
+      }
     }
   }
 

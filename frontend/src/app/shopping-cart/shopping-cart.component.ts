@@ -58,7 +58,7 @@ export class ShoppingCartComponent implements OnInit {
     this.shoppingCartService.updateCartItem(cartItem).subscribe({
       next: (res) => {
         // Get generic response to determine success
-        let updateResponse = res as DefaultResponse;
+        const updateResponse = res as DefaultResponse;
           if (updateResponse.success != true) {
             this.updateCartItemError = true;
           }
@@ -78,7 +78,7 @@ export class ShoppingCartComponent implements OnInit {
     this.shoppingCartService.removeCartItem(cartID).subscribe({
       next: (res) => {
         // Get generic response to determine success
-        let delResponse = res as DefaultResponse;
+        const delResponse = res as DefaultResponse;
           if (delResponse.success != true) {
             this.removeCartItemError = true;
           }
@@ -104,7 +104,6 @@ export class ShoppingCartComponent implements OnInit {
       if (cartItem.id == originCartItem.id && cartItem.quantity != originCartItem.quantity) {
         let n = Math.floor(Number(cartItem.quantity));
         if (n !== Infinity && String(n) === String(cartItem.quantity) && n > 0) {
-          console.log("DOGGO");
           this.updateCartItem(new CartItemSend(cartItem.id, cartItem.quantity));
         }
       }

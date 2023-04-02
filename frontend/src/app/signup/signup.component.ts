@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { LoginEventService } from '@app/_helpers/login-event.service';
@@ -18,8 +17,6 @@ export class SignupComponent implements OnInit {
 
   // Display Booleans
   signupError:boolean = false;
-
-  registerResponse!: DefaultResponse;
 
   constructor( 
     private userService: UserService, 
@@ -51,9 +48,10 @@ export class SignupComponent implements OnInit {
       this.userService.register(this.registerForm.value).subscribe({
         // If Successful
         next: (res) => {
-          let loginResponse: DefaultResponse = res as DefaultResponse;
+          const loginResponse: DefaultResponse = res as DefaultResponse;
           if (loginResponse.success != true) {
             this.signupError = true;
+            return;
           }
           
           // Emit To perform login function after succesful signup

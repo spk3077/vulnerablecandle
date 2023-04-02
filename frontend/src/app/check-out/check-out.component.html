@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <section class="col-xl-8 col-lg-8">
-                    <form [formGroup]="checkoutForm" (ngSubmit)="checkout( checkoutForm )">
+                    <form [formGroup]="checkoutForm" (ngSubmit)="checkout()">
                         
                         <!-- ========================= CONFIRMATION ARTICLE ========================= -->
                         <article class="card mb-4">
@@ -30,6 +30,9 @@
                                 </div>
                                 <div class="alert-message" [hidden]="!changeUserInfoError">
                                     Change UserInfo Failed! Try again later!
+                                </div>
+                                <div class="alert-message" [hidden]="!changePaymentError">
+                                    Change Payment Failed! Try again later!
                                 </div>
                                 <!-- === ERRORS END// === -->
                                 
@@ -240,7 +243,7 @@
                 
                                     <div class="col-sm-2 mb-3">
                                         <label for="" class="form-label">CVV*</label>
-                                        <input type="text" class="form-control" formControlName="cvv" placeholder="123" [ngClass]="{ 'is-invalid': submitted && f.cvv.errors }">
+                                        <input type="text" class="form-control w-75" formControlName="cvv" placeholder="123" [ngClass]="{ 'is-invalid': submitted && f.cvv.errors }">
                                         <div *ngIf="submitted && f.cvv.errors" class="invalid-feedback">
                                             <div *ngIf="f.cvv.errors.required">CVV is required</div>
                                             <div *ngIf="f.cvv.errors.minlength">CVV must be 3 characters</div>
@@ -285,7 +288,7 @@
                         <hr>
                         <dl class="dlist-align">
                             <dt> Total: </dt>
-                            <dd class="text-end"> <strong class="price-bold">$252.90</strong> </dd>
+                            <dd class="text-end"> <strong class="price-bold">${{total.toFixed(2)}}</strong> </dd>
                         </dl>
                         <!-- === PRICE SECTION END// === -->
                 

@@ -66,6 +66,7 @@ export class ShopComponent implements OnInit {
       next: (res) => {
         if (res.length <= 0) {
           this.getProductsError = true;
+          return;
         }
         Array.from(res).forEach((element: unknown) => {
           let product: any = element;
@@ -94,8 +95,8 @@ export class ShopComponent implements OnInit {
           if (!this.tagHeads.includes(tag.type)) {
             this.tagHeads.push(tag.type);
           }
+          
           this.filters[tag.id] = false;
-          // this.filters.
         });
       },
       error: () => {
@@ -110,15 +111,13 @@ export class ShopComponent implements OnInit {
     this.shoppingCartService.addToCart(new CartItemSend(productID, 1)).subscribe({
       next: (res) => {
         // Get generic response to determine success
-        let addResponse = res as DefaultResponse;
+        const addResponse = res as DefaultResponse;
           console.log(addResponse);
           if (addResponse.success != true) {
             this.cartBtnBool = false;
-            console.log(res.message);
           }
           else {
             this.cartBtnBool = true;
-            console.log("Added Cart Item Successfully");
           }
           
           this.cartBtnNum = productID;
