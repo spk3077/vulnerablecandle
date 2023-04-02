@@ -69,7 +69,12 @@ public class OrderService {
         java.util.Date now = calendar.getTime();
         java.sql.Date currentDate = new java.sql.Date(now.getTime());
         order.setPurchase_date(currentDate);
-        Payment payment = user.getMypayments().get(0);
+
+        List<Payment> payments = user.getMypayments();
+        if (payments == null || payments.isEmpty()) {
+            throw new RuntimeException("The payment method missing.");
+        }
+        Payment payment = payments.get(0);
         if (billingInfo == null) {
             UserInfo userInfo = user.getUserInfo();
             billingInfo = new BillingInfo(userInfo.getName(), userInfo.getEmail(), userInfo.getAddress(),
@@ -77,6 +82,10 @@ public class OrderService {
         }else{
             billingInfo.setCardNumber(payment.getAnonymousPayment().getCardNumber());
             billingInfo.setPaymentOwnerName(payment.getAnonymousPayment().getOwnerName());
+        }
+        if (billingInfo == null || billingInfo.getName() == null || billingInfo.getAddress() == null
+            || billingInfo.getCity() == null || billingInfo.getState() == null || billingInfo.getZip() == null) {
+            throw new RuntimeException("Billing information is incomplete");
         }
         billingInfo.setOrder(order);
         order.setBillingInfo(billingInfo);
