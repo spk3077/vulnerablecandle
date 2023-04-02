@@ -11,6 +11,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.CreditCardNumber;
+
 @Entity
 @Table(name = "ecom_billing_info")
 public class BillingInfo {
@@ -43,11 +45,11 @@ public class BillingInfo {
     private String zip;
 
     @Column(name = "card_number")
-    @Size(min = 16, max = 16)
+    @CreditCardNumber
     private String cardNumber;
 
     @Column(name = "payment_owner_name")
-    @Size(min = 3, max = 50)
+    @Size(min = 2, max = 50)
     private String paymentOwnerName;
 
     @OneToOne(fetch = FetchType.LAZY)

@@ -42,7 +42,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order createOrder(Authentication authentication, @RequestBody BillingInfo billingInfo) {
+    public Order createOrder(Authentication authentication, @RequestBody(required = false) BillingInfo billingInfo) {
         return orderService.createOrder(authentication, billingInfo);
     }
 }
