@@ -1,0 +1,73 @@
+/* ==== PRIMARY ==== */
+body {
+    font-family: 'Poppins'!important;
+}
+.contentDiv{
+    padding-top: 4rem;
+}
+
+/* ====CARD MODIFICATIONS==== */
+.card-header:first-child {
+    border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+}
+.card-header {
+    position: relative;
+    padding: 1.5rem 2rem 0.5rem;
+    border-bottom: none;
+    background-color: white;
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+    z-index: 2;
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+    border-radius: 1rem;
+}
+.card-title > .card-title {
+    padding: 0rem 0.3rem;
+    border-bottom: 1px grey solid;
+}
+
+/*== PROFILE PICTURE ==*/
+.card-profile-img {
+    position: relative;
+    max-width: 8rem;
+    margin-top: -6rem;
+    margin-bottom: 1rem;
+    border: 3px solid #fff;
+    border-radius: 100%;
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+    z-index: 2;
+}
+.card-profile .card-header {
+    height: 9rem;
+    background-position: center center;
+    background-size: cover;
+}
+
+/*== SMALL PROFILE PICTURE ==*/
+.avatar.avatar-lg {
+    width: 5rem;
+    height: 5rem;
+    line-height: 5rem;
+}
+.avatar {
+    display: inline-block;
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+    border: #dee2e6;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+    line-height: 3rem;
+}
+
