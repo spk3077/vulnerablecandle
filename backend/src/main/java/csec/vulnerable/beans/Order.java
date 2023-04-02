@@ -64,9 +64,34 @@ public class Order {
     @Column(name = "payment_owner_name")
     private String paymentOwnerName;
 
+	
+    @Column(name = "total_price")
+    private double totalPrice;
+
     public Order() {
     }
 	
+
+
+	public Order(int id, Date purchase_date, List<OrderItem> orderItems, User user, String name, String email,
+			String address, String city, String state, String zip, String cardNumber, String paymentOwnerName,
+			double totalPrice) {
+		this.id = id;
+		this.purchase_date = purchase_date;
+		this.orderItems = orderItems;
+		this.user = user;
+		this.name = name;
+		this.email = email;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.cardNumber = cardNumber;
+		this.paymentOwnerName = paymentOwnerName;
+		this.totalPrice = totalPrice;
+	}
+
+
 
 	public Order(int id, Date purchase_date, List<OrderItem> orderItems, User user, String name, String email,
 			String address, String city, String state, String zip, String cardNumber, String paymentOwnerName) {
@@ -209,13 +234,22 @@ public class Order {
 		this.paymentOwnerName = paymentOwnerName;
 	}
 
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", purchase_date=" + purchase_date + ", orderItems=" + orderItems + ", user=" + user
 				+ ", name=" + name + ", email=" + email + ", address=" + address + ", city=" + city + ", state=" + state
-				+ ", zip=" + zip + ", cardNumber=" + cardNumber + ", paymentOwnerName=" + paymentOwnerName + "]";
+				+ ", zip=" + zip + ", cardNumber=" + cardNumber + ", paymentOwnerName=" + paymentOwnerName
+				+ ", totalPrice=" + totalPrice + "]";
 	}
+	
 	
 
 	

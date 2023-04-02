@@ -94,6 +94,13 @@ public class OrderService {
             order.addOrderItem(orderItem);
             orderItemDao.save(orderItem);
         }
+
+        double subtotal = shoppingCart.getTotalPrice();
+        double tax = subtotal * 0.1;
+        double totalPrice = subtotal + tax;
+
+        order.setTotalPrice(totalPrice);
+
     
         Calendar calendar = Calendar.getInstance();
         java.util.Date now = calendar.getTime();
