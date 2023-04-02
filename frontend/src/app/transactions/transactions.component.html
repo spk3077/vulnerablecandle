@@ -1,5 +1,9 @@
 <main>
   <app-submenu [activePage]="'Transactions'" [firstPage]="'Home'" [firstPage_URL]="'/'"[secondPage]="'Transactions'"></app-submenu>
+  <div class='text-muted mb-5" [hidden]='orderItems.length > 0">
+    No orders.
+  </div>
+
   <div class="alert-message-mb5" [hidden]="!getOrderItemsError">
     No previous orders.
   </div>
