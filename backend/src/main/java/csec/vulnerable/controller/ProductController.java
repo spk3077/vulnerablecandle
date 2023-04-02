@@ -57,7 +57,7 @@ public class ProductController {
 
             // Update the product's image field with the URL of the uploaded file
             Product product = productDao.findById(id).get();
-            product.setImage("http://localhost:8080/images/" + file.getOriginalFilename());
+            product.setImage("http://localhost:8081/images/" + file.getOriginalFilename());
             productService.updateProduct(product);
 
             return new Response(true,"Image uploaded successfully");

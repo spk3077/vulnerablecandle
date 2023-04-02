@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -52,13 +53,17 @@ private static final long serialVersionUID = 1L;
     @JsonIgnore
     private List<ProductReview> myreviews;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonBackReference
     private List<Payment> mypayments;
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
     private ShoppingCart shoppingCart;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Order> orders;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -97,7 +102,7 @@ private static final long serialVersionUID = 1L;
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", profiles=" + profiles
+		return "User [id=" + id + ", username=" + username + ", profiles=" + profiles
 				+ ", userInfo=" + userInfo + "]";
 	}
 	public int getId() {

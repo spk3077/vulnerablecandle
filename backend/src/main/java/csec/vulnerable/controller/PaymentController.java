@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import csec.vulnerable.beans.Payment;
 import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.UserDao;
+import csec.vulnerable.dto.PaymentDTO;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.PaymentService;
 
@@ -29,26 +30,9 @@ public class PaymentController {
     @Autowired
     UserDao userDao;
 
-    @GetMapping("/{id}")
-    public Payment getPayment(@PathVariable int id, Authentication authentication) {
-        Payment payment = paymentService.getPayment(id);
-        if (payment != null) {
-            if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
-                    || payment.getUser().equals(userDao.findByUsername(authentication.getName()))) {
-                return payment;
-            }
-        }
-        return null;
-    }
-
     @GetMapping
-    public List<Payment> getPayments(Authentication authentication) {
-        User user = userDao.findByUsername(authentication.getName());
-        if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
-            return paymentService.getPayments();
-        } else {
-            return paymentService.getPayments(user);
-        }
+    public List<PaymentDTO> getPayments(Authentication authentication) {
+        return paymentService.getPayments(authentication);
     }
 
     @PostMapping
@@ -81,7 +65,7 @@ public class PaymentController {
         Payment payment = paymentService.getPayment(id);
         if (payment != null) {
             if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
-                    || payment.getUser().getUsername().equals(userDao.findByUsername(authentication.getName()))) {
+                    || payment.getUser().equals(userDao.findByUsername(authentication.getName()))) {
                 return paymentService.deletePayment(id,authentication);
             } else {
                 return new Response(false, "You are not authorized to delete this payment");

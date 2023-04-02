@@ -4,6 +4,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -15,6 +16,7 @@ import csec.vulnerable.beans.Payment;
 import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.PaymentDao;
 import csec.vulnerable.dao.UserDao;
+import csec.vulnerable.dto.PaymentDTO;
 import csec.vulnerable.http.Response;
 
 
@@ -33,12 +35,11 @@ public class PaymentService {
         return payment.orElse(null);
     }
 
-    public List<Payment> getPayments(User user) {
-        return paymentDao.findByUser(user);
-    }
-
-    public List<Payment> getPayments() {
-        return paymentDao.findAll();
+    public List<PaymentDTO> getPayments(Authentication authentication) {
+        User user = userDao.findByUsername(authentication.getName());
+        List<Payment> payments = paymentDao.findByUser(user);
+        List<PaymentDTO> paymentDTOs = payments.stream().map(Payment::toPaymentDTO).collect(Collectors.toList());
+        return paymentDTOs;
     }
 
     public Response addPayment(Payment payment) {
