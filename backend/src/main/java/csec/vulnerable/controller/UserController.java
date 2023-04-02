@@ -31,7 +31,7 @@ public class UserController {
 		List<User> users = userService.getusers(authentication);
 		List<UserDTO> userDTOs = new ArrayList<>();
 		for (User user : users) {
-			userDTOs.add(new UserDTO(user.getId(), user.getUsername(), user.getUserInfo()));
+			userDTOs.add(new UserDTO(user.getId(), user.getUsername(), user.getUserInfo(),user.getAuthorities()));
 		}
 		return userDTOs;
 	}
