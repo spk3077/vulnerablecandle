@@ -130,4 +130,11 @@ public class Payment {
         this.secCode = secCode;
     }
 
+    public Payment getAnonymousPayment() {
+        Payment result = new Payment();
+        result.setOwnerName(ownerName);
+        result.setCardNumber("**** **** **** " + cardNumber.substring(cardNumber.length() - 4));
+        return result;
+    }
+
 }

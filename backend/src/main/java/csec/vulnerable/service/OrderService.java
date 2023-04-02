@@ -8,11 +8,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import csec.vulnerable.beans.BillingInfo;
 import csec.vulnerable.beans.CartItem;
 import csec.vulnerable.beans.Order;
 import csec.vulnerable.beans.OrderItem;
+import csec.vulnerable.beans.Payment;
 import csec.vulnerable.beans.ShoppingCart;
 import csec.vulnerable.beans.User;
+import csec.vulnerable.beans.UserInfo;
 import csec.vulnerable.dao.OrderDao;
 import csec.vulnerable.dao.OrderItemDao;
 import csec.vulnerable.dao.ShoppingCartDao;
@@ -47,9 +50,13 @@ public class OrderService {
         return orderDao.findById(id).orElse(null);
     }
 
-    public Order createOrder(Authentication authentication) {
+    public Order createOrder(Authentication authentication, BillingInfo billingInfo) {
         User user = userDao.findByUsername(authentication.getName());
         ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(authentication);
+        if (shoppingCart == null || shoppingCart.getCartItems().isEmpty()) {
+            throw new RuntimeException("Shopping cart is empty");
+        }
+    
         Order order = new Order();
         order.setUser(user);
         for (CartItem cartItem : shoppingCart.getCartItems()) {
@@ -57,12 +64,25 @@ public class OrderService {
             order.addOrderItem(orderItem);
             orderItemDao.save(orderItem);
         }
+    
         Calendar calendar = Calendar.getInstance();
         java.util.Date now = calendar.getTime();
         java.sql.Date currentDate = new java.sql.Date(now.getTime());
         order.setPurchase_date(currentDate);
+        Payment payment = user.getMypayments().get(0);
+        if (billingInfo == null) {
+            UserInfo userInfo = user.getUserInfo();
+            billingInfo = new BillingInfo(userInfo.getName(), userInfo.getEmail(), userInfo.getAddress(),
+                    userInfo.getCity(), userInfo.getState(), userInfo.getZip(), payment.getAnonymousPayment().getCardNumber(), payment.getAnonymousPayment().getOwnerName());
+        }else{
+            billingInfo.setCardNumber(payment.getAnonymousPayment().getCardNumber());
+            billingInfo.setPaymentOwnerName(payment.getAnonymousPayment().getOwnerName());
+        }
+        billingInfo.setOrder(order);
+        order.setBillingInfo(billingInfo);
         order = orderDao.save(order);
         shoppingCartService.clearShoppingCart(authentication);
         return order;
     }
+    
 }

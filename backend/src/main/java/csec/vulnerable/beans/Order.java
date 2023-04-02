@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -40,8 +41,19 @@ public class Order {
 	@JsonIgnore
     private User user;
 
-	public Order() {
-	}
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private BillingInfo billingInfo;
+
+    public Order() {
+    }
+
+    public Order(int id, Date purchase_date, List<OrderItem> orderItems, User user, BillingInfo billingInfo) {
+        this.id = id;
+        this.purchase_date = purchase_date;
+        this.orderItems = orderItems;
+        this.user = user;
+        this.billingInfo = billingInfo;
+    }
 
 	public Order(int id, Date purchase_date, List<OrderItem> orderItems, User user) {
 		this.id = id;
@@ -87,10 +99,20 @@ public class Order {
 		this.user = user;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", purchase_date=" + purchase_date + ", orderItems=" + orderItems + ", user=" + user
-				+ "]";
+				+ ", billingInfo=" + billingInfo + "]";
 	}
 
+	public BillingInfo getBillingInfo() {
+		return billingInfo;
+	}
+
+	public void setBillingInfo(BillingInfo billingInfo) {
+		this.billingInfo = billingInfo;
+	}
+
+	
 }

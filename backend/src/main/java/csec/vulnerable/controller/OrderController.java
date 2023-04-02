@@ -7,9 +7,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import csec.vulnerable.beans.BillingInfo;
 import csec.vulnerable.beans.Order;
 import csec.vulnerable.beans.User;
 import csec.vulnerable.dao.UserDao;
@@ -40,7 +42,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order createOrder(Authentication authentication) {
-        return orderService.createOrder(authentication);
+    public Order createOrder(Authentication authentication, @RequestBody BillingInfo billingInfo) {
+        return orderService.createOrder(authentication, billingInfo);
     }
 }
