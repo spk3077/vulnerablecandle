@@ -25,10 +25,21 @@ export class UserInfoSend {
     public zip: number | null = null;
     public picture: string | null = null;
 
-    // UserInfo Send Class for 
+    // UserInfo Send for Checkout to complete transaction
     public static forCheckOut(name: string, email: string, address: string, city: string, state: string, zip: number): UserInfoSend {
         const cls = new UserInfoSend();
         cls.name = name;
+        cls.email = email;
+        cls.address = address;
+        cls.city = city;
+        cls.state = state;
+        cls.zip = zip;
+        return cls;
+    }
+
+    // UserInfo Send for UserProfile User Info Edit
+    public static forProfileMain(email: string, address: string, city: string, state: string, zip: number): UserInfoSend {
+        const cls = new UserInfoSend();
         cls.email = email;
         cls.address = address;
         cls.city = city;

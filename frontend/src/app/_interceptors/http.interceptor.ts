@@ -32,7 +32,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         catchError((error) => 
           {
             console.log("Error response status: ", error.status);
-            if(error.status === 401) {
+            if(error.status === 403) {
               this.userService.setLoggedUser(null);
               this.router.navigateByUrl("/login");
             }

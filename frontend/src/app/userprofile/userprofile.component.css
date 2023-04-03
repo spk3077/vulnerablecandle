@@ -32,6 +32,9 @@ body {
 }
 
 /*== PROFILE PICTURE ==*/
+.profile-img-back {
+    background-image: url("../../assets/images/profile-back.jpg");
+}
 .card-profile-img {
     position: relative;
     max-width: 8rem;

@@ -6,10 +6,11 @@
       <aside class="col-lg-4">
         <!-- === TOP INFO === -->
         <div class="card card-profile mb-4">
-          <div class="card-header" style="background-image: url(https://therichpost.com/wp-content/uploads/2021/05/bootstrap5-carousel-slider-img1.jpg);"> </div>
-          <div class="card-body text-center"><img class="card-profile-img" src="https://therichpost.com/wp-content/uploads/2021/03/avatar2.png" alt="Jassa Rich">
-            <h3 class="mb-2">Jassa Rich</h3>
-            <p class="mb-4">Full Stack Developer</p>
+          <div class="card-header profile-img-back"> </div>
+          <div class="card-body text-center"><img class="card-profile-img" 
+            [attr.src]="currentUser.picture !== null ? currentUser.picture : 'assets/images/defaultprofiledark.png'" alt="PFP">
+            <h3 class="mb-2">{{currentUser.username}}</h3>
+            <p class="mb-4">{{currentUser.authority}}</p>
           </div>
         </div>
         <!-- === TOP INFO END// === -->
@@ -21,8 +22,8 @@
             <div class="d-flex align-items-center">
               <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" src="https://therichpost.com/wp-content/uploads/2021/03/avatar2.png" alt="Jassa Rich"></div>
               <div class="flex-grow-1 ps-3">
-                <h4>Jassa Rich</h4>
-                <p class="text-muted mb-0">Coder</p>
+                <h4>{{displayUserInfo.name ? displayUserInfo.name : ' '}}</h4>
+                <p class="text-muted mb-0">{{currentUser.username}}</p>
                 <span class="float-end">
                   <button (click)="picFormDisplay = true;" class="btn btn-primary">Edit</button>
                 </span>
@@ -60,7 +61,7 @@
               <div class="float-end">
                   <button (click)="passFormDisplay = true;" class="btn btn-primary">Change Password</button>
               </div>
-              <p class="mb-0">Don't like your current password?</p>
+              <p class="mb-0">Don't like your password?</p>
           </div>
         </div>
         <!-- === VIEW PASSWORD === -->
@@ -73,10 +74,23 @@
           <div class="card-body">
             <div class="mb-3"> 
               <label class="form-label">Current Password</label>
-              <input class="form-control" type="password" placeholder="Password">
+              <input type="password" class="form-control" formControlName="oldPassword" placeholder="Password" [ngClass]="{ 'is-invalid': passSubmitted && fPass.oldPassword.errors }">
+              <div *ngIf="passSubmitted && fPass.oldPassword.errors" class="invalid-feedback">
+                <div *ngIf="fPass.oldPassword.errors.required">Current password is required</div>
+                <div *ngIf="fPass.oldPassword.errors.minlength">Current password must be at least 8 characters</div>
+                <div *ngIf="fPass.oldPassword.errors.maxlength">Current password cannot be greater than 35 characters</div>
+              </div>
             </div>
-            <label class="form-label">New Password</label>
-            <input class="form-control" type="password" placeholder="Password">
+
+            <div class="mb-3"> 
+              <label class="form-label">New Password</label>
+              <input type="password" class="form-control" formControlName="password" placeholder="Password" [ngClass]="{ 'is-invalid': passSubmitted && fPass.password.errors }">
+              <div *ngIf="passSubmitted && fPass.password.errors" class="invalid-feedback">
+                <div *ngIf="fPass.password.errors.required">Password is required</div>
+                <div *ngIf="fPass.password.errors.minlength">Password must be at least 8 characters</div>
+                <div *ngIf="fPass.password.errors.maxlength">Password cannot be greater than 35 characters</div>
+              </div>
+            </div>
           </div>
           <div class="card-footer text-end">
             <button (click)="passFormDisplay = false;" class="btn btn-dark">Cancel</button>
@@ -96,37 +110,49 @@
         <!-- === VIEW USERINFO === -->
         <div *ngIf="!infoFormDisplay" class="card mb-4">
           <div class="card-header ps-3">
-            <h5 class="card-heading">User Info</h5>
+            <h5 class="card-heading">
+              User Info
+              <span *ngIf="userInfoNone" class="text-danger fs-6">New? Edit your information</span>
+            </h5>
           </div>
           <div class="card-body">
             <!-- === ERRORS === -->
-            <div class="alert-message" [hidden]="!getUserInfoError">
+            <div class="alert-message mb-3" [hidden]="!getUserInfoError">
               Fetching User Info Failed! Try again later!
+            </div>
+            <div class="alert-message mb-3" [hidden]="!changeUserInfoError">
+              Updating User Info Failed! Try again later!
             </div>
             <!-- === ERRORS END// === -->
             <dl class="dlist-align">
               <dt>Email: </dt>
-              <dd class="text-muted">example@gmail.com</dd>
+              <dd *ngIf="displayUserInfo.email" class="text-muted">{{displayUserInfo.email}}</dd>
+              <dd *ngIf="!displayUserInfo.email" class="text-danger">Empty</dd>
             </dl>
             <dl class="dlist-align mt-3">
               <dt>Phone: </dt>
-              <dd class="text-muted">512-515-1464</dd>
+              <dd *ngIf="displayUserInfo.phone" class="text-muted">{{displayUserInfo.phone}}</dd>
+              <dd *ngIf="!displayUserInfo.phone" class="text-danger">Empty</dd>
             </dl>
             <dl class="dlist-align mt-3">
               <dt>Address: </dt>
-              <dd class="text-muted">One Lomb Memorial Drive</dd>
+              <dd *ngIf="displayUserInfo.address" class="text-muted">{{displayUserInfo.address}}</dd>
+              <dd *ngIf="!displayUserInfo.address" class="text-danger">Empty</dd>
             </dl>
             <dl class="dlist-align mt-3">
               <dt>City: </dt>
-              <dd class="text-muted">Rochester</dd>
+              <dd *ngIf="displayUserInfo.city" class="text-muted">{{displayUserInfo.city}}</dd>
+              <dd *ngIf="!displayUserInfo.city" class="text-danger">Empty</dd>
             </dl>
             <dl class="dlist-align mt-3">
               <dt>State: </dt>
-              <dd class="text-muted">NY</dd>
+              <dd *ngIf="displayUserInfo.state" class="text-muted">{{displayUserInfo.state}}</dd>
+              <dd *ngIf="!displayUserInfo.state" class="text-danger">Empty</dd>
             </dl>
             <dl class="dlist-align mt-3 mb-3">
               <dt>ZIP: </dt>
-              <dd class="text-muted">12345</dd>
+              <dd *ngIf="displayUserInfo.zip" class="text-muted">{{displayUserInfo.zip}}</dd>
+              <dd *ngIf="!displayUserInfo.zip" class="text-danger">Empty</dd>
             </dl>
           </div>
           <div class="card-footer text-end">
@@ -145,31 +171,52 @@
               <div class="col-sm-6 col-md-5">
                 <div class="mb-4">
                   <label class="form-label">Email address</label>
-                  <input class="form-control" formControlName="email" placeholder="example@gmail.com" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.email.errors }">
+                  <input type="text" class="form-control" formControlName="email" placeholder="example@gmail.com" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.email.errors }">
+                  <div *ngIf="infoSubmitted && fInfo.email.errors" class="invalid-feedback">
+                    <div *ngIf="fInfo.email.errors.email">Invalid email format</div>
+                    <div *ngIf="fInfo.email.errors.minlength">Card name must be at least 5 characters</div>
+                    <div *ngIf="fInfo.email.errors.maxlength">Card name cannot be greater than 50 characters</div>
+                  </div>
                 </div>
               </div>
+
               <div class="col-sm-6 col-md-3">
                 <div class="mb-4">
                   <label class="form-label">Phone number</label>
-                  <input class="form-control" formControlName="phone" placeholder="###-###-####" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.phone.errors }">
+                  <input type="text" class="form-control" formControlName="phone" placeholder="###-###-####" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.phone.errors }">
+                <div *ngIf="infoSubmitted && fInfo.phone.errors" class="invalid-feedback">
+                    <div *ngIf="fInfo.phone.errors.minlength">Card name must be at least 10 characters</div>
+                    <div *ngIf="fInfo.phone.errors.maxlength">Card name cannot be greater than 15 characters</div>
+                  </div>
                 </div>
               </div>
+
               <div class="col-md-12">
                 <div class="mb-4">
                   <label class="form-label">Address</label>
-                  <input class="form-control" formControlName="address" placeholder="One Lomb Memorial Drive" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.address.errors }">
+                  <input type="text" class="form-control" formControlName="address" placeholder="One Lomb Memorial Drive" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.address.errors }">
+                  <div *ngIf="infoSubmitted && fInfo.address.errors" class="invalid-feedback">
+                    <div *ngIf="fInfo.address.errors.minlength">Card name must be at least 3 characters</div>
+                    <div *ngIf="fInfo.address.errors.maxlength">Card name cannot be greater than 100 characters</div>
+                  </div>
                 </div>
               </div>
+
               <div class="col-sm-6 col-md-4">
                 <div class="mb-4">
                   <label class="form-label">City</label>
-                  <input class="form-control" formControlName="city" placeholder="Rochester" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.city.errors }">
+                  <input type="text" class="form-control" formControlName="city" placeholder="Rochester" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.city.errors }">
+                  <div *ngIf="infoSubmitted && fInfo.city.errors" class="invalid-feedback">
+                    <div *ngIf="fInfo.city.errors.minlength">City must be at least 2 characters</div>
+                    <div *ngIf="fInfo.city.errors.maxlength">City cannot be greater than 40 characters</div>
+                  </div>
                 </div>
               </div>
+
               <div class="col-md-2">
                 <div class="mb-4">
                   <label class="form-label">State</label>
-                  <select class="form-control custom-select">
+                  <select class="form-control" formControlName="state" aria-label="state" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.state.errors }">
                     <option selected disabled hidden>State</option>
                     <option value="AL">AL</option>
                     <option value="AK">AK</option>
@@ -222,14 +269,24 @@
                     <option value="WI">WI</option>
                     <option value="WY">WY</option>
                   </select>
+                  <div *ngIf="infoSubmitted && fInfo.state.errors" class="invalid-feedback">
+                    <!-- <div *ngIf="fInfo.state.errors.required">State is required</div> -->
+                  </div>
                 </div>
               </div>
+
               <div class="col-sm-6 col-md-3">
                 <div class="mb-4">
                   <label class="form-label">ZIP</label>
-                  <input class="form-control" type="number" placeholder="ZIP">
+                  <input type="text" class="form-control" formControlName="zip" placeholder="14623" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.zip.errors }">
+                  <div *ngIf="infoSubmitted && fInfo.zip.errors" class="invalid-feedback">
+                    <div *ngIf="fInfo.zip.errors.pattern">ZIP should be numeric</div>
+                    <div *ngIf="fInfo.zip.errors.minlength">ZIP must be at least 2 characters</div>
+                    <div *ngIf="fInfo.zip.errors.maxlength">ZIP cannot be greater than 20 characters</div>
+                  </div>
                 </div>
               </div>
+
             </div>
           </div>
           <div class="card-footer text-end">
@@ -243,29 +300,39 @@
         <!-- === VIEW PAYMENT === -->
         <div *ngIf="!payFormDisplay" class="card mb-4">
           <div class="card-header ps-3">
-            <h5 class="card-heading">Payment</h5>
+            <h5 class="card-heading">
+              Payment
+              <span *ngIf="paymentNone" class="text-danger fs-6">New? Add your payment</span>
+            </h5>
           </div>
           <div class="card-body">
             <!-- === ERRORS === -->
-            <div class="alert-message" [hidden]="!getPaymentError">
+            <div class="alert-message mb-3" [hidden]="!getPaymentError">
               Fetching Payment Failed! Try again later!
+            </div>
+            <div class="alert-message mb-3" [hidden]="!changePaymentError">
+              Change Payment Failed! Try again later!
             </div>
             <!-- === ERRORS END// === -->
             <dl class="dlist-align">
               <dt>Name on card: </dt>
-              <dd class="text-muted">John Doe</dd>
+              <dd *ngIf="displayPayment.ownerName" class="text-muted">{{displayPayment.ownerName}}</dd>
+              <dd *ngIf="!displayPayment.ownerName" class="text-danger">Empty</dd>
             </dl>
             <dl class="dlist-align mt-3">
               <dt>Card number: </dt>
-              <dd class="text-muted">4775121759083933</dd>
+              <dd *ngIf="displayPayment.cardNumber" class="text-muted">{{displayPayment.cardNumber}}</dd>
+              <dd *ngIf="!displayPayment.cardNumber" class="text-danger">Empty</dd>
             </dl>
             <dl class="dlist-align mt-3">
               <dt>Expiration date: </dt>
-              <dd class="text-muted">12/23</dd>
+              <dd *ngIf="displayPayment.expiryMonth" class="text-muted">{{displayPayment.expiryMonth + "/" + displayPayment.expiryYear}}</dd>
+              <dd *ngIf="!displayPayment.expiryMonth" class="text-danger">Empty</dd>
             </dl>
             <dl class="dlist-align mt-3 mb-3">
               <dt>CVV: </dt>
-              <dd class="text-muted">123</dd>
+              <dd *ngIf="displayPayment.secCode" class="text-muted">{{displayPayment.secCode}}</dd>
+              <dd *ngIf="!displayPayment.secCode" class="text-danger">Empty</dd>
             </dl>
           </div>
           <div class="card-footer text-end">
@@ -275,7 +342,7 @@
         <!-- === VIEW PAYMENT END// === -->
 
         <!-- === EDIT PAYMENT === -->
-        <form *ngIf="payFormDisplay" [formGroup]="infoForm" (ngSubmit)="paySubmit()" class="card mb-4">
+        <form *ngIf="payFormDisplay" [formGroup]="payForm" (ngSubmit)="paySubmit()" class="card mb-4">
           <div class="card-header ps-3">
             <h5 class="card-heading">Edit Payment</h5>
           </div>
@@ -284,27 +351,52 @@
               <div class="col-sm-6 col-md-6">
                 <div class="mb-4">
                   <label class="form-label">Name on card</label>
-                  <input class="form-control" type="phone" placeholder="Name">
+                  <input type="text" class="form-control" formControlName="cardName" placeholder="John Doe" [ngClass]="{ 'is-invalid': paySubmitted && fPay.cardName.errors }">
+                  <div *ngIf="paySubmitted && fPay.cardName.errors" class="invalid-feedback">
+                    <div *ngIf="fPay.cardName.errors.required">Card name is required</div>
+                    <div *ngIf="fPay.cardName.errors.minlength">Card name must be at least 2 characters</div>
+                    <div *ngIf="fPay.cardName.errors.maxlength">Card name cannot be greater than 50 characters</div>
+                  </div>
                 </div>
               </div>
+
               <div class="col-sm-6 col-md-6">
                 <div class="mb-4">
-                  <label class="form-label">Credit card number</label>
-                  <input class="form-control" type="text" placeholder="Credit Number">
+                  <label class="form-label">Card number</label>
+                  <input type="text" class="form-control" formControlName="cardNumber" placeholder="4775121759083933" [ngClass]="{ 'is-invalid': paySubmitted && fPay.cardNumber.errors }">
+                  <div *ngIf="paySubmitted && fPay.cardNumber.errors" class="invalid-feedback">
+                    <div *ngIf="fPay.cardNumber.errors.required">Card number is required</div>
+                    <div *ngIf="fPay.cardNumber.errors.minlength">Card number must be at least 14 characters</div>
+                    <div *ngIf="fPay.cardNumber.errors.maxlength">Card number cannot be greater than 19 characters</div>
+                    <div *ngIf="fPay.cardNumber.errors.pattern">Card number should be numeric</div>
+                  </div>
                 </div>
               </div>
+
               <div class="col-sm-6 col-md-2">
                 <div class="mb-4">
                   <label class="form-label">Expiration date</label>
-                  <input class="form-control" type="text" placeholder="MM/YY">
+                  <input type="text" class="form-control" formControlName="expiration" placeholder="06/33" [ngClass]="{ 'is-invalid': paySubmitted && fPay.expiration.errors }">
+                  <div *ngIf="paySubmitted && fPay.expiration.errors" class="invalid-feedback">
+                    <div *ngIf="fPay.expiration.errors.required">Expiration Date is required</div>
+                    <div *ngIf="fPay.expiration.errors.pattern">Format: MM/YY</div>
+                  </div>
                 </div>
               </div>
+
               <div class="col-sm-6 col-md-2">
                 <div class="mb-4">
                   <label class="form-label">CVV</label>
-                  <input class="form-control" type="text" placeholder="Security Code">
+                  <input type="text" class="form-control" formControlName="cvv" placeholder="123" [ngClass]="{ 'is-invalid': paySubmitted && fPay.cvv.errors }">
+                  <div *ngIf="paySubmitted && fPay.cvv.errors" class="invalid-feedback">
+                    <div *ngIf="fPay.cvv.errors.required">CVV is required</div>
+                    <div *ngIf="fPay.cvv.errors.minlength">CVV must be 3 characters</div>
+                    <div *ngIf="fPay.cvv.errors.maxlength">CVV must be 3 characters</div>
+                    <div *ngIf="fPay.cvv.errors.pattern">CVV should be numeric</div>
+                  </div>
                 </div>
               </div>
+
             </div>
           </div>
           <div class="card-footer text-end">
