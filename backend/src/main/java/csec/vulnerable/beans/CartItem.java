@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "CART_ITEM_SEQ")
-    @SequenceGenerator(name = "CART_ITEM_SEQ", sequenceName = "ECOM_CART_ITEM_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = "CART_ITEM_SEQ", sequenceName = "ECOM_CART_ITEM_SEQ", allocationSize = 1,initialValue = 2)
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
