@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,10 +36,15 @@ private static final long serialVersionUID = 1L;
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "USER_SEQ")
 	@SequenceGenerator(name = "USER_SEQ",sequenceName = "ECOM_USER_SEQ",allocationSize = 1, initialValue = 8)
 	private int id;
-	@Column(name = "username",unique = true,nullable = false)
+	
+	@Column(name = "username", unique = true, nullable = false)
+	@Size(min = 4, max = 16, message = "Username must be between 4 and 16 characters long.")
 	private String username;
 	
-	@Column(name = "password",nullable = false)
+	@Column(name = "password", nullable = false)
+	@Size(min = 8, max = 35, message = "Password must be between 8 and 35 characters long.")
+	@Pattern(regexp = ".*[0-9].*", message = "Password must contain at least one digit.")
+	@Pattern(regexp = ".*[!@#\\$%\\^&\\*].*", message = "Password must contain at least one symbol.")
 	private String password;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "c_user_c_user_profile",joinColumns = {
