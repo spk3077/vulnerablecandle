@@ -10,13 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.CreditCardNumber;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -59,51 +56,16 @@ public class Payment {
 
     @Column
     @NotNull
-    @Digits(integer = 3, fraction = 0)
+    @Size(min = 3, max = 3)
     private Integer secCode;
 
     public Payment() {
     }
 
-    
-    public Payment(int id, @NotNull @CreditCardNumber String cardNumber,
-            @NotNull @Size(min = 2, max = 50) String ownerName, @NotNull @Min(1) @Max(12) int expiryMonth,
-            @NotNull @Min(23) @Max(33) int expiryYear, @NotNull @Digits(integer = 3, fraction = 0) Integer secCode) {
-        this.id = id;
-        this.cardNumber = cardNumber;
-        this.ownerName = ownerName;
-        this.expiryMonth = expiryMonth;
-        this.expiryYear = expiryYear;
-        this.secCode = secCode;
-    }
-
-
-    public Payment(int id, User user, @NotNull @CreditCardNumber String cardNumber,
-            @NotNull @Size(min = 2, max = 50) String ownerName, @NotNull @Min(1) @Max(12) int expiryMonth,
-            @NotNull @Min(23) @Max(33) int expiryYear, @NotNull @Digits(integer = 3, fraction = 0) Integer secCode) {
-        this.id = id;
-        this.user = user;
-        this.cardNumber = cardNumber;
-        this.ownerName = ownerName;
-        this.expiryMonth = expiryMonth;
-        this.expiryYear = expiryYear;
-        this.secCode = secCode;
-    }
-
-
-    public Payment(@NotNull @CreditCardNumber String cardNumber, @NotNull @Size(min = 2, max = 50) String ownerName,
+    public Payment(int id, User user, @NotNull String cardNumber, @NotNull @Size(min = 2, max = 50) String ownerName,
             @NotNull @Min(1) @Max(12) int expiryMonth, @NotNull @Min(23) @Max(33) int expiryYear,
-            @NotNull @Digits(integer = 3, fraction = 0) Integer secCode) {
-        this.cardNumber = cardNumber;
-        this.ownerName = ownerName;
-        this.expiryMonth = expiryMonth;
-        this.expiryYear = expiryYear;
-        this.secCode = secCode;
-    }
-
-    public Payment(User user, @NotNull @CreditCardNumber String cardNumber,
-            @NotNull @Size(min = 2, max = 50) String ownerName, @NotNull @Min(1) @Max(12) int expiryMonth,
-            @NotNull @Min(23) @Max(33) int expiryYear, @NotNull @Digits(integer = 3, fraction = 0) Integer secCode) {
+            @NotNull @Size(min = 3, max = 3) Integer secCode) {
+        this.id = id;
         this.user = user;
         this.cardNumber = cardNumber;
         this.ownerName = ownerName;
@@ -111,7 +73,10 @@ public class Payment {
         this.expiryYear = expiryYear;
         this.secCode = secCode;
     }
-    
+
+
+
+
 
     public int getId() {
         return id;
@@ -189,7 +154,7 @@ public class Payment {
     }
 
     
-
+    
     public PaymentDTO toPaymentDTO() {
         PaymentDTO dto = new PaymentDTO();
         dto.setId(id);
@@ -201,6 +166,7 @@ public class Payment {
         return dto;
     }
 
+    @JsonIgnore
     public PaymentDTO getAnonymousPayment() {
         PaymentDTO result = new PaymentDTO();
         result.setOwnerName(ownerName);

@@ -77,16 +77,6 @@ public class PaymentDTO {
         this.secCode = secCode;
     }
 
-    public PaymentDTO getAnonymousPayment() {
-        PaymentDTO result = new PaymentDTO();
-        result.setOwnerName(ownerName);
-        result.setCardNumber("**** **** **** " + cardNumber.substring(cardNumber.length() - 4));
-        result.setExpiryMonth(expiryMonth);
-        result.setExpiryYear(expiryYear);
-        return result;
-    }
-    
-
     @Override
     public String toString() {
         return "PaymentDTO [id=" + id + ", cardNumber=" + cardNumber + ", ownerName=" + ownerName + ", expiryMonth="

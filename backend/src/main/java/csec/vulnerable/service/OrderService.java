@@ -66,7 +66,7 @@ public class OrderService {
         order.setUser(user);
     
         List<Payment> thePayments = paymentDao.findAllByUser(user);
-        List<PaymentDTO> payments = thePayments.stream().map(Payment::toPaymentDTO).collect(Collectors.toList());
+        List<PaymentDTO> payments = thePayments.stream().map(Payment::getAnonymousPayment).collect(Collectors.toList());
         if (payments == null || payments.isEmpty()) {
             throw new RuntimeException("The payment method missing.");
         }
@@ -80,8 +80,8 @@ public class OrderService {
         order.setCity(userInfo.getCity());
         order.setState(userInfo.getState());
         order.setZip(userInfo.getZip());
-        order.setCardNumber(payment.getAnonymousPayment().getCardNumber());
-        order.setPaymentOwnerName(payment.getAnonymousPayment().getOwnerName());
+        order.setCardNumber(payment.getCardNumber());
+        order.setPaymentOwnerName(payment.getOwnerName());
         
         if (order.getName() == null || order.getAddress() == null
                 || order.getCity() == null || order.getState() == null || order.getZip() == null) {
