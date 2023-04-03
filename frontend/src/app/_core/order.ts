@@ -1,3 +1,5 @@
+import { ProductReceive } from './product';
+
 // CLASS FOR RECEIVING SHOPPING CART ITEM
 export class OrderReceive {
     constructor(
@@ -8,9 +10,11 @@ export class OrderReceive {
         public email: string,
         public name: string,
         public payment_owner_name: string,
+        public orderItems: ProductReceive[] = [],
         public purchase_date: string,
         public state: string,
         public zip: string,
+        public totalPrice: string,
         public user_id: number
     ) {  }
 }

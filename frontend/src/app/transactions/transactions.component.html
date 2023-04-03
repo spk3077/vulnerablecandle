@@ -20,24 +20,76 @@
       <th mat-header-cell *matHeaderCellDef> Order ID </th>
       <td mat-cell *matCellDef="let element"> {{element.id}} </td>
     </ng-container>
-  
+
     <!-- Order Date Column -->
     <ng-container matColumnDef="purchase_date">
       <th mat-header-cell *matHeaderCellDef> Purchase Date </th>
       <td mat-cell *matCellDef="let element"> {{element.purchase_date}} </td>
     </ng-container>
+
+    <!-- Address Column -->
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+    </ng-container>
+
+    <!-- City Column -->
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef> City </th>
+      <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+    </ng-container>
+
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef> State </th>
+      <td mat-cell *matCellDef="let element"> {{element.state}} </td>
+    </ng-container>
+
+    <!-- ZIP Column -->
+    <ng-container matColumnDef="zip">
+      <th mat-header-cell *matHeaderCellDef> ZIP Code </th>
+      <td mat-cell *matCellDef="let element"> {{element.zip}} </td>
+    </ng-container>
+
+    <!-- Card # Column -->
+    <ng-container matColumnDef="card_number">
+      <th mat-header-cell *matHeaderCellDef> Card Number </th>
+      <td mat-cell *matCellDef="let element"> {{element.card_number}} </td>
+    </ng-container>
+
+    <!-- Card Owner Column -->
+    <ng-container matColumnDef="payment_owner_name">
+      <th mat-header-cell *matHeaderCellDef> Card Owner's Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.payment_owner_name}} </td>
+    </ng-container>
   
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <!-- Product Column -->
+    <ng-container matColumnDef="orderItems">
+      <th mat-header-cell *matHeaderCellDef> order Items </th>
+      <td mat-cell *matCellDef="let element"> {{element.orderItems}} </td>
+    </ng-container>
+ 
     <!-- Product Column -->
     <ng-container matColumnDef="user_id">
       <th mat-header-cell *matHeaderCellDef> User ID </th>
       <td mat-cell *matCellDef="let element"> {{element.user_id}} </td>
     </ng-container>
-  
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  
   
   
 

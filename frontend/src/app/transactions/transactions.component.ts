@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { OrderReceive } from '@app/_core/order';
 import { OrderService } from '@app/_services/order.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-transactions',
@@ -25,21 +26,23 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOrders();
+    console.log(this.orderItems);
+    this.dataSource = this.orderItems;
+    console.log(this.dataSource);
   }
 
   // Retrive orders to display
   public getOrders(): void {
     this.orderService.getOrders().subscribe({
       next: (res) => {
-        console.log(res);
         if (res.length <= 0) {
           this.getOrdersEmpty = true;
           return;
         }
 
-        res.orderItems.forEach((orderItem: any) => {
+        res.forEach((orderItem: any) => {
           this.orderItems.push(
-            new OrderReceive(orderItem.id, orderItem.address, orderItem.card_number, orderItem.city, orderItem.email, orderItem.name, orderItem.payment_owner_name, orderItem.purchase_date, orderItem.state, orderItem.zip, orderItem.user_id));
+            new OrderReceive(orderItem.id, orderItem.address, orderItem.cardNumber, orderItem.city, orderItem.email, orderItem.name, orderItem.payment_owner_name, orderItem.orderItems, orderItem.purchase_date, orderItem.state, orderItem.zip, orderItem.totalPrice, orderItem.user_id));
         });
       },
       error: () => {
