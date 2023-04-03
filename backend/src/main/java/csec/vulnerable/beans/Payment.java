@@ -152,8 +152,6 @@ public class Payment {
         return "Payment [id=" + id + ", user=" + user + ", cardNumber=" + cardNumber + ", ownerName=" + ownerName
                 + ", expiryMonth=" + expiryMonth + ", expiryYear=" + expiryYear + ", secCode=" + secCode + "]";
     }
-
-    
     
     public PaymentDTO toPaymentDTO() {
         PaymentDTO dto = new PaymentDTO();
