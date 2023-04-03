@@ -31,6 +31,7 @@ export class TransactionsComponent implements OnInit {
   public getOrders(): void {
     this.orderService.getOrders().subscribe({
       next: (res) => {
+        console.log(res);
         if (res.length <= 0) {
           this.getOrdersEmpty = true;
           return;
@@ -46,8 +47,9 @@ export class TransactionsComponent implements OnInit {
         this.getOrdersError = true;
       }
     });
-
+    
   }
+  
 }
 
 export interface TransactionHistory {
