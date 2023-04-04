@@ -10,7 +10,7 @@
   </div>
   <!-- === ERRORS END// === -->
 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="elements-table mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -90,7 +90,62 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  
-  
+
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+    Write a review
+  </button>
+
+  <!-- Modal with validation-->
+  <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger" id="exampleModal2Label">Write a review</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="addReviewForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="product" class="form-label">Product</label>
+              <input 
+                type="text" 
+                formControlName="product" 
+                class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f['product'].errors }"  
+                id="product">
+              <div *ngIf="submitted && f['product'].errors" class="invalid-feedback">
+                <div *ngIf="f['product'].errors['required']">Prodcut must be specified.</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="rating" class="form-label">Rating</label>
+              <input type="number" formControlName="rating" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['rating'].errors }"  id="rating">
+              <div *ngIf="submitted && f['rating'].errors" class="invalid-feedback">
+                <div *ngIf="f['rating'].errors['required']">Enter a number between 1-5.</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="title" class="form-label">Review Title</label>
+              <input type="text" formControlName="title" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['title'].errors}"  id="title">
+              <div *ngIf="submitted && f['title'].errors" class="invalid-feedback">
+                <div *ngIf="f['title']errors['required']">Enter a review title.</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="product" class="form-label">Review</label>
+              <input type="text" formControlName="review" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['review'].errors}"  id="review">
+              <div *ngIf="submitted && f['review'].errors" class="invalid-feedback">
+                <div *ngIf="f['review'].errors['required']">Enter a review.</div>
+              </div>
+            </div>
+           <button type="submit" class="btn btn-primary">Finish</button>
+         </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </main>
