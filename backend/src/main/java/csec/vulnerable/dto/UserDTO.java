@@ -16,7 +16,9 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    
+    public UserDTO(int id) {
+        this.id = id;
+    }
 
     public UserDTO(int id, String username, UserInfo userInfo, Collection<? extends GrantedAuthority> profiles) {
         this.id = id;

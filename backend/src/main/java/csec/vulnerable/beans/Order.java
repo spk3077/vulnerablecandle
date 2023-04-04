@@ -20,6 +20,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import csec.vulnerable.dto.OrderUserIdDTO;
+
 @Entity
 @Table(name = "ecom_order")
 public class Order {
@@ -249,8 +251,12 @@ public class Order {
 				+ ", zip=" + zip + ", cardNumber=" + cardNumber + ", paymentOwnerName=" + paymentOwnerName
 				+ ", totalPrice=" + totalPrice + "]";
 	}
-	
-	
 
+
+	public OrderUserIdDTO getUserId(){
+		OrderUserIdDTO user_id = new OrderUserIdDTO();
+		user_id.setUser_id(this.getUser().getId());
+		return user_id;
+	}
 	
 }

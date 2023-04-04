@@ -153,6 +153,7 @@ public class Payment {
                 + ", expiryMonth=" + expiryMonth + ", expiryYear=" + expiryYear + ", secCode=" + secCode + "]";
     }
     
+    @JsonIgnore
     public PaymentDTO toPaymentDTO() {
         PaymentDTO dto = new PaymentDTO();
         dto.setId(id);
