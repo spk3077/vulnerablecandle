@@ -1,25 +1,18 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { OrderReceive } from '@app/_core/order';
 import { OrderService } from '@app/_services/order.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.css']
 })
-
-//@NgModule({
-//  imports: [ ReactiveFormsModule ],
-//  declarations: [],
-//  exports: [ ReactiveFormsModule ]})
-
 export class TransactionsComponent implements OnInit {
   orderItems: OrderReceive[] = [];
   originalOrderItems: OrderReceive[] = [];
-  registerForm!: FormGroup;
+  addReviewForm!: FormGroup;
   submitted = false;
 
   // Table Variables
@@ -32,11 +25,11 @@ export class TransactionsComponent implements OnInit {
 
   constructor(private orderService: OrderService, private formBuilder: FormBuilder) {}
 
-  get f() { return this.registerForm.controls; }
+  get f() { return this.addReviewForm.controls; }
   onSubmit() {
     this.submitted = true;
-    console.log(this.registerForm.value);
-    if (this.registerForm.invalid) {
+    console.log(this.addReviewForm.value);
+    if (this.addReviewForm.invalid) {
       return;
     }
     if(this.submitted){
@@ -47,12 +40,8 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOrders();
-    console.log(this.dataSource);
-    console.log(this.dataSource[0]);
-    this.dataSource = this.orderItems;
-    console.log(this.orderItems);
     //Add User form validations
-    this.registerForm = this.formBuilder.group({
+    this.addReviewForm = this.formBuilder.group({
     product: ['', [Validators.required]],
     rating: ['', [Validators.required]],
     title: ['', [Validators.required]],
@@ -74,6 +63,9 @@ export class TransactionsComponent implements OnInit {
             new OrderReceive(orderItem.id, orderItem.address, orderItem.cardNumber, orderItem.city, orderItem.email, orderItem.name, orderItem.payment_owner_name, orderItem.orderItems, orderItem.purchase_date, orderItem.state, orderItem.zip, orderItem.totalPrice, orderItem.user_id));
         });
         this.orderItems.forEach(val => this.originalOrderItems.push(Object.assign({}, val)));
+
+        // Replace dataSource with new orderItems
+        this.dataSource = this.orderItems;
       },
       error: () => {
         // Failed at server
