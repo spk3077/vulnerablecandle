@@ -33,8 +33,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           {
             console.log("Error response status: ", error.status);
             if(error.status === 403) {
-              this.userService.setLoggedUser(null);
-              this.router.navigateByUrl("/login");
+              // this.userService.setLoggedUser(null);
+              this.router.navigateByUrl("/logout");
             }
             return throwError(() => (new Error("User Not Authorized")));
           }
