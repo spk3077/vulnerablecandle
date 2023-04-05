@@ -1,5 +1,6 @@
 package csec.vulnerable.beans;
 
+import java.nio.file.Path;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -57,7 +58,7 @@ public class UserInfo {
 	String zip;
 
 	@Column
-	String picture;
+	Path picture;
 
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd")
@@ -67,7 +68,7 @@ public class UserInfo {
 	}
 	
 	public UserInfo(User user, int id, String name, String phone, String email, String address, String city,
-			String state, String zip, String picture, Date create_date) {
+			String state, String zip, Path picture, Date create_date) {
 		this.user = user;
 		this.id = id;
 		this.name = name;
@@ -164,11 +165,11 @@ public class UserInfo {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
-	public String getPicture() {
+	public Path getPicture() {
 		return picture;
 	}
-	public void setPicture(String picture) {
-		this.picture = picture;
+	public void setPicture(Path path) {
+		this.picture = path;
 	}
 	public Date getCreate_date() {
 		return create_date;

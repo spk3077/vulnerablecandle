@@ -11,15 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import csec.vulnerable.beans.Product;
-import csec.vulnerable.dao.ProductDao;
 import csec.vulnerable.dto.ProductDTO;
 import csec.vulnerable.http.Response;
-import csec.vulnerable.service.FileUploadService;
 import csec.vulnerable.service.ProductService;
 
 @RestController()
@@ -27,12 +23,6 @@ import csec.vulnerable.service.ProductService;
 public class ProductController {
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private ProductDao productDao;
-
-    @Autowired
-    private FileUploadService fileUploadService;
 
     @GetMapping("/{id}")
     public ProductDTO getProduct(@PathVariable int id) {
@@ -48,22 +38,6 @@ public class ProductController {
     @PostMapping
     public Response addProduct(@RequestBody Product product) {
         return productService.addProduct(product);
-    }
-    @PostMapping("/{id}/uploadimage")
-    public Response uploadProductImage(@PathVariable int id, @RequestParam("file") MultipartFile file) {
-        try {
-            // Save the uploaded file to the server
-            fileUploadService.saveProductImage(file);
-
-            // Update the product's image field with the URL of the uploaded file
-            Product product = productDao.findById(id).get();
-            product.setImage("http://localhost:8081/images/" + file.getOriginalFilename());
-            productService.updateProduct(product);
-
-            return new Response(true,"Image uploaded successfully");
-        } catch (Exception e) {
-            return new Response(false,"Error uploading image: " + e.getMessage());
-        }
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

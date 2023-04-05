@@ -1,9 +1,10 @@
 package csec.vulnerable.controller;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,6 @@ import csec.vulnerable.beans.UserInfo;
 import csec.vulnerable.dao.UserDao;
 import csec.vulnerable.dao.UserInfoDao;
 import csec.vulnerable.http.Response;
-import csec.vulnerable.service.FileUploadService;
 import csec.vulnerable.service.UserInfoService;
 
 @RestController()
@@ -38,9 +38,6 @@ public class UserInfoController {
 	
 	@Autowired
 	UserInfoService userInfoService;
-
-	@Autowired
-    private FileUploadService fileUploadService;
 	
 	@GetMapping
 	public List<UserInfo> getUserInfos(Authentication authentication){
@@ -53,21 +50,16 @@ public class UserInfoController {
 	}
 	
 	@PostMapping("/uploadimage")
-	public Response uploadUserImage(@RequestParam("file") MultipartFile file,Authentication authentication) {
+	public Response uploadUserImage(@RequestParam("file") MultipartFile file, Authentication authentication) {
 		try {
-			String fileName = file.getOriginalFilename();
-			String fileExtension = "";
-			if(fileName != null) {
-				fileExtension = fileName.substring(fileName.lastIndexOf("."));
-			}
-			String newFileName = UUID.randomUUID().toString() + fileExtension;
-			String filePath = fileUploadService.getUserImageUploadDir() + File.separator + newFileName;
-			fileUploadService.saveUserImage(file);
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get("frontend/src/assets/userinfo/" + file.getOriginalFilename());
+			Files.write(path, bytes);
 
 			User user = userDao.findByUsername(authentication.getName());
 			UserInfo userInfo = userInfoDao.findByUser(user);
 			if (userInfo != null) {
-				userInfo.setPicture(filePath);
+				userInfo.setPicture(path);
 				userInfoDao.save(userInfo);
 				return new Response(true);
 			} else {
