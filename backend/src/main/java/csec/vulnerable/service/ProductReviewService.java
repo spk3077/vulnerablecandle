@@ -57,20 +57,24 @@ public class ProductReviewService {
 
     // post
     public Response addProductReview(ProductReview productReview, Authentication authentication) {
-        validateGrade(productReview.getGrade());
         productReview.setUser(userDao.findByUsername(authentication.getName()));
-        Calendar calendar = Calendar.getInstance();
-        java.util.Date now = calendar.getTime();
-        java.sql.Date currentDate = new java.sql.Date(now.getTime());
-        productReview.setReview_date(currentDate);
-        // Retrieve the product from the database using the productId
-        Product product = productDao.findById(productReview.getProduct().getId()).orElse(null);
-        if (product == null) {
-            return new Response(false, "Product not found");
+        if(productReview.isUserPurchasedProduct()){
+            validateGrade(productReview.getGrade());
+            Calendar calendar = Calendar.getInstance();
+            java.util.Date now = calendar.getTime();
+            java.sql.Date currentDate = new java.sql.Date(now.getTime());
+            productReview.setReview_date(currentDate);
+            // Retrieve the product from the database using the productId
+            Product product = productDao.findById(productReview.getProduct().getId()).orElse(null);
+            if (product == null) {
+                return new Response(false, "Product not found");
+            }
+            // Set the product for the review
+            productReview.setProduct(product);
+            productReviewDao.save(productReview);
+            return new Response(true);
         }
-        // Set the product for the review
-        productReview.setProduct(product);
-        productReviewDao.save(productReview);
-        return new Response(true);
+        return new Response(false, "You didn't purchased is product yet");
+        
     }
 }

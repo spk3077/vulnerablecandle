@@ -137,4 +137,17 @@ public class ProductReview {
                 + comment + ", review_date=" + review_date + "]";
     }
 
+    public boolean isUserPurchasedProduct() {
+        if (user != null && product != null) {
+            for (Order order : user.getOrders()) {
+                for (OrderItem item : order.getOrderItems()) {
+                    if (item.getProduct().getId() == product.getId()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }
