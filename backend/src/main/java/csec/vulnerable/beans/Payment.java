@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -56,7 +57,7 @@ public class Payment {
 
     @Column
     @NotNull
-    @Size(min = 3, max = 3)
+    @Digits(integer = 3, fraction = 0, message = "Security code must be a 3-digit integer")
     private Integer secCode;
 
     public Payment() {
