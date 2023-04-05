@@ -1,9 +1,6 @@
 package csec.vulnerable.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,13 +50,10 @@ public class UserInfoController {
 	public Response uploadUserImage(@RequestParam("file") MultipartFile file, Authentication authentication) {
 		try {
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get("frontend/src/assets/userinfo/" + file.getOriginalFilename());
-			Files.write(path, bytes);
-
 			User user = userDao.findByUsername(authentication.getName());
 			UserInfo userInfo = userInfoDao.findByUser(user);
 			if (userInfo != null) {
-				userInfo.setPicture(path);
+				userInfo.setPicture(bytes);
 				userInfoDao.save(userInfo);
 				return new Response(true);
 			} else {
