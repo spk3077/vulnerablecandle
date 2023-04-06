@@ -57,7 +57,7 @@ public class UserInfo {
 	String zip;
 
 	@Column
-	byte[] picture;
+	String picture;
 
 	@Column
 	@JsonFormat(pattern = "yyyy-MM-dd")
@@ -67,7 +67,7 @@ public class UserInfo {
 	}
 	
 	public UserInfo(User user, int id, String name, String phone, String email, String address, String city,
-			String state, String zip, byte[] picture, Date create_date) {
+			String state, String zip, String picture, Date create_date) {
 		this.user = user;
 		this.id = id;
 		this.name = name;
@@ -164,10 +164,10 @@ public class UserInfo {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
-	public byte[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
-	public void setPicture(byte[] bytes) {
+	public void setPicture(String bytes) {
 		this.picture = bytes;
 	}
 	public Date getCreate_date() {

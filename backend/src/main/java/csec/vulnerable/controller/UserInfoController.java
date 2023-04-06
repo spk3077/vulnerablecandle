@@ -1,9 +1,13 @@
 package csec.vulnerable.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +50,9 @@ public class UserInfoController {
 		return userInfoService.changeUserInfo(userInfo, authentication);
 	}
 	
+	@Value("${spring.servlet.multipart.location}")
+	private String uploadDirectory;
+
 	@PostMapping("/uploadimage")
 	public Response uploadUserImage(@RequestParam("file") MultipartFile file, Authentication authentication) {
 		try {
@@ -53,7 +60,10 @@ public class UserInfoController {
 			User user = userDao.findByUsername(authentication.getName());
 			UserInfo userInfo = userInfoDao.findByUser(user);
 			if (userInfo != null) {
-				userInfo.setPicture(bytes);
+				Path path = Paths.get(uploadDirectory, file.getOriginalFilename());
+				String filePath = path.toString();
+				Files.write(path, bytes);
+				userInfo.setPicture(filePath);
 				userInfoDao.save(userInfo);
 				return new Response(true);
 			} else {
