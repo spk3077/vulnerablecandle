@@ -20,9 +20,9 @@
         <div *ngIf="!picFormDisplay" class="card mb-4">
           <div class="card-body">
             <div class="d-flex align-items-center">
-              <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" src="https://therichpost.com/wp-content/uploads/2021/03/avatar2.png" alt="Jassa Rich"></div>
+              <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" [attr.src]="currentUser.picture !== null ? currentUser.picture : 'assets/images/defaultprofiledark.png'" alt="PFP"></div>
               <div class="flex-grow-1 ps-3">
-                <h4>{{displayUserInfo.name ? displayUserInfo.name : ' '}}</h4>
+                <h4 [ngClass]="{ 'alert-color': !displayUserInfo.name }">{{displayUserInfo.name ? displayUserInfo.name : 'No Name'}}</h4>
                 <p class="text-muted mb-0">{{currentUser.username}}</p>
                 <span class="float-end">
                   <button (click)="picFormDisplay = true;" class="btn btn-primary">Edit</button>
@@ -36,13 +36,39 @@
         <!-- === EDIT NAME & PFP === -->
         <form *ngIf="picFormDisplay" [formGroup]="picForm" (ngSubmit)="picSubmit()" class="card mb-4">
           <div class="card-body">
+            <!-- === ERRORS === -->
+            <div class="alert-message mb-3" [hidden]="!changeNameError">
+              Change Name Failed! Try again later!
+            </div>
+            <div class="alert-message mb-3" [hidden]="!uploadImageError">
+              Upload Image Failed! Try again later!
+            </div>
+            <div class="alert-message mb-3" [hidden]="!uploadTypeError">
+              Image Type Wrong!
+            </div>
+            <!-- === ERRORS END// === -->
             <div class="d-flex align-items-center">
-              <div class="flex-shrink-0"><img class="avatar avatar-lg p-1" src="https://therichpost.com/wp-content/uploads/2021/03/avatar2.png" alt="Jassa Rich"></div>
+              <div id="image-upload" class="flex-shrink-0">
+                <label id="avatar-label" for="file-input">
+                  <img *ngIf="!tempPFP" class="avatar avatar-lg p-1" [attr.src]="currentUser.picture !== null ? currentUser.picture : 'assets/images/defaultprofiledark.png'" alt="PFP">
+                  <img *ngIf="tempPFP" class="avatar avatar-lg p-1" [attr.src]="tempPFP" alt="PFP">
+                </label>
+                <img class="plus-upload" src="assets/images/plus.png" alt="plus">
+                <input id="file-input" type="file" (change)="uploadImage($event)" name="image" />
+              </div>
               <div class="flex-grow-1 ps-3">
-                <h4>Jassa Rich</h4>
+                <!-- Full Name -->
+                <label class="form-label">Full name</label>
+                <input type="text" class="form-control" formControlName="fullName" placeholder="John Doe" [ngClass]="{ 'is-invalid': picSubmitted && fPic.fullName.errors }">
+                <div *ngIf="picSubmitted && fPic.fullName.errors" class="invalid-feedback">
+                    <div *ngIf="fPic.fullName.errors.minlength">Full name must be at least 3 characters</div>
+                    <div *ngIf="fPic.fullName.errors.maxlength">Full name cannot be greater than 50 characters</div>
+                </div>
+                <!-- Full Name END// -->
+
                 <p class="text-muted mb-0">&nbsp;</p>
                 <span class="float-end">
-                  <button (click)="picFormDisplay = false;" class="btn btn-dark">Cancel</button>
+                  <button type="button" (click)="picFormDisplay = true; tempPFP = null;" class="btn btn-dark">Cancel</button>
                   <button class="btn btn-success ms-2" type="submit">Save</button>
                 </span>
               </div>
@@ -72,6 +98,11 @@
             <h5 class="card-heading">Change Password</h5>
           </div>
           <div class="card-body">
+            <!-- === ERRORS === -->
+            <div class="alert-message mb-3" [hidden]="!changePasswordError">
+              Updating User Info Failed! Try again later!
+            </div>
+            <!-- === ERRORS END// === -->
             <div class="mb-3"> 
               <label class="form-label">Current Password</label>
               <input type="password" class="form-control" formControlName="oldPassword" placeholder="Password" [ngClass]="{ 'is-invalid': passSubmitted && fPass.oldPassword.errors }">
@@ -84,16 +115,16 @@
 
             <div class="mb-3"> 
               <label class="form-label">New Password</label>
-              <input type="password" class="form-control" formControlName="password" placeholder="Password" [ngClass]="{ 'is-invalid': passSubmitted && fPass.password.errors }">
-              <div *ngIf="passSubmitted && fPass.password.errors" class="invalid-feedback">
-                <div *ngIf="fPass.password.errors.required">Password is required</div>
-                <div *ngIf="fPass.password.errors.minlength">Password must be at least 8 characters</div>
-                <div *ngIf="fPass.password.errors.maxlength">Password cannot be greater than 35 characters</div>
+              <input type="password" class="form-control" formControlName="newPassword" placeholder="Password" [ngClass]="{ 'is-invalid': passSubmitted && fPass.newPassword.errors }">
+              <div *ngIf="passSubmitted && fPass.newPassword.errors" class="invalid-feedback">
+                <div *ngIf="fPass.newPassword.errors.required">Password is required</div>
+                <div *ngIf="fPass.newPassword.errors.minlength">Password must be at least 8 characters</div>
+                <div *ngIf="fPass.newPassword.errors.maxlength">Password cannot be greater than 35 characters</div>
               </div>
             </div>
           </div>
           <div class="card-footer text-end">
-            <button (click)="passFormDisplay = false;" class="btn btn-dark">Cancel</button>
+            <button type="button" (click)="passFormDisplay = false;" class="btn btn-dark">Cancel</button>
             <button class="btn btn-success ms-2" type="submit">Save</button>
           </div>
         </form>
@@ -120,10 +151,6 @@
             <div class="alert-message mb-3" [hidden]="!getUserInfoError">
               Fetching User Info Failed! Try again later!
             </div>
-            <div class="alert-message mb-3" [hidden]="!changeUserInfoError">
-              Updating User Info Failed! Try again later!
-            </div>
-            <!-- === ERRORS END// === -->
             <dl class="dlist-align">
               <dt>Email: </dt>
               <dd *ngIf="displayUserInfo.email" class="text-muted">{{displayUserInfo.email}}</dd>
@@ -167,6 +194,11 @@
             <h5 class="card-heading">Edit User Info</h5>
           </div>
           <div class="card-body">
+            <!-- === ERRORS === -->
+            <div class="alert-message mb-3" [hidden]="!changeUserInfoError">
+              Updating User Info Failed! Try again later!
+            </div>
+            <!-- === ERRORS END// === -->
             <div class="row">
               <div class="col-sm-6 col-md-5">
                 <div class="mb-4">
@@ -174,8 +206,8 @@
                   <input type="text" class="form-control" formControlName="email" placeholder="example@gmail.com" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.email.errors }">
                   <div *ngIf="infoSubmitted && fInfo.email.errors" class="invalid-feedback">
                     <div *ngIf="fInfo.email.errors.email">Invalid email format</div>
-                    <div *ngIf="fInfo.email.errors.minlength">Card name must be at least 5 characters</div>
-                    <div *ngIf="fInfo.email.errors.maxlength">Card name cannot be greater than 50 characters</div>
+                    <div *ngIf="fInfo.email.errors.minlength">Email must be at least 5 characters</div>
+                    <div *ngIf="fInfo.email.errors.maxlength">Email cannot be greater than 50 characters</div>
                   </div>
                 </div>
               </div>
@@ -185,8 +217,8 @@
                   <label class="form-label">Phone number</label>
                   <input type="text" class="form-control" formControlName="phone" placeholder="###-###-####" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.phone.errors }">
                 <div *ngIf="infoSubmitted && fInfo.phone.errors" class="invalid-feedback">
-                    <div *ngIf="fInfo.phone.errors.minlength">Card name must be at least 10 characters</div>
-                    <div *ngIf="fInfo.phone.errors.maxlength">Card name cannot be greater than 15 characters</div>
+                    <div *ngIf="fInfo.phone.errors.minlength">Phone number must be at least 10 characters</div>
+                    <div *ngIf="fInfo.phone.errors.maxlength">Phone number cannot be greater than 15 characters</div>
                   </div>
                 </div>
               </div>
@@ -196,8 +228,8 @@
                   <label class="form-label">Address</label>
                   <input type="text" class="form-control" formControlName="address" placeholder="One Lomb Memorial Drive" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.address.errors }">
                   <div *ngIf="infoSubmitted && fInfo.address.errors" class="invalid-feedback">
-                    <div *ngIf="fInfo.address.errors.minlength">Card name must be at least 3 characters</div>
-                    <div *ngIf="fInfo.address.errors.maxlength">Card name cannot be greater than 100 characters</div>
+                    <div *ngIf="fInfo.address.errors.minlength">Address must be at least 3 characters</div>
+                    <div *ngIf="fInfo.address.errors.maxlength">Address cannot be greater than 100 characters</div>
                   </div>
                 </div>
               </div>
@@ -290,7 +322,7 @@
             </div>
           </div>
           <div class="card-footer text-end">
-            <button (click)="infoFormDisplay = false;" class="btn btn-dark">Cancel</button>
+            <button type="button" (click)="infoFormDisplay = false;" class="btn btn-dark">Cancel</button>
             <button class="btn btn-success ms-2" type="submit">Save</button>
           </div>
         </form>
@@ -310,10 +342,6 @@
             <div class="alert-message mb-3" [hidden]="!getPaymentError">
               Fetching Payment Failed! Try again later!
             </div>
-            <div class="alert-message mb-3" [hidden]="!changePaymentError">
-              Change Payment Failed! Try again later!
-            </div>
-            <!-- === ERRORS END// === -->
             <dl class="dlist-align">
               <dt>Name on card: </dt>
               <dd *ngIf="displayPayment.ownerName" class="text-muted">{{displayPayment.ownerName}}</dd>
@@ -347,6 +375,11 @@
             <h5 class="card-heading">Edit Payment</h5>
           </div>
           <div class="card-body">
+            <!-- === ERRORS === -->
+            <div class="alert-message mb-3" [hidden]="!changePaymentError">
+              Change Payment Failed! Try again later!
+            </div>
+            <!-- === ERRORS END// === -->
             <div class="row">
               <div class="col-sm-6 col-md-6">
                 <div class="mb-4">
@@ -400,7 +433,7 @@
             </div>
           </div>
           <div class="card-footer text-end">
-            <button (click)="payFormDisplay = false;" class="btn btn-dark">Cancel</button>
+            <button type="button" (click)="payFormDisplay = false;" class="btn btn-dark">Cancel</button>
             <button class="btn btn-success ms-2" type="submit">Save</button>
           </div>
         </form>

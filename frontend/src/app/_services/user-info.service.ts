@@ -64,4 +64,17 @@ export class UserInfoService {
           })
         );
   }
+
+  // Add user info to account (keeps unincluded)
+  public uploadUserImage(image: any): Observable<any> {
+    return this.http.post(this.userinfo_endpoint + "/uploadimage", image)
+      .pipe(
+        map(res => {
+            return res;
+        }),
+        catchError(error => {
+            return of(error);
+        })
+      );
+}
 }
