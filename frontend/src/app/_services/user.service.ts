@@ -5,7 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import { StorageService } from 'ngx-webstorage-service';
 
-import { UserReceive } from '@app/_core/user';
+import { PasswordSend, UserReceive } from '@app/_core/user';
 import { UserSend } from '@app/_core/user';
 import { environment } from  '@environments/environment';
 
@@ -102,6 +102,19 @@ export class UserService {
     // ADMIN_ROLE: For all Users
     public getUserData(): Observable<any> {
         return this.http.get(this.users_endpoint)
+            .pipe(
+                map(res => {
+                    return res;
+                }),
+                catchError(error => {
+                    return throwError(() => (new Error(error)));
+                })
+            );
+    }
+
+    // Change Password of User
+    public changeUser(changePassword: PasswordSend) {
+        return this.http.put(this.users_endpoint, changePassword)
             .pipe(
                 map(res => {
                     return res;

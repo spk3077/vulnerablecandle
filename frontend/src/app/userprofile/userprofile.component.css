@@ -5,6 +5,9 @@ body {
 .contentDiv{
     padding-top: 4rem;
 }
+.alert-color {
+    color: #ff0000;
+}
 
 /* ====CARD MODIFICATIONS==== */
 .card-header:first-child {
@@ -49,6 +52,20 @@ body {
     height: 9rem;
     background-position: center center;
     background-size: cover;
+}
+#avatar-label > img  {
+    cursor: pointer;
+}
+#image-upload > input {
+    display: none;
+}
+.plus-upload {
+    position: relative;
+    z-index: 2;
+    max-width: 1em;
+    max-height: 1em;
+    margin-left: -1em;
+    margin-bottom: -3em;
 }
 
 /*== SMALL PROFILE PICTURE ==*/
