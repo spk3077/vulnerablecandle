@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PATTERNS } from '@app/_core/constants';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 import { PaymentReceive, PaymentSend } from '@app/_core/payment';
+import { PasswordSend } from '@app/_core/user';
 import { UserInfoReceive, UserInfoSend } from '@app/_core/userInfo';
 
 import { PaymentService } from '@app/_services/payment.service';
@@ -22,24 +23,36 @@ export class UserProfileComponent implements OnInit {
 
   // Form Values
   picForm: any = FormGroup;
+  file: any;
+  tempPFP: any | null;
   picSubmitted: boolean = false;
+
   passForm: any = FormGroup;
   passSubmitted: boolean = false;
+
   infoForm: any = FormGroup;
   infoSubmitted: boolean = false;
+
   payForm: any = FormGroup;
   paySubmitted: boolean = false;
+
 
   // Display Form Booleans
   picFormDisplay: boolean = false;
   infoFormDisplay: boolean = false;
   payFormDisplay: boolean = false;
   passFormDisplay: boolean = false;
+
   // Display Error Booleans
   getUserInfoError: boolean = false;
   getPaymentError: boolean = false;
+  uploadImageError: boolean = false;
+  uploadTypeError: boolean = false;
+  changeNameError: boolean = false;
+  changePasswordError: boolean = false;
   changeUserInfoError: boolean = false;
   changePaymentError: boolean = false;
+
   // Display Info Booleans
   userInfoNone: boolean = false;
   paymentNone: boolean = false;
@@ -59,12 +72,11 @@ export class UserProfileComponent implements OnInit {
 
     this.picForm = this.formBuilder.group({
       fullName: ['', [Validators.minLength(3), Validators.maxLength(50)]],
-      image: ['',[]]
     });
 
     this.passForm = this.formBuilder.group({
       oldPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]]        
+      newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]]        
     });
 
     this.infoForm = this.formBuilder.group({
@@ -125,7 +137,7 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  // Retrieve Shopping Cart to Display
+  // Retrieve Payment to Display
   public getPayment(): void {
     this.paymentService.getPayment().subscribe({
       next: (res) => {
@@ -137,7 +149,7 @@ export class UserProfileComponent implements OnInit {
           return;
         }
 
-        // User Info Form Update
+        // Payment Form Update
         this.payForm.patchValue({
           cardName: payment.ownerName,
           cardNumber: payment.cardNumber,
@@ -156,6 +168,72 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  // assist for getting image parameters for picSubmit()
+  public uploadImage(event: any){
+    const file = event.target.files[0];
+    const mimeType = file.type;
+    if (mimeType.match(/image\/*/) == null) {
+        this.uploadTypeError = true;
+        return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (_event) => { 
+      this.tempPFP = reader.result; 
+    }
+    this.file = file;
+  }
+
+  // picSubmit helper for sending fullName
+  private picInfoSend() {
+    const fullName = UserInfoSend.forProfileAside(this.picForm.value.fullName); 
+    this.userInfoService.changeUserInfo(fullName).subscribe({
+      next: (res) => {
+        console.log(res);
+        const infoResponse: DefaultResponse = res;
+        if (infoResponse.success != true) {
+          this.changeNameError = true;
+          return;
+        }
+
+        this.getUserInfo();
+        this.picSubmitted = false;
+        this.picFormDisplay = false;
+      },
+      error: () => {
+        // Failed at getting UserInfo to Store
+        this.changeNameError = true;
+      }
+    });
+  }
+
+  // picSubmit helper for sending fullName
+  private picImageSend() {
+    const formData = new FormData();
+    formData.append("image", this.file, this.file.name);
+    console.log(formData);
+
+    this.userInfoService.uploadUserImage(formData).subscribe({
+      next: (res) => {
+        console.log(res);
+        const imgResponse: DefaultResponse = res;
+        if (imgResponse.success != true) {
+          this.uploadImageError = true;
+          return;
+        }
+
+        this.getUserInfo();
+        this.picSubmitted = false;
+        this.picFormDisplay = false;
+      },
+      error: () => {
+        // Failed at getting UserInfo to Store
+        this.uploadImageError = true;
+      }
+    });
+  }
+
+  // Submit Fullname and picture Form
   public picSubmit(): void {
     this.picSubmitted = true;
     // stop here if form is invalid
@@ -164,9 +242,17 @@ export class UserProfileComponent implements OnInit {
     }
     //True if all the fields are valid
     if(this.picSubmitted) {
+      this.tempPFP = null;
+      if (this.file) {
+        this.picImageSend()
+      }
+      if (this.picForm.value.fullName || this.picForm.value.fullName != '') {
+        this.picInfoSend();
+      }
     }
   }
 
+  // Submit change password Form
   public passSubmit(): void {
     this.passSubmitted = true;
     // stop here if form is invalid
@@ -175,10 +261,28 @@ export class UserProfileComponent implements OnInit {
     }
     //True if all the fields are valid
     if(this.passSubmitted) {
-      
+      const passSend = new PasswordSend(this.currentUser.username, this.passForm.value.oldPassword, this.passForm.value.newPassword);
+      this.userService.changeUser(passSend).subscribe({
+        next: (res) => {
+          console.log(res);
+          const passResponse: any = res;
+          if (passResponse.success != true) {
+            this.changePasswordError = true;
+            return;
+          }
+
+          this.passSubmitted = false;
+          this.passFormDisplay = false;
+        },
+        error: () => {
+          // Failed at getting UserInfo to Store
+          this.changePasswordError = true;
+        }
+      });
     }
   }
 
+  // Submit user information form
   public infoSubmit(): void {
     this.infoSubmitted = true;
     // stop here if form is invalid
@@ -209,6 +313,7 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  // Submit payment Form
   public paySubmit(): void {
     this.paySubmitted = true;
     // stop here if form is invalid

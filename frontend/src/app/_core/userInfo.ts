@@ -47,4 +47,11 @@ export class UserInfoSend {
         cls.zip = zip;
         return cls;
     }
+
+     // UserInfo Send for UserProfile Full Name
+     public static forProfileAside(name: string): UserInfoSend {
+        const cls = new UserInfoSend();
+        cls.name = name;
+        return cls;
+    }
 }
