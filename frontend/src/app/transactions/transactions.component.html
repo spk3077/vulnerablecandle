@@ -90,12 +90,61 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  
+
+  <!-- Products from the order table -->
+  <table mat-table [dataSource]="dataSource2" class="elements-table mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Order ID Column -->
+    <ng-container matColumnDef="orderId">
+      <th mat-header-cell *matHeaderCellDef> Order ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
+    </ng-container>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="itemOrderId">
+      <th mat-header-cell *matHeaderCellDef> Product ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.itemOrderId}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="itemName">
+      <th mat-header-cell *matHeaderCellDef> Product Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+    </ng-container>
+
+    <!-- Brand Column -->
+    <ng-container matColumnDef="itemBrand">
+      <th mat-header-cell *matHeaderCellDef> Brand </th>
+      <td mat-cell *matCellDef="let element"> {{element.itemBrand}} </td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="itemPrice">
+      <th mat-header-cell *matHeaderCellDef> Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.itemPrice}} </td>
+    </ng-container>
+
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef> Quantity </th>
+      <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+  </table>
+
+
 
   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
     Write a review
   </button>
 
-  <!-- Modal with validation-->
+  <!-- Modal with validation -->
   <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -106,15 +155,16 @@
         <div class="modal-body">
           <form [formGroup]="addReviewForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
-              <label for="product" class="form-label">Product</label>
+              <label for="product" class="form-label">Product ID</label>
               <input 
-                type="text" 
+                type="number" 
                 formControlName="product" 
                 class="form-control" 
                 [ngClass]="{ 'is-invalid': submitted && f['product'].errors }"  
                 id="product">
               <div *ngIf="submitted && f['product'].errors" class="invalid-feedback">
-                <div *ngIf="f['product'].errors['required']">Prodcut must be specified.</div>
+                <div *ngIf="f['product'].errors['required']">Product must be specified.</div>
+                <div *ngIf="f['product'].errors['min']">Enter a number between 1-5.</div>
               </div>
             </div>
             <div class="mb-3">
@@ -122,6 +172,8 @@
               <input type="number" formControlName="rating" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['rating'].errors }"  id="rating">
               <div *ngIf="submitted && f['rating'].errors" class="invalid-feedback">
                 <div *ngIf="f['rating'].errors['required']">Enter a number between 1-5.</div>
+                <div *ngIf="f['rating'].errors['min']">Enter a number between 1-5.</div>
+                <div *ngIf="f['rating'].errors['max']">Enter a number between 1-5.</div>
               </div>
             </div>
             <div class="mb-3">
