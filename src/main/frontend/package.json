@@ -5,6 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "postbuild": "npm run deploy",
+    "predeploy": "rimraf ../resources/static/ && mkdirp ../resources/static",
+    "deploy": "copyfiles -f dist/** ../resources/static",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -43,12 +46,15 @@
     "@angular/compiler-cli": "^15.1.0",
     "@angular/localize": "^15.1.0",
     "@types/jasmine": "~4.3.0",
+    "copyfiles": "^2.4.1",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "mkdirp": "^2.1.6",
+    "rimraf": "^4.4.1",
     "typescript": "~4.9.4"
   }
 }

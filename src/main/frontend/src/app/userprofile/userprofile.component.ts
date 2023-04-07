@@ -105,6 +105,7 @@ export class UserProfileComponent implements OnInit {
   public getUserInfo(): void {
     this.userInfoService.getUserInfo().subscribe({
       next: (res) => {
+        console.log(res);
         const info: any = Array.from(res)[0];
 
         // Pic Form Update
@@ -141,7 +142,7 @@ export class UserProfileComponent implements OnInit {
   public getPayment(): void {
     this.paymentService.getPayment().subscribe({
       next: (res) => {
-        console.log(res);
+        // console.log(res);
         const payment: any = Array.from(res)[0];
         // Payment not stored by API
         if (payment == undefined) {
@@ -189,7 +190,6 @@ export class UserProfileComponent implements OnInit {
     const fullName = UserInfoSend.forProfileAside(this.picForm.value.fullName); 
     this.userInfoService.changeUserInfo(fullName).subscribe({
       next: (res) => {
-        console.log(res);
         const infoResponse: DefaultResponse = res;
         if (infoResponse.success != true) {
           this.changeNameError = true;
@@ -210,7 +210,7 @@ export class UserProfileComponent implements OnInit {
   // picSubmit helper for sending fullName
   private picImageSend() {
     const formData = new FormData();
-    formData.append("image", this.file, this.file.name);
+    formData.append("file", this.file, this.file.name);
     console.log(formData);
 
     this.userInfoService.uploadUserImage(formData).subscribe({
@@ -264,7 +264,6 @@ export class UserProfileComponent implements OnInit {
       const passSend = new PasswordSend(this.currentUser.username, this.passForm.value.oldPassword, this.passForm.value.newPassword);
       this.userService.changeUser(passSend).subscribe({
         next: (res) => {
-          console.log(res);
           const passResponse: any = res;
           if (passResponse.success != true) {
             this.changePasswordError = true;

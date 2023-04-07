@@ -36,7 +36,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
               // this.userService.setLoggedUser(null);
               this.router.navigateByUrl("/logout");
             }
-            return throwError(() => (new Error("User Not Authorized")));
+            return throwError(() => (new Error("Error via Intercept")));
           }
         ));
 
