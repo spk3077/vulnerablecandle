@@ -17,7 +17,6 @@ import { SubmenuModule } from '@app/ui/submenu/submenu.module';
     FormsModule,
     FontAwesomeModule,
     NgbModule
-    
   ],
   declarations: [ProductComponent]
 })

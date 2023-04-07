@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './_helpers/auth.guard';
 import { AdminGuard } from './_helpers/admin.guard';
-import { AdminProductsComponent } from './admin/products/products.component';
-import { AdminUsersComponent } from './admin/users/users.component';
 
 const routes: Routes = [
   { 
@@ -21,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./shop/shop.module').then(m => m.ShopModule) 
   },
   { 
+    path: 'shop/:productid',
+    loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
+  },
+  { 
     path: 'transactions', 
     loadChildren: () => import('./transactions/transactions.module').then(m => m.TransactionsModule), 
     canActivate:[AuthGuard] 
@@ -34,10 +36,6 @@ const routes: Routes = [
     path: 'checkout', 
     loadChildren: () => import('./check-out/check-out.module').then(m => m.CheckOutModule), 
     canActivate:[AuthGuard] 
-  },
-  { 
-    path: 'shop/:productid',
-    loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
   },
   { 
     path: 'collections', 

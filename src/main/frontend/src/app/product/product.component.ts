@@ -11,7 +11,6 @@ import { UserService } from '@app/_services/user.service';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
 
-
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
