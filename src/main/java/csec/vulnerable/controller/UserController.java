@@ -2,6 +2,7 @@ package csec.vulnerable.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,18 +42,65 @@ public class UserController {
 		return userDTOs;
 	}
 
+	@GetMapping("/{id}")
+	public User getUserById(@PathVariable int id) {
+		User user = null;
+		Connection conn = null;
+		Statement stmt = null;
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/csec", "root", "csec77499981");
+			stmt = conn.createStatement();
+			String sql = "SELECT * FROM ecom_user WHERE id=" + id;
+			ResultSet rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("password"), null);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) stmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
+	}
+
 	@PostMapping
 	public Response addUser(@RequestBody User user) {
 		return userService.register(user);
 	}
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@PutMapping
 	public Response changeUser(@RequestBody ChangePasswordRequest request, Authentication authentication) {
-		String sql = "UPDATE ecom_user SET password = '" + request.getNewPassword() + "' WHERE username = '" + request.getUsername() + "'";
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/csec?useTimezone=true&serverTimezone=UTC", "root", "csec77499981");
-			Statement stmt = conn.createStatement()) {
-			stmt.executeUpdate(sql);
-			return new Response(true, "Password updated successfully.");
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/csec?useTimezone=true&serverTimezone=UTC", "root", "csec77499981")) {
+			String sqlGetPassword = "SELECT password FROM ecom_user WHERE username = '" + request.getUsername() + "'";
+			try (Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(sqlGetPassword)) {
+
+				if (rs.next()) {
+					String oldPasswordHash = rs.getString("password");
+
+					if (passwordEncoder.matches(request.getOldPassword(), oldPasswordHash)) {
+						String newPasswordHash = passwordEncoder.encode(request.getNewPassword());
+						String sqlUpdatePassword = "UPDATE ecom_user SET password = '" + newPasswordHash + "' WHERE username = '" + request.getUsername() + "'";
+
+						try (Statement stmtUpdate = conn.createStatement()) {
+							stmtUpdate.executeUpdate(sqlUpdatePassword);
+							return new Response(true, "Password updated successfully.");
+						}
+					} else {
+						return new Response(false, "Old password does not match.");
+					}
+				} else {
+					return new Response(false, "User not found.");
+				}
+			}
 		} catch (SQLException e) {
 			return new Response(false, "Error updating password.");
 		}
@@ -66,4 +115,3 @@ public class UserController {
 	
 
 }
-
