@@ -40,7 +40,7 @@ public class ProductController {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/csec", "root", "csec77499981");
             Statement stmt = conn.createStatement()) {
             String sql = "SELECT p.*, pr.id as pr_id, pr.grade, pr.comment, t.* " +
-                        "FROM products p " +
+                        "FROM ecom_product p " +
                         "LEFT JOIN ecom_product_review pr ON p.id = pr.product_id " +
                         "LEFT JOIN product_tag pt ON p.id = pt.product_id " +
                         "LEFT JOIN ecom_tag t ON pt.tag_id = t.id " +

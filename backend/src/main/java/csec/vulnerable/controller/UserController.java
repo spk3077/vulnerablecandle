@@ -47,7 +47,7 @@ public class UserController {
 
 	@PutMapping
 	public Response changeUser(@RequestBody ChangePasswordRequest request, Authentication authentication) {
-		String sql = "UPDATE users SET password = '" + request.getNewPassword() + "' WHERE username = '" + request.getUsername() + "'";
+		String sql = "UPDATE ecom_user SET password = '" + request.getNewPassword() + "' WHERE username = '" + request.getUsername() + "'";
 		try (Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/csec?useTimezone=true&serverTimezone=UTC", "root", "csec77499981");
 			Statement stmt = conn.createStatement()) {
 			stmt.executeUpdate(sql);
