@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './_helpers/auth.guard';
 import { AdminGuard } from './_helpers/admin.guard';
-import { LogoutComponent } from './logout/logout.component';
-import { AdminComponent } from './admin/admin/admin.component';
 import { AdminProductsComponent } from './admin/products/products.component';
 import { AdminUsersComponent } from './admin/users/users.component';
 
@@ -51,7 +49,6 @@ const routes: Routes = [
   },
   { 
     path: 'logout', 
-    component: LogoutComponent,
     loadChildren: () => import('./logout/logout.module').then(m => m.LogoutModule),
     canActivate:[AuthGuard] 
   },
@@ -66,17 +63,17 @@ const routes: Routes = [
   },
   { 
     path: 'admin', 
-    component: AdminComponent,
+    loadChildren: () => import('./admin/admin/admin.module').then(m => m.AdminModule),
     canActivate:[AdminGuard] 
   },
   { 
     path: 'admin/products', 
-    component: AdminProductsComponent, 
+    loadChildren: () => import('./admin/products/products.module').then(m => m.AdminProductsModule),
     canActivate:[AdminGuard] 
   },
   { 
     path: 'admin/users', 
-    component: AdminUsersComponent, 
+    loadChildren: () => import('./admin/users/users.module').then(m => m.AdminUsersModule),
     canActivate:[AdminGuard] 
   },
   { 

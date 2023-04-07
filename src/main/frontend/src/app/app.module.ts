@@ -1,42 +1,27 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LOCAL_STORAGE } from 'ngx-webstorage-service';
 import { CookieModule } from 'ngx-cookie';
 
 import { AppComponent } from './app.component';
-import { MenuComponent } from './ui/menu/menu.component';
 import { FooterComponent } from './ui/footer/footer.component';
-import { AdminComponent } from './admin/admin/admin.component';
-import { AdminUsersComponent } from './admin/users/users.component';
-import { AdminProductsComponent } from './admin/products/products.component';
 import { HttpRequestInterceptor } from './_interceptors/http.interceptor';
 import { USER_SERVICE_STORAGE } from './_services/user.service';
-
-import { SubmenuModule } from './ui/submenu/submenu.module';
+import { MenuModule } from './ui/menu/menu.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
-    FooterComponent,
-    AdminComponent,
-    AdminUsersComponent,
-    AdminProductsComponent
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     CookieModule.withOptions(),
-    SubmenuModule,
+    MenuModule,
     HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
-    FontAwesomeModule,
     AppRoutingModule
   ],
   providers: [
