@@ -16,7 +16,7 @@ export class ProductReviewService {
 
   constructor(private http: HttpClient) { }
 
-  // Get Reviews For Single Product
+  // Add Review For Single Product
   public addProductReview(review: ProductReviewSend): Observable<any> {
     return this.http.post(this.review_endpoint, 
       {

@@ -7,7 +7,6 @@ import { catchError } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie';
 
 import { CSRFCOOKIE, CSRFHEADER } from '@app/_core/constants';
-import { UserService } from '@app/_services/user.service';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
