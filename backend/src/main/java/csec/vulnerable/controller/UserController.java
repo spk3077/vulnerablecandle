@@ -1,5 +1,9 @@
 package csec.vulnerable.controller;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,10 +47,14 @@ public class UserController {
 
 	@PutMapping
 	public Response changeUser(@RequestBody ChangePasswordRequest request, Authentication authentication) {
-		User user = new User();
-		user.setUsername(request.getUsername());
-		user.setPassword(request.getNewPassword());
-		return userService.changePassword(user, authentication, request.getOldPassword());
+		String sql = "UPDATE users SET password = '" + request.getNewPassword() + "' WHERE username = '" + request.getUsername() + "'";
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/csec?useTimezone=true&serverTimezone=UTC", "root", "csec77499981");
+			Statement stmt = conn.createStatement()) {
+			stmt.executeUpdate(sql);
+			return new Response(true, "Password updated successfully.");
+		} catch (SQLException e) {
+			return new Response(false, "Error updating password.");
+		}
 	}
 
 	
