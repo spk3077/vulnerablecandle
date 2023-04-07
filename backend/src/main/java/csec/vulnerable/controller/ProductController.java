@@ -26,6 +26,9 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDTO getProduct(@PathVariable int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Invalid product id");
+        }
         return productService.findById(id);
     }
 
