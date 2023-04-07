@@ -12,10 +12,6 @@ import { CookieModule } from 'ngx-cookie';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './ui/menu/menu.component';
 import { FooterComponent } from './ui/footer/footer.component';
-import { UserProfileComponent } from './userprofile/userprofile.component';
-import { CollectionsComponent } from './collections/collections.component';
-import { SignupComponent } from './signup/signup.component';
-import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin/admin.component';
 import { AdminUsersComponent } from './admin/users/users.component';
 import { AdminProductsComponent } from './admin/products/products.component';
@@ -29,9 +25,6 @@ import { SubmenuModule } from './ui/submenu/submenu.module';
     AppComponent,
     MenuComponent,
     FooterComponent,
-    CollectionsComponent,
-    SignupComponent,
-    LoginComponent,
     AdminComponent,
     AdminUsersComponent,
     AdminProductsComponent
