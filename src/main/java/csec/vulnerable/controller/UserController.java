@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +30,13 @@ import csec.vulnerable.service.UserService;
 @RestController()
 @RequestMapping("/users")
 public class UserController {
+	@Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+	
 	@Autowired
 	UserService userService;
 
@@ -48,7 +56,7 @@ public class UserController {
 		Connection conn = null;
 		Statement stmt = null;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/csec", "root", "csec77499981");
+			conn = DriverManager.getConnection(url, username, password);
 			stmt = conn.createStatement();
 			String sql = "SELECT * FROM ecom_user WHERE id=" + id;
 			ResultSet rs = stmt.executeQuery(sql);

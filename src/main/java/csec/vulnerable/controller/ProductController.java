@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,13 +33,20 @@ import csec.vulnerable.service.ProductService;
 @RestController()
 @RequestMapping("/products")
 public class ProductController {
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+
     @Autowired
     private ProductService productService;
 
     @GetMapping("/{id}")
     public ProductDTO getProduct(@PathVariable int id) {
         ProductDTO productDTO = null;
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/csec", "root", "csec77499981");
+        try (Connection conn = DriverManager.getConnection(url, username, password);
             Statement stmt = conn.createStatement()) {
             String sql = "SELECT p.*, pr.id as pr_id, pr.grade, pr.comment, pr.review_date, t.*, u.username, pr.title " +
                     "FROM ecom_product p " +
