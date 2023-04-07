@@ -12,7 +12,6 @@ import { UserService } from '@app/_services/user.service';
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   constructor(
-    private userService:UserService, 
     private cookieService: CookieService, 
     private router: Router) { }
 
