@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,56 +40,69 @@ public class ProductController {
         ProductDTO productDTO = null;
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/csec", "root", "csec77499981");
             Statement stmt = conn.createStatement()) {
-            String sql = "SELECT p.*, pr.id as pr_id, pr.grade, pr.comment, t.* " +
+            String sql = "SELECT p.*, pr.id as pr_id, pr.grade, pr.comment, pr.review_date, t.*, u.username, pr.title " +
                     "FROM ecom_product p " +
                     "LEFT JOIN ecom_product_review pr ON p.id = pr.product_id " +
                     "LEFT JOIN product_tag pt ON p.id = pt.product_id " +
                     "LEFT JOIN ecom_tag t ON pt.tag_id = t.id " +
+                    "LEFT JOIN ecom_user u ON pr.user_id = u.id " +
                     "WHERE p.id = " + id;
             ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                productDTO = new ProductDTO();
-                productDTO.setId(rs.getInt("id"));
-                productDTO.setName(rs.getString("name"));
-                productDTO.setBrand(rs.getString("brand"));
-                productDTO.setPrice(rs.getDouble("price"));
-                productDTO.setStock(rs.getInt("stock"));
-                productDTO.setImageURL(rs.getString("image"));
-                productDTO.setDescription(rs.getString("description"));
+            Map<Integer, ProductDTO> productMap = new HashMap<>();
+            Set<Integer> prIdSet = new HashSet<>();
+            Set<Integer> tagIdSet = new HashSet<>();
+            while (rs.next()) {
+                int productId = rs.getInt("id");
+                productDTO = productMap.get(productId);
+                if (productDTO == null) {
+                    productDTO = new ProductDTO();
+                    productDTO.setId(productId);
+                    productDTO.setName(rs.getString("name"));
+                    productDTO.setBrand(rs.getString("brand"));
+                    productDTO.setPrice(rs.getDouble("price"));
+                    productDTO.setStock(rs.getInt("stock"));
+                    productDTO.setImageURL(rs.getString("image"));
+                    productDTO.setDescription(rs.getString("description"));
 
-                List<ProductReviewDTO> productReviews = new ArrayList<>();
-                Set<String> tagNames = new HashSet<>();
+                    List<String> tagNames = new ArrayList<>();
+                    List<ProductReviewDTO> productReviews = new ArrayList<>();
 
-                do {
-                    int prId = rs.getInt("pr_id");
-                    if (prId != 0) {
-                        ProductReviewDTO reviewDTO = new ProductReviewDTO();
-                        reviewDTO.setId(prId);
-                        //reviewDTO.setUsername(rs.getString("username"));
-                        //reviewDTO.setTitle(rs.getString("title"));
-                        reviewDTO.setGrade(rs.getInt("grade"));
-                        reviewDTO.setComment(rs.getString("comment"));
-                        //reviewDTO.setReview_date(rs.getDate("review_date"));
-                        //reviewDTO.setProductId(rs.getInt("product_id"));
-                        productReviews.add(reviewDTO);
-                    }
+                    productDTO.setTagNames(tagNames);
+                    productDTO.setProductReviews(productReviews);
+                    productMap.put(productId, productDTO);
+                }
+                
+                int prId = rs.getInt("pr_id");
+                if (prId != 0 && !prIdSet.add(prId)) {
+                    ProductReviewDTO reviewDTO = new ProductReviewDTO();
+                    reviewDTO.setId(prId);
+                    reviewDTO.setUsername(rs.getString("username"));
+                    reviewDTO.setTitle(rs.getString("title"));
+                    reviewDTO.setGrade(rs.getInt("grade"));
+                    reviewDTO.setComment(rs.getString("comment"));
+                    reviewDTO.setReview_date(rs.getDate("review_date"));
+                    reviewDTO.setProductId(productId);
+                    productDTO.getProductReviews().add(reviewDTO);
+                }
 
-                    int tagId = rs.getInt("t.id");
-                    if (tagId != 0) {
-                        String tagName = rs.getString("t.name");
-                        tagNames.add(tagName);
-                    }
-                } while (rs.next());
-
-                double averageReviewGrade = calculateAverageReviewGrade(productReviews);
-                productDTO.setProductReviews(productReviews);
-                productDTO.setAverageReviewGrade(averageReviewGrade);
-                productDTO.setTagNames(new ArrayList<String>(tagNames));
+                int tagId = rs.getInt("t.id");
+                if (tagId != 0 && tagIdSet.add(tagId)) {
+                    String tagName = rs.getString("t.name");
+                    productDTO.getTagNames().add(tagName);
+                }
             }
+
+            // calculate average review grade
+            productMap.values().forEach(p -> {
+                double avgGrade = calculateAverageReviewGrade(p.getProductReviews());
+                p.setAverageReviewGrade(avgGrade);
+            });
+
+            return productDTO;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return productDTO;
+        return null;
     }
 
     private double calculateAverageReviewGrade(List<ProductReviewDTO> productReviews) {
@@ -101,6 +116,7 @@ public class ProductController {
         }
         return sum / productReviews.size();
     }
+
 
 
 
