@@ -63,12 +63,12 @@ public class ProductController {
                     if (prId != 0) {
                         ProductReviewDTO reviewDTO = new ProductReviewDTO();
                         reviewDTO.setId(prId);
-                        reviewDTO.setUsername(rs.getString("username"));
-                        reviewDTO.setTitle(rs.getString("title"));
+                        //reviewDTO.setUsername(rs.getString("username"));
+                        //reviewDTO.setTitle(rs.getString("title"));
                         reviewDTO.setGrade(rs.getInt("grade"));
                         reviewDTO.setComment(rs.getString("comment"));
-                        reviewDTO.setReview_date(rs.getDate("review_date"));
-                        reviewDTO.setProductId(rs.getInt("product_id"));
+                        //reviewDTO.setReview_date(rs.getDate("review_date"));
+                        //reviewDTO.setProductId(rs.getInt("product_id"));
                         productReviews.add(reviewDTO);
                     }
 
