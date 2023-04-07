@@ -59,7 +59,7 @@ public class ProductService implements ProductServiceInterface {
         }
     }
 
-    private ProductDTO productToProductDTO(Product product) {
+    public ProductDTO productToProductDTO(Product product) {
 		List<String> tagNames = product.getTags().stream().map(Tag::getName).collect(Collectors.toList());
         double averageReviewGrade = product.getProductReviews().isEmpty() ? 0.0
             : product.getProductReviews().stream().mapToInt(ProductReview::getGrade).average().orElse(0.0);
@@ -77,9 +77,9 @@ public class ProductService implements ProductServiceInterface {
                 tagNames);
 	}
 	
-	private ProductReviewDTO productReviewToProductReviewDTO(ProductReview productReview) {
+	public ProductReviewDTO productReviewToProductReviewDTO(ProductReview productReview) {
 		return new ProductReviewDTO(productReview.getId(), productReview.getUser().getUsername(), productReview.getTitle(),
-				productReview.getGrade(), productReview.getComment(), productReview.getReview_date());
+				productReview.getGrade(), productReview.getComment(), productReview.getReview_date(), productReview.getProduct().getId());
 	}
 	
 }

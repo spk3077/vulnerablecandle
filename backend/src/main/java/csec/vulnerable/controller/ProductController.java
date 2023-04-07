@@ -22,9 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import csec.vulnerable.beans.Product;
-import csec.vulnerable.beans.ProductReview;
-import csec.vulnerable.beans.Tag;
 import csec.vulnerable.dto.ProductDTO;
+import csec.vulnerable.dto.ProductReviewDTO;
 import csec.vulnerable.http.Response;
 import csec.vulnerable.service.ProductService;
 
@@ -35,58 +34,74 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/{id}")
-    public Product getProduct(@PathVariable int id) {
-        Product product = null;
+    public ProductDTO getProduct(@PathVariable int id) {
+        ProductDTO productDTO = null;
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/csec", "root", "csec77499981");
             Statement stmt = conn.createStatement()) {
             String sql = "SELECT p.*, pr.id as pr_id, pr.grade, pr.comment, t.* " +
-                        "FROM ecom_product p " +
-                        "LEFT JOIN ecom_product_review pr ON p.id = pr.product_id " +
-                        "LEFT JOIN product_tag pt ON p.id = pt.product_id " +
-                        "LEFT JOIN ecom_tag t ON pt.tag_id = t.id " +
-                        "WHERE p.id = " + id;
+                    "FROM ecom_product p " +
+                    "LEFT JOIN ecom_product_review pr ON p.id = pr.product_id " +
+                    "LEFT JOIN product_tag pt ON p.id = pt.product_id " +
+                    "LEFT JOIN ecom_tag t ON pt.tag_id = t.id " +
+                    "WHERE p.id = " + id;
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                product = new Product();
-                product.setId(rs.getInt("id"));
-                product.setName(rs.getString("name"));
-                product.setBrand(rs.getString("brand"));
-                product.setPrice(rs.getDouble("price"));
-                product.setStock(rs.getInt("stock"));
-                product.setImage(rs.getString("image"));
-                product.setDescription(rs.getString("description"));
+                productDTO = new ProductDTO();
+                productDTO.setId(rs.getInt("id"));
+                productDTO.setName(rs.getString("name"));
+                productDTO.setBrand(rs.getString("brand"));
+                productDTO.setPrice(rs.getDouble("price"));
+                productDTO.setStock(rs.getInt("stock"));
+                productDTO.setImageURL(rs.getString("image"));
+                productDTO.setDescription(rs.getString("description"));
 
-                List<ProductReview> productReviews = new ArrayList<>();
-                Set<Tag> tags = new HashSet<>();
+                List<ProductReviewDTO> productReviews = new ArrayList<>();
+                Set<String> tagNames = new HashSet<>();
 
                 do {
                     int prId = rs.getInt("pr_id");
                     if (prId != 0) {
-                        ProductReview review = new ProductReview();
-                        review.setId(prId);
-                        review.setGrade(rs.getInt("grade"));
-                        review.setComment(rs.getString("comment"));
-                        productReviews.add(review);
+                        ProductReviewDTO reviewDTO = new ProductReviewDTO();
+                        reviewDTO.setId(prId);
+                        reviewDTO.setUsername(rs.getString("username"));
+                        reviewDTO.setTitle(rs.getString("title"));
+                        reviewDTO.setGrade(rs.getInt("grade"));
+                        reviewDTO.setComment(rs.getString("comment"));
+                        reviewDTO.setReview_date(rs.getDate("review_date"));
+                        reviewDTO.setProductId(rs.getInt("product_id"));
+                        productReviews.add(reviewDTO);
                     }
 
                     int tagId = rs.getInt("t.id");
                     if (tagId != 0) {
-                        Tag tag = new Tag();
-                        tag.setId(tagId);
-                        tag.setName(rs.getString("t.name"));
-                        tag.setType(rs.getString("t.type"));
-                        tags.add(tag);
+                        String tagName = rs.getString("t.name");
+                        tagNames.add(tagName);
                     }
                 } while (rs.next());
 
-                product.setProductReviews(productReviews);
-                product.setTags(tags);
+                double averageReviewGrade = calculateAverageReviewGrade(productReviews);
+                productDTO.setProductReviews(productReviews);
+                productDTO.setAverageReviewGrade(averageReviewGrade);
+                productDTO.setTagNames(new ArrayList<String>(tagNames));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return product;
+        return productDTO;
     }
+
+    private double calculateAverageReviewGrade(List<ProductReviewDTO> productReviews) {
+        if (productReviews == null || productReviews.isEmpty()) {
+            return 0;
+        }
+
+        double sum = 0;
+        for (ProductReviewDTO reviewDTO : productReviews) {
+            sum += reviewDTO.getGrade();
+        }
+        return sum / productReviews.size();
+    }
+
 
 
     @GetMapping

@@ -56,7 +56,7 @@ public class CollectionService {
     }
 
 	public List<Product> getProductsByCollectionId(int collectionId) {
-		return productDao.findByCollectionsId(collectionId);
+		return null;//productDao.findByCollectionsId(collectionId);
 	}
 
     public Response addProductToCollection(int collectionId, int productId) {

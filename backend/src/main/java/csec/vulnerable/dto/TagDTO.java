@@ -8,6 +8,13 @@ public class TagDTO {
     private String type;
     private List<ProductDTO> products;
 
+
+    
+    public TagDTO() {
+    }
+
+
+
     public TagDTO(int id, String name, List<ProductDTO> products) {
         this.id = id;
         this.name = name;
