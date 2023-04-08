@@ -44,7 +44,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/{id}")
-    public ProductDTO getProduct(@PathVariable int id) {
+    public ProductDTO getProduct(@PathVariable String id) {
         ProductDTO productDTO = null;
         try (Connection conn = DriverManager.getConnection(url, username, password);
             Statement stmt = conn.createStatement()) {
