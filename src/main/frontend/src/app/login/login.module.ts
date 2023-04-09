@@ -11,7 +11,8 @@ import { LoginRoutingModule } from './login-routing.module';
     LoginRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [LoginComponent]
+  declarations: [LoginComponent],
+  exports: [LoginComponent]
 })
 
 export class LoginModule { }

@@ -1,70 +1,73 @@
 <div class="container-fluid ps-md-0">
-    <div class="row g-0">
-      <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
-      <div class="col-md-8 col-lg-6">
-        <div class="logReg-height d-flex align-items-center py-5">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-9 col-lg-8 mx-auto">
-                <h3 class="logReg-heading">Creating Your Account</h3>
-                <p class="mb-4">Running into issues?  Contact <a href="spk3077@rit.edu">spk3077@rit.edu</a> for help.</p>
-  
-                <!-- ========================= SIGNUP FORM ========================= -->
-                <form [formGroup]="registerForm" (ngSubmit)="register()">
+  <div class="row g-0">
+    <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+    <div class="col-md-8 col-lg-6">
+      <div class="logReg-height d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 col-lg-8 mx-auto">
+              <h3 class="logReg-heading">Creating Your Account</h3>
+              <p class="mb-4">Running into issues?  Contact <a href="spk3077@rit.edu">spk3077@rit.edu</a> for help.</p>
 
-                  <!-- === ERRORS === -->
-                  <div class="alert-message" [hidden]="!signupError">
-                    Registration Failed! Your username or password was incorrect.
+              <!-- ========================= SIGNUP FORM ========================= -->
+              <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+                <!-- === ERRORS === -->
+                <div class="alert-message" [hidden]="!signupError">
+                  Registration Failed! Your username or password was incorrect.
+                </div>
+                <!-- === ERRORS END// === -->
+
+                <!-- === USERNAME === -->
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="floatingInput" placeholder="username" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  id="inputusername">
+                  <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                    <div *ngIf="f.username.errors.minlength">Username must be at least 4 characters</div>
+                    <div *ngIf="f.username.errors.maxlength">Username cannot be greater than 24 characters</div>
                   </div>
-                  <!-- === ERRORS END// === -->
+                  <label for="floatingInput">Username</label>
+                </div>
+                <!-- === USERNAME END// === -->
 
-                  <!-- === USERNAME === -->
-                  <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="username" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  id="inputusername">
-                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                      <div *ngIf="f.username.errors.required">Username is required</div>
-                      <div *ngIf="f.username.errors.minlength">Username must be at least 4 characters</div>
-                      <div *ngIf="f.username.errors.maxlength">Username cannot be greater than 24 characters</div>
-                   </div>
-                    <label for="floatingInput">Username</label>
+                <p class="text-muted mt-4 fs-6">Must have at least one number and one symbol [-+_!@#$%^&*.,?]</p>
+
+                <!-- === PASSWORD === -->
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="inputPassword">
+                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div *ngIf="f.password.errors.minlength">Password must be at least 8 characters</div>
+                    <div *ngIf="f.password.errors.maxlength">Password cannot be greater than 35 characters</div>
                   </div>
-                  <!-- === USERNAME END// === -->
+                  <label for="floatingPassword">Password</label>
+                </div>
+                <!-- === PASSWORDS END// === -->
 
-                  <!-- === PASSWORD === -->
-                  <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="inputPassword">
-                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                      <div *ngIf="f.password.errors.required">Password is required</div>
-                      <div *ngIf="f.password.errors.minlength">Password must be at least 8 characters</div>
-                      <div *ngIf="f.password.errors.maxlength">Password cannot be greater than 35 characters</div>
-                   </div>
-                    <label for="floatingPassword">Password</label>
+                <!-- === PASSWORD CONFIRM === -->
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="Re-Enter Password" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" id="inputConfirmPassword">
+                  <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                    <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
+                    <div *ngIf="f.confirmPassword.errors.minlength">Password must be at least 8 characters</div>
+                    <div *ngIf="f.confirmPassword.errors.maxlength">Password cannot be greater than 35 characters</div>
+                    <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
                   </div>
-                  <!-- === PASSWORDS END// === -->
+                  <label for="floatingPassword">Re-enter Password</label>
+                </div>
+                <!-- === PASSWORD CONFIRM END// === -->
 
-                  <!-- === PASSWORD CONFIRM === -->
-                  <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="floatingConfirmPassword" placeholder="Re-Enter Password" formControlName="confirmPassword" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" id="inputConfirmPassword">
-                    <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
-                      <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
-                      <div *ngIf="f.confirmPassword.errors.minlength">Password must be at least 8 characters</div>
-                      <div *ngIf="f.confirmPassword.errors.maxlength">Password cannot be greater than 35 characters</div>
-                      <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
-                   </div>
-                    <label for="floatingPassword">Re-enter Password</label>
-                  </div>
-                  <!-- === PASSWORD CONFIRM END// === -->
+                <div class="d-grid">
+                  <button class="btn btn-lg btn-primary logReg-btn text-uppercase fw-bold mb-2" type="submit">Create</button>
+                </div>
+              </form>
+              <!-- ========================= SIGNUP FORM END// ========================= -->
 
-                  <div class="d-grid">
-                    <button class="btn btn-lg btn-primary logReg-btn text-uppercase fw-bold mb-2" type="submit">Create</button>
-                  </div>
-                </form>
-                <!-- ========================= SIGNUP FORM END// ========================= -->
-
-              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+<app-login hidden></app-login>
