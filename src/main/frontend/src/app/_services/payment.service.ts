@@ -41,4 +41,17 @@ export class PaymentService {
       );
   }
 
+  // Change payment for current user without adding a new one
+  public changePayment(payment: PaymentSend): Observable<any> {
+    return this.http.put(this.payment_endpoint, payment)
+      .pipe(
+        map(res => {
+            return res;
+        }),
+        catchError(error => {
+            return throwError(() => (new Error(error)));
+        })
+      );
+  }
+
 }
