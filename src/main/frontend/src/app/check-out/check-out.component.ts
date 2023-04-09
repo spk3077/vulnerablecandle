@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { PATTERNS } from '@app/_core/constants';
 import { UserInfoReceive, UserInfoSend } from '@app/_core/userInfo';
 import { CartItemReceive } from '@app/_core/cartItem';
 import { PaymentReceive, PaymentSend } from '@app/_core/payment';
@@ -11,7 +12,6 @@ import { UserInfoService } from '@app/_services/user-info.service';
 import { ShoppingCartService } from '@app/_services/shopping-cart.service';
 import { PaymentService } from '@app/_services/payment.service';
 import { OrderService } from '@app/_services/order.service';
-import { PATTERNS } from '@app/_core/constants';
 
 @Component({
   selector: 'app-check-out',

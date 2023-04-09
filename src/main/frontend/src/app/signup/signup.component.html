@@ -37,6 +37,7 @@
                       <div *ngIf="f.password.errors.required">Password is required</div>
                       <div *ngIf="f.password.errors.minlength">Password must be at least 8 characters</div>
                       <div *ngIf="f.password.errors.maxlength">Password cannot be greater than 35 characters</div>
+                      <div *ngIf="f.password.errors.pattern">Password must have one symbol and one number</div>
                    </div>
                     <label for="floatingPassword">Password</label>
                   </div>
@@ -49,6 +50,7 @@
                       <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
                       <div *ngIf="f.confirmPassword.errors.minlength">Password must be at least 8 characters</div>
                       <div *ngIf="f.confirmPassword.errors.maxlength">Password cannot be greater than 35 characters</div>
+                      <div *ngIf="f.confirmPassword.errors.pattern">Password must have one symbol and one number</div>
                       <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
                    </div>
                     <label for="floatingPassword">Re-enter Password</label>
@@ -68,3 +70,4 @@
       </div>
     </div>
   </div>
+  <app-login hidden></app-login>

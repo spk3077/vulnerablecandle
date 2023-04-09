@@ -10,6 +10,6 @@ import { RouterModule } from '@angular/router';
     RouterModule
   ],
   declarations: [SubmenuComponent],
-  exports: [SubmenuComponent],
+  exports: [SubmenuComponent]
 })
 export class SubmenuModule { }
