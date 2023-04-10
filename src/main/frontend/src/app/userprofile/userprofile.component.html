@@ -68,7 +68,7 @@
 
                 <p class="text-muted mb-0">&nbsp;</p>
                 <span class="float-end">
-                  <button type="button" (click)="picFormDisplay = true; tempPFP = null;" class="btn btn-dark">Cancel</button>
+                  <button type="button" (click)="picFormDisplay = false; tempPFP = null;" class="btn btn-dark">Cancel</button>
                   <button class="btn btn-success ms-2" type="submit">Save</button>
                 </span>
               </div>
@@ -144,9 +144,12 @@
             <h5 class="card-heading">
               User Info
               <span *ngIf="userInfoNone" class="text-danger fs-6">New? Edit your information</span>
+              <div *ngIf="userInfoNone" class="text-end">
+                <button (click)="infoFormDisplay = true;" class="btn btn-primary" type="submit">Edit</button>
+              </div>
             </h5>
           </div>
-          <div class="card-body">
+          <div *ngIf="!userInfoNone" class="card-body">
             <!-- === ERRORS === -->
             <div class="alert-message mb-3" [hidden]="!getUserInfoError">
               Fetching User Info Failed! Try again later!
@@ -182,7 +185,7 @@
               <dd *ngIf="!displayUserInfo.zip" class="text-danger">Empty</dd>
             </dl>
           </div>
-          <div class="card-footer text-end">
+          <div *ngIf="!userInfoNone" class="card-footer text-end">
             <button (click)="infoFormDisplay = true;" class="btn btn-primary" type="submit">Edit</button>
           </div>
         </div>
@@ -335,9 +338,12 @@
             <h5 class="card-heading">
               Payment
               <span *ngIf="paymentNone" class="text-danger fs-6">New? Add your payment</span>
+              <div *ngIf="paymentNone" class="text-end">
+                <button (click)="payFormDisplay = true;" class="btn btn-primary" type="submit">Edit</button>
+              </div>
             </h5>
           </div>
-          <div class="card-body">
+          <div *ngIf="!paymentNone" class="card-body">
             <!-- === ERRORS === -->
             <div class="alert-message mb-3" [hidden]="!getPaymentError">
               Fetching Payment Failed! Try again later!
@@ -363,7 +369,7 @@
               <dd *ngIf="!displayPayment.secCode" class="text-danger">Empty</dd>
             </dl>
           </div>
-          <div class="card-footer text-end">
+          <div *ngIf="!paymentNone" class="card-footer text-end">
             <button (click)="payFormDisplay = true;" class="btn btn-primary" type="submit">Edit</button>
           </div>
         </div>

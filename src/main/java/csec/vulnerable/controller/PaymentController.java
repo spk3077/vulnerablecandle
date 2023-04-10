@@ -45,15 +45,25 @@ public class PaymentController {
         }
     }
 
-    @PutMapping
-    public Response changePayment(@RequestBody Payment payment, Authentication authentication) {
-        User user = userDao.findByUsername(authentication.getName());
-        payment.setUser(user);
-        if (paymentService.isValidCardNumber(payment.getCardNumber())
-                && paymentService.isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
-            return paymentService.changePayment(payment);
+    @PutMapping("/{id}")
+    public Response changePayment(@PathVariable int id,@RequestBody Payment payment, Authentication authentication) {
+        Payment olderpayment = paymentService.getPayment(id);
+        if (olderpayment != null) {
+            if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
+                    || olderpayment.getUser().equals(userDao.findByUsername(authentication.getName()))) {
+                User user = userDao.findByUsername(authentication.getName());
+                payment.setUser(user);
+                if (paymentService.isValidCardNumber(payment.getCardNumber())
+                        && paymentService.isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
+                    return paymentService.changePayment(olderpayment,payment);
+                } else {
+                    return new Response(false, "Invalid payment details");
+                }
+            } else {
+                return new Response(false, "You are not authorized to delete this payment");
+            }
         } else {
-            return new Response(false, "Invalid payment details");
+            return new Response(false, "Payment not found");
         }
     }
 

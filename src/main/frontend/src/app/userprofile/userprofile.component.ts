@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PATTERNS } from '@app/_core/constants';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 import { PaymentReceive, PaymentSend } from '@app/_core/payment';
+import { SavedUser } from '@app/_core/savedUser';
 import { PasswordSend } from '@app/_core/user';
 import { UserInfoReceive, UserInfoSend } from '@app/_core/userInfo';
 
@@ -105,13 +106,11 @@ export class UserProfileComponent implements OnInit {
   public getUserInfo(): void {
     this.userInfoService.getUserInfo().subscribe({
       next: (res) => {
-        console.log(res);
         const info: any = Array.from(res)[0];
 
         // Pic Form Update
         this.picForm.patchValue({
-          fullName: info.fullName,
-          picture: info.picture
+          fullName: info.fullName
         });
 
         // User Info Form Update
@@ -123,11 +122,14 @@ export class UserProfileComponent implements OnInit {
           zip: info.zip
         });
 
-        this.displayUserInfo = new UserInfoReceive(info.id, info.name, info.phone, info.email, info.address,
+        this.displayUserInfo = new UserInfoReceive(info.id, info.name, info.email, info.phone, info.address,
           info.city, info.state, info.zip, info.picture, info.create_date);
 
         if (info.email == null && info.address == null && info.city == null && info.state == null && info.zip == null) {
           this.userInfoNone = true;
+        }
+        else {
+          this.userInfoNone = false;
         }
       },
       error: () => {
@@ -142,12 +144,14 @@ export class UserProfileComponent implements OnInit {
   public getPayment(): void {
     this.paymentService.getPayment().subscribe({
       next: (res) => {
-        // console.log(res);
         const payment: any = Array.from(res)[0];
         // Payment not stored by API
         if (payment == undefined) {
           this.paymentNone = true;
           return;
+        }
+        else {
+          this.paymentNone = false;
         }
 
         // Payment Form Update
@@ -211,18 +215,19 @@ export class UserProfileComponent implements OnInit {
   private picImageSend() {
     const formData = new FormData();
     formData.append("file", this.file, this.file.name);
-    console.log(formData);
 
     this.userInfoService.uploadUserImage(formData).subscribe({
       next: (res) => {
-        console.log(res);
         const imgResponse: DefaultResponse = res;
         if (imgResponse.success != true) {
           this.uploadImageError = true;
           return;
         }
 
-        this.getUserInfo();
+        this.userService.setLoggedUser(
+          new SavedUser(this.currentUser.username, this.currentUser.authority, this.tempPFP)
+        );
+        this.tempPFP = null;
         this.picSubmitted = false;
         this.picFormDisplay = false;
       },
@@ -242,7 +247,6 @@ export class UserProfileComponent implements OnInit {
     }
     //True if all the fields are valid
     if(this.picSubmitted) {
-      this.tempPFP = null;
       if (this.file) {
         this.picImageSend()
       }
@@ -290,7 +294,7 @@ export class UserProfileComponent implements OnInit {
     }
     //True if all the fields are valid
     if(this.infoSubmitted) {
-      const userInfo = UserInfoSend.forProfileMain(this.infoForm.value.email, this.infoForm.value.address, 
+      const userInfo = UserInfoSend.forProfileMain(this.infoForm.value.email, this.infoForm.value.phone, this.infoForm.value.address, 
         this.infoForm.value.city, this.infoForm.value.state, this.infoForm.value.zip);
       this.userInfoService.changeUserInfo(userInfo).subscribe({
         next: (res) => {
@@ -323,24 +327,49 @@ export class UserProfileComponent implements OnInit {
     if(this.paySubmitted) {
       const payment = new PaymentSend(this.payForm.value.cardNumber, this.payForm.value.cardName,
          this.payForm.value.expiration.substring(0,2), this.payForm.value.expiration.substring(3,5), this.payForm.value.cvv);
+      
+      // If this is the user's first payment
+      if (!this.displayPayment.id) {
+        this.paymentService.addPayment(payment).subscribe({
+          next: (res) => {
+            const paymentResponse: DefaultResponse = res as DefaultResponse;
+            if (paymentResponse.success != true) {
+              this.changePaymentError = true;
+              return;
+            }
 
-      this.paymentService.addPayment(payment).subscribe({
-        next: (res) => {
-          const paymentResponse: DefaultResponse = res as DefaultResponse;
-          if (paymentResponse.success != true) {
+            this.getPayment();
+            this.paySubmitted = false;
+            this.payFormDisplay = false;
+          },
+          error: () => {
+            // Failed at getting Payment to Store
             this.changePaymentError = true;
-            return;
           }
+        });
+      }
 
-          this.getPayment();
-          this.paySubmitted = false;
-          this.payFormDisplay = false;
-        },
-        error: () => {
-          // Failed at getting Payment to Store
-          this.changePaymentError = true;
-        }
-      });
+      // If this is NOT the user's first time adding payment, edit  existing payment
+      else if (this.displayPayment.id) {
+        this.paymentService.changePayment(this.displayPayment.id, payment).subscribe({
+          next: (res) => {
+            const paymentResponse: DefaultResponse = res as DefaultResponse;
+            if (paymentResponse.success != true) {
+              this.changePaymentError = true;
+              return;
+            }
+
+            this.getPayment();
+            this.paySubmitted = false;
+            this.payFormDisplay = false;
+          },
+          error: () => {
+            // Failed at getting Payment to Store
+            this.changePaymentError = true;
+          }
+        });
+      }
+
     }
   }
 

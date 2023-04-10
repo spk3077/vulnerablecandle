@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,10 +61,10 @@ public class UserInfoController {
 			User user = userDao.findByUsername(authentication.getName());
 			UserInfo userInfo = userInfoDao.findByUser(user);
 			if (userInfo != null) {
-				Path path = Paths.get(uploadDirectory, file.getOriginalFilename());
-				String filePath = path.toString();
+				String fileName = UUID.randomUUID().toString() + "." + getFileExtension(file.getOriginalFilename());
+				Path path = Paths.get(uploadDirectory, fileName);
 				Files.write(path, bytes);
-				userInfo.setPicture(filePath);
+				userInfo.setPicture("../../assets/profiles/" + fileName);
 				userInfoDao.save(userInfo);
 				return new Response(true);
 			} else {
@@ -74,10 +75,20 @@ public class UserInfoController {
 		}
 	}
 
+	private String getFileExtension(String fileName) {
+		if (fileName == null) {
+			return null;
+		}
+		int extensionIndex = fileName.lastIndexOf('.');
+		if (extensionIndex == -1) {
+			return null;
+		}
+		return fileName.substring(extensionIndex + 1);
+	}
+
 	
 	@DeleteMapping("/{id}")
 	public Response deleteUserDetail(@PathVariable int id) {
 		return userInfoService.deleteUserInfo(id);
 	}
 }
-

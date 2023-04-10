@@ -28,8 +28,8 @@ export class OrderService {
   }
 
     // Add payment for current user
-    public createOrder(): Observable<any> {
-      return this.http.post(this.order_endpoint, {})
+    public createOrder(paymentID: number): Observable<any> {
+      return this.http.post(this.order_endpoint + "/" + paymentID, {})
         .pipe(
             map(res => {
                 return res;

@@ -40,7 +40,8 @@ body {
 }
 .card-profile-img {
     position: relative;
-    max-width: 8rem;
+    width: 8em;
+    height: 8em;
     margin-top: -6rem;
     margin-bottom: 1rem;
     border: 3px solid #fff;
