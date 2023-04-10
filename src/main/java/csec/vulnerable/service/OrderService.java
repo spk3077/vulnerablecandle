@@ -55,7 +55,7 @@ public class OrderService {
         return orderDao.findById(id).orElse(null);
     }
 
-    public Order createOrder(Authentication authentication) {
+    public Order createOrder(int id,Authentication authentication) {
         User user = userDao.findByUsername(authentication.getName());
         ShoppingCart shoppingCart = shoppingCartService.getShoppingCart(authentication);
         if (shoppingCart == null || shoppingCart.getCartItems().isEmpty()) {
@@ -70,7 +70,7 @@ public class OrderService {
         if (payments == null || payments.isEmpty()) {
             throw new RuntimeException("The payment method missing.");
         }
-        PaymentDTO payment = payments.get(0);
+        PaymentDTO payment = payments.get(id-1);
         
         UserInfo userInfo = user.getUserInfo();
 
@@ -110,6 +110,4 @@ public class OrderService {
         shoppingCartService.clearShoppingCart(authentication);
         return order;
     }
-    
-    
 }

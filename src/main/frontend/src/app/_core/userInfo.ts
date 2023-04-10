@@ -3,8 +3,8 @@ export class UserInfoReceive {
     constructor(
         public id: number | null,
         public name: string | null,
-        public phone: string | null,
         public email: string | null,
+        public phone: string | null,
         public address: string | null,
         public city: string | null,
         public state: string | null,
@@ -17,8 +17,8 @@ export class UserInfoReceive {
 // CLASS FOR RECEIVING USERINFO
 export class UserInfoSend {
     public name: string | null = null;
-    public phone: string | null = null;
     public email: string | null = null;
+    public phone: string | null = null;
     public address: string | null = null;
     public city: string | null = null;
     public state: string | null = null;
@@ -38,9 +38,10 @@ export class UserInfoSend {
     }
 
     // UserInfo Send for UserProfile User Info Edit
-    public static forProfileMain(email: string, address: string, city: string, state: string, zip: number): UserInfoSend {
+    public static forProfileMain(email: string, phone: string, address: string, city: string, state: string, zip: number): UserInfoSend {
         const cls = new UserInfoSend();
         cls.email = email;
+        cls.phone = phone;
         cls.address = address;
         cls.city = city;
         cls.state = state;

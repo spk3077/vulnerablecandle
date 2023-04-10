@@ -39,8 +39,8 @@ public class OrderController {
         return orderService.getOrderById(id);
     }
 
-    @PostMapping
-    public Order createOrder(Authentication authentication) {
-        return orderService.createOrder(authentication);
+    @PostMapping("/{id}")
+    public Order createOrder(@PathVariable int id,Authentication authentication) {
+        return orderService.createOrder(id,authentication);
     }
 }

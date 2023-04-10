@@ -49,10 +49,15 @@ public class PaymentService {
         }
     }
 
-    public Response changePayment(Payment payment) {
+    public Response changePayment(Payment py,Payment payment) {
         if (isValidCardNumber(payment.getCardNumber())
                 && isValidExpiryDate(payment.getExpiryMonth(), payment.getExpiryYear())) {
-            paymentDao.save(payment);
+            py.setCardNumber(payment.getCardNumber());
+            py.setOwnerName(payment.getOwnerName());
+            py.setExpiryMonth(payment.getExpiryMonth());
+            py.setExpiryYear(payment.getExpiryYear());
+            py.setSecCode(payment.getSecCode());
+            paymentDao.save(py);
             return new Response(true, "Payment updated successfully");
         } else {
             return new Response(false, "Invalid payment details");
@@ -95,4 +100,4 @@ public class PaymentService {
         return !expiry.isBefore(now);
     }
 
-}    
+}

@@ -42,8 +42,8 @@ export class PaymentService {
   }
 
     // Change payment for current user without adding a new one
-    public changePayment(payment: PaymentSend): Observable<any> {
-      return this.http.put(this.payment_endpoint, payment)
+    public changePayment(paymentID: number, payment: PaymentSend): Observable<any> {
+      return this.http.put(this.payment_endpoint + "/" + paymentID, payment)
         .pipe(
           map(res => {
               return res;

@@ -81,7 +81,7 @@ export class CheckOutComponent implements OnInit{
           zip: info.zip
         });
 
-        this.originalUserInfo = new UserInfoReceive(info.id, info.name, info.phone, info.email, info.address,
+        this.originalUserInfo = new UserInfoReceive(info.id, info.name, info.email, info.phone, info.address,
           info.city, info.state, info.zip, info.picture, info.create_date);
       },
       error: () => {
@@ -97,7 +97,6 @@ export class CheckOutComponent implements OnInit{
     this.paymentService.getPayment().subscribe({
       next: (res) => {
         const payment: any = Array.from(res)[0];
-        console.log(res);
         // Payment not stored by API
         if (payment == undefined) {
           this.originalPayment = new PaymentReceive(null, null, null, null, null, null);
@@ -127,7 +126,6 @@ export class CheckOutComponent implements OnInit{
     this.shoppingCartService.getCartItems().subscribe({
       next: (res) => {
         this.total = res.totalPrice;
-        console.log(res);
         res.cartItems.forEach((cartItem: any) => {
           this.cartItems.push(
             new CartItemReceive(cartItem.id, ProductReceive.forCart(cartItem.itemId, cartItem.itemName,
@@ -179,26 +177,48 @@ export class CheckOutComponent implements OnInit{
     const payment = new PaymentSend(formValues.cardNumber, formValues.cardName, formValues.expiration.substring(0,2),
     formValues.expiration.substring(3,5), formValues.cvv);
 
-    this.paymentService.addPayment(payment).subscribe({
-      next: (res) => {
-        const paymentResponse: DefaultResponse = res as DefaultResponse;
-        if (paymentResponse.success != true) {
+    // If this is the user's first payment
+    if (!this.originalPayment.id) {
+      this.paymentService.addPayment(payment).subscribe({
+        next: (res) => {
+          const paymentResponse: DefaultResponse = res as DefaultResponse;
+          if (paymentResponse.success != true) {
+            this.changePaymentError = true;
+            return;
+          }
+  
+          this.createOrder();
+        },
+        error: () => {
+          // Failed at getting Payment to Store
           this.changePaymentError = true;
-          return;
         }
-
-        this.createOrder();
-      },
-      error: () => {
-        // Failed at getting Payment to Store
-        this.changePaymentError = true;
-      }
-    });
+      });
+    }
+    // If this is NOT the user's first time adding payment, edit  existing payment
+    else if (this.originalPayment.id) {
+      this.paymentService.changePayment(this.originalPayment.id, payment).subscribe({
+        next: (res) => {
+          const paymentResponse: DefaultResponse = res as DefaultResponse;
+          if (paymentResponse.success != true) {
+            this.changePaymentError = true;
+            return;
+          }
+  
+          this.createOrder();
+        },
+        error: () => {
+          // Failed at getting Payment to Store
+          this.changePaymentError = true;
+        }
+      });
+    }
+  
   }
 
   // Create Order
   public createOrder(): void {
-    this.orderService.createOrder().subscribe({
+    this.orderService.createOrder(1).subscribe({
       next: (res) => {
         if (res.orderItems.length <= 0) {
           this.createOrderError = true;
