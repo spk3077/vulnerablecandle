@@ -86,40 +86,22 @@ public class UserController {
 
 	@PutMapping
 	public Response changeUser(@RequestBody ChangePasswordRequest request, Authentication authentication) {
-		try (Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/csec?useTimezone=true&serverTimezone=UTC", "root", "csec77499981")) {
-			String sqlGetPassword = "SELECT password FROM ecom_user WHERE username = '" + request.getUsername() + "'";
-			try (Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(sqlGetPassword)) {
-
-				if (rs.next()) {
-					String oldPasswordHash = rs.getString("password");
-
-					if (passwordEncoder.matches(request.getOldPassword(), oldPasswordHash)) {
-						String newPasswordHash = passwordEncoder.encode(request.getNewPassword());
-						String sqlUpdatePassword = "UPDATE ecom_user SET password = '" + newPasswordHash + "' WHERE username = '" + request.getUsername() + "'";
-
-						try (Statement stmtUpdate = conn.createStatement()) {
-							stmtUpdate.executeUpdate(sqlUpdatePassword);
-							return new Response(true, "Password updated successfully.");
-						}
-					} else {
-						return new Response(false, "Old password does not match.");
-					}
-				} else {
-					return new Response(false, "User not found.");
-				}
+		try (Connection conn = DriverManager.getConnection(url, username, password)) {
+			
+			String newPasswordHash = passwordEncoder.encode(request.getNewPassword());
+			String sqlUpdatePassword = "UPDATE ecom_user SET password = '" + newPasswordHash + "' WHERE username = '" + request.getUsername() + "'";
+			try (Statement stmtUpdate = conn.createStatement()) {
+				stmtUpdate.executeUpdate(sqlUpdatePassword);
+				return new Response(true, "Password updated successfully.");
 			}
+				
 		} catch (SQLException e) {
 			return new Response(false, "Error updating password.");
 		}
 	}
-
-	
 	@DeleteMapping("/{id}")
 	public Response deleteUser(@PathVariable int id) {
 		return userService.deleteUser(id);
 	}
 	
-	
-
 }

@@ -76,7 +76,6 @@ export class UserProfileComponent implements OnInit {
     });
 
     this.passForm = this.formBuilder.group({
-      oldPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]],
       newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]]        
     });
 
@@ -265,7 +264,7 @@ export class UserProfileComponent implements OnInit {
     }
     //True if all the fields are valid
     if(this.passSubmitted) {
-      const passSend = new PasswordSend(this.currentUser.username, this.passForm.value.oldPassword, this.passForm.value.newPassword);
+      const passSend = new PasswordSend(this.currentUser.username, this.passForm.value.newPassword);
       this.userService.changeUser(passSend).subscribe({
         next: (res) => {
           const passResponse: any = res;

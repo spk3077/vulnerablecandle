@@ -23,7 +23,6 @@ export class UserSend {
 export class PasswordSend {
     constructor(
         public username: string,
-        public oldPassword: string,
         public newPassword: string
     ) {  }
 }
