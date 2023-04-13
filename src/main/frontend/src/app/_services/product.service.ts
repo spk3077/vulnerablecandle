@@ -78,13 +78,4 @@ export class ProductService {
             );
     }
 
-// public getProduct(id: number): Observable<ProductReceive> {
-//   const product = of(PRODUCTS[id - 1]);
-//   return product;
-// }
-
-// public getProducts(): Observable<ProductReceive[]> {
-//   const products = of(PRODUCTS);
-//   return products;
-// }
 }
