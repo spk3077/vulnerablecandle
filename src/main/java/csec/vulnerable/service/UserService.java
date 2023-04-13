@@ -47,6 +47,11 @@ public class UserService {
 		if (user.getPassword() == null) {
 			return new Response(false, "Password cannot be null");
 		}
+		// check if username already exists
+		User existingUser = userDao.findByUsername(user.getUsername());
+		if (existingUser != null) {
+			return new Response(false, "Username already exists");
+		}
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		List<UserProfile> profiles = new ArrayList<UserProfile>();
 		profiles.add(new UserProfile(2));

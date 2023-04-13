@@ -43,7 +43,7 @@ public class ShoppingCartService {
         return shoppingCart;
     }
 
-    public Response addCartItem(int productId, int quantity, Authentication authentication) {
+    public Response addCartItem(int productId, int quantity, double price, Authentication authentication) {
         try {
             Product product = productDao.findById(productId).orElse(null);
             if (product == null) {
@@ -54,20 +54,23 @@ public class ShoppingCartService {
             CartItem existingCartItem = null;
             for (CartItem cartItem : cartItems) {
                 if (cartItem.getProduct().getId() == productId) {
+                    cartItem.setItemPrice(price);
                     existingCartItem = cartItem;
                     break;
                 }
             }
             if (existingCartItem == null) {
                 CartItem cartItem = new CartItem(product, quantity);
+                cartItem.setItemPrice(price);
                 cartItem.setShoppingCart(shoppingCart);
                 cartItemDao.save(cartItem);
                 shoppingCart.addCartItem(cartItem);
             } else {
+                existingCartItem.setItemPrice(price);
                 int newQuantity = existingCartItem.getQuantity() + quantity;
                 existingCartItem.setQuantity(newQuantity);
                 cartItemDao.save(existingCartItem);
-                double newTotalPrice = shoppingCart.getTotalPrice() + (product.getPrice() * quantity);
+                double newTotalPrice = shoppingCart.getTotalPrice() + (existingCartItem.getItemPrice() * quantity);
                 shoppingCart.setTotalPrice(newTotalPrice);
             }
             shoppingCartDao.save(shoppingCart);
