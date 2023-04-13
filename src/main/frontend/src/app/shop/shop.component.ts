@@ -107,12 +107,11 @@ export class ShopComponent implements OnInit {
   }
 
   // Add Product Quantity: 1 to Cart
-  public addToCart(productID: number): void {
-    this.shoppingCartService.addToCart(new CartItemSend(productID, 1)).subscribe({
+  public addToCart(productID: number, productPrice: number): void {
+    this.shoppingCartService.addToCart(CartItemSend.forAdd(productID, 1, productPrice)).subscribe({
       next: (res) => {
         // Get generic response to determine success
         const addResponse = res as DefaultResponse;
-          console.log(addResponse);
           if (addResponse.success != true) {
             this.cartBtnBool = false;
           }
@@ -126,7 +125,6 @@ export class ShopComponent implements OnInit {
         // Failed at server
         this.cartBtnNum = productID;
         this.cartBtnBool = false;
-        console.log("Internal Server Error: Could not add to Cart");
       }}
     );
   }

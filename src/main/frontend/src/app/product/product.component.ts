@@ -96,7 +96,7 @@ export class ProductComponent implements OnInit {
 
   // Add to Cart
   public addToCart(): void {
-    this.shoppingCartService.addToCart(new CartItemSend(this.id, this.quantity)).subscribe({
+    this.shoppingCartService.addToCart(CartItemSend.forAdd(this.id, this.quantity, this.product.price)).subscribe({
       next: (res) => {
         // Get generic response to determine success
         const addResponse = res as DefaultResponse;

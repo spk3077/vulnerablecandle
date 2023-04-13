@@ -88,8 +88,9 @@
                         <div class="card-body pt-0">
                             <div class="pt-3">
                                 <div *ngIf="currentUser" class="float-end">
-                                    <button (click)="addToCart(product.id)"class="btn cart-btn" 
-                                        [ngClass]="{'cart-success': cartBtnNum == product.id && cartBtnBool == true, 'cart-fail': cartBtnNum == product.id && cartBtnBool == false}">
+                                    <button (click)="addToCart(product.id, product.price)"class="btn cart-btn" 
+                                        [ngClass]="{'cart-success': cartBtnNum == product.id && cartBtnBool == true, 
+                                        'cart-fail': cartBtnNum == product.id && cartBtnBool == false}">
                                         <fa-icon [icon]="faPlus" size="lg"></fa-icon>
                                         <fa-icon [icon]="faCartShopping" size="lg"></fa-icon>
                                     </button>

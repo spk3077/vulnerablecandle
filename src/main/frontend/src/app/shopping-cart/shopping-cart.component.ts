@@ -104,7 +104,7 @@ export class ShoppingCartComponent implements OnInit {
       if (cartItem.id == originCartItem.id && cartItem.quantity != originCartItem.quantity) {
         let n = Math.floor(Number(cartItem.quantity));
         if (n !== Infinity && String(n) === String(cartItem.quantity) && n > 0) {
-          this.updateCartItem(new CartItemSend(cartItem.id, cartItem.quantity));
+          this.updateCartItem(CartItemSend.forUpdate(cartItem.id, cartItem.quantity));
         }
       }
     });
