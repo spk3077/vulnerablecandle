@@ -64,7 +64,7 @@ public class SecurityConfig {
         return authConfiguration.getAuthenticationManager();
     }
 
-    @Bean
+    /* @Bean
     public CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");
@@ -76,18 +76,17 @@ public class SecurityConfig {
         return (request, response) -> {
             response.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self'");
         };
-    }
+    } */
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()
             .csrf().disable()//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())// attach XSRF-TOKEN cookie to requests
-            /* .and()
-            .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
+            .headers().frameOptions().disable() // add X-Frame-Options header to prevent clickjacking
+            .xssProtection().block(false)
             .and()
-            .httpBasic().disable().headers().addHeaderWriter(headerWriter())// prevent cross-site scripting (XSS) attack
-            .and() */
+            .defaultsDisabled().disable()
             .authorizeRequests()
                 .antMatchers("/index.html", "/products", "/products/*","/tags").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll() // allow unauthenticated access to POST /users

@@ -112,7 +112,7 @@ public class ShoppingCartService {
             if (cartItem.getShoppingCart().getId() != shoppingCart.getId()) {
                 return new Response(false, "Unauthorized");
             }
-            double itemPrice = cartItem.getProduct().getPrice() * cartItem.getQuantity();
+            double itemPrice = cartItem.getItemPrice() * cartItem.getQuantity();
             shoppingCart.setTotalPrice(shoppingCart.getTotalPrice() - itemPrice);
             shoppingCart.getCartItems().remove(cartItem);
             cartItemDao.deleteById(cartItemId);
