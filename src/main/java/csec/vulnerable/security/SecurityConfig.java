@@ -108,12 +108,12 @@ public class SecurityConfig {
             .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandlerImpl)
-                .deleteCookies("JSESSIONID", "XSRF-TOKEN")
+                //.deleteCookies("JSESSIONID", "XSRF-TOKEN")
                 .permitAll()
                 .and()
             .rememberMe();
     
-        http.csrf().ignoringAntMatchers("/users","/login"); // ignore CSRF
+        //http.csrf().ignoringAntMatchers("/users","/login"); // ignore CSRF
         http.authenticationProvider(authenticationProvider());
     
         return http.build();

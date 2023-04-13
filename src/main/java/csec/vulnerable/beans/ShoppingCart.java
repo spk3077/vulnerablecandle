@@ -70,13 +70,13 @@ public class ShoppingCart {
     public void addCartItem(CartItem cartItem) {
         this.cartItems.add(cartItem);
         cartItem.setShoppingCart(this);
-        this.addTotalPrice(cartItem.getProduct().getPrice() * cartItem.getQuantity());
+        this.addTotalPrice(cartItem.getItemPrice() * cartItem.getQuantity());
     }
 
     public void removeCartItem(CartItem cartItem) {
         this.cartItems.remove(cartItem);
         cartItem.setShoppingCart(null);
-        this.addTotalPrice(-cartItem.getProduct().getPrice() * cartItem.getQuantity());
+        this.addTotalPrice(cartItem.getItemPrice() * cartItem.getQuantity());
     }
 
     public void clearCart() {
