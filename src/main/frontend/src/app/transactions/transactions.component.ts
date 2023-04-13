@@ -49,7 +49,7 @@ export class TransactionsComponent implements OnInit {
     if(this.submitted){
       //push to productReview
       console.log(this.addReviewForm.value.product);
-      this.productReviewService.createProductReview(new ProductReviewSend(this.addReviewForm.value.product, this.addReviewForm.value.title, this.addReviewForm.value.rating, this.addReviewForm.value.review)).subscribe({
+      this.productReviewService.addProductReview(new ProductReviewSend(this.addReviewForm.value.product, this.addReviewForm.value.title, this.addReviewForm.value.rating, this.addReviewForm.value.review)).subscribe({
         next: (res) => {
           // Get generic response to determine success
           const addResponse = res as DefaultResponse;

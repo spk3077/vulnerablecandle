@@ -73,8 +73,4 @@ export class ShoppingCartService {
       );
   }
 
-  // public getCartItems(): Observable<any> {
-  //   const cartItems = of(CARTITEMS);
-  //   return cartItems;
-  // }
 }
