@@ -8,6 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductComponent } from './product.component';
 import { ProductRoutingModule } from './product-routing.module';
 import { SubmenuModule } from '@app/ui/submenu/submenu.module';
+import { SafePipe } from '@app/_helpers/safe.pipe';
 
 @NgModule({
   imports: [
@@ -18,7 +19,10 @@ import { SubmenuModule } from '@app/ui/submenu/submenu.module';
     FontAwesomeModule,
     NgbModule
   ],
-  declarations: [ProductComponent]
+  declarations: [
+    ProductComponent,
+    SafePipe
+  ]
 })
 
 export class ProductModule { }
