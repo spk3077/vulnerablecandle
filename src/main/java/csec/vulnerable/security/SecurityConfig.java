@@ -85,7 +85,7 @@ public class SecurityConfig {
             .and()
             .defaultsDisabled().disable()
             .authorizeRequests()
-                .antMatchers("/index.html", "/products", "/products/*","/tags").permitAll()
+                .antMatchers("/index.html", "/products", "/products/*","/products/stock/*","/tags").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll() // allow unauthenticated access to POST /users
                 .anyRequest().authenticated()
                 .and()

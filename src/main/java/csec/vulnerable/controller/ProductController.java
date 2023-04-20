@@ -140,10 +140,18 @@ public class ProductController {
         return productService.findAll();
     }
 
-    @GetMapping("/resource")
-    public String getProductStock(@RequestParam("url") String url) {
+    @GetMapping("/stock")
+    public String getProductStock(@RequestParam("id") int id, @RequestParam(name = "url", required = false) String url) {
         String response = null;
         try {
+            int stock = 0;
+            ProductDTO product = productService.findById(id);
+            if (product != null) {
+                 stock =  product.getStock();
+                 if(url == null){
+                    return "Stock: " + String.valueOf(stock);
+                 }
+            }
             URL u = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) u.openConnection();
             conn.setRequestMethod("GET");
@@ -155,7 +163,8 @@ public class ProductController {
                 content.append(inputLine);
             }
             in.close();
-            response = content.toString();
+
+            response = String.valueOf(stock) + " " + content.toString();
         } catch (MalformedURLException e) {
             // Handle malformed URL exception
             e.printStackTrace();
