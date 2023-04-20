@@ -9,6 +9,7 @@ import { ShopRoutingModule } from './shop-routing.module';
 import { ShopComponent } from './shop.component';
 import { ProductsPipe } from './products.pipe';
 import { TagsPipe } from './tags.pipe';
+import { SafePipe } from '@app/_helpers/safe.pipe';
 
 import { SubmenuModule } from '@app/ui/submenu/submenu.module';
 
@@ -24,7 +25,8 @@ import { SubmenuModule } from '@app/ui/submenu/submenu.module';
   declarations: [
     ShopComponent,
     ProductsPipe,
-    TagsPipe
+    TagsPipe,
+    SafePipe
   ]
 })
 
