@@ -140,7 +140,7 @@ public class ProductController {
         return productService.findAll();
     }
 
-    @GetMapping("/stock")
+    @GetMapping("/resource")
     public String getProductStock(@RequestParam("url") String url) {
         String response = null;
         try {
