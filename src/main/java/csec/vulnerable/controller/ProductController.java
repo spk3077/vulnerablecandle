@@ -141,16 +141,22 @@ public class ProductController {
     }
 
     @GetMapping("/stock")
-    public String getProductStock(@RequestParam("id") int id, @RequestParam(name = "url", required = false) String url) {
+    public String getProductStock(@RequestParam(name = "id", required = false) Integer id, @RequestParam(name = "url", required = false) String url) {
+        if(id == null && url == null){
+            return null;
+        }
         String response = null;
         try {
-            int stock = 0;
-            ProductDTO product = productService.findById(id);
-            if (product != null) {
-                 stock =  product.getStock();
-                 if(url == null){
-                    return "Stock: " + String.valueOf(stock);
-                 }
+            Integer stock = null;
+            if(id != null){
+                stock = 0;
+                ProductDTO product = productService.findById(id);
+                if (product != null) {
+                    stock =  product.getStock();
+                    if(url == null){
+                        return "Stock: " + String.valueOf(stock);
+                    }
+            }
             }
             URL u = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) u.openConnection();
