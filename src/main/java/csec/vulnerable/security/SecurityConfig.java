@@ -14,8 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.firewall.HttpFirewall;
-import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -82,7 +80,6 @@ public class SecurityConfig {
         http
             .cors().and()
             .csrf().disable()//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())// attach XSRF-TOKEN cookie to requests
-            .httpBasic().disable()
             .headers().frameOptions().disable() // add X-Frame-Options header to prevent clickjacking
             .xssProtection().block(false)
             .and()
@@ -116,13 +113,6 @@ public class SecurityConfig {
         http.authenticationProvider(authenticationProvider());
     
         return http.build();
-    }
-
-    @Bean
-    public HttpFirewall allowSemicolonHttpFirewall() {
-        StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowSemicolon(true);
-        return firewall;
     }
 
     @Bean

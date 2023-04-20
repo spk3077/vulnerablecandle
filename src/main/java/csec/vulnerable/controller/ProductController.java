@@ -1,5 +1,11 @@
 package csec.vulnerable.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import csec.vulnerable.beans.Product;
@@ -132,6 +139,33 @@ public class ProductController {
     public List<ProductDTO> getProducts() {
         return productService.findAll();
     }
+
+    @GetMapping("/stock")
+    public String getProductStock(@RequestParam("url") String url) {
+        String response = null;
+        try {
+            URL u = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+            conn.setRequestMethod("GET");
+            conn.connect();
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+            response = content.toString();
+        } catch (MalformedURLException e) {
+            // Handle malformed URL exception
+            e.printStackTrace();
+        } catch (IOException e) {
+            // Handle IO exception
+            e.printStackTrace();
+        }
+        return response;
+    }
+
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
