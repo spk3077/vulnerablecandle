@@ -112,19 +112,19 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public @NotNull @Positive double getPrice() {
+	public @NotNull @Positive Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double d) {
+	public void setPrice(Double d) {
 		this.price = d;
 	}
 
-	public int getStock() {
+	public Integer getStock() {
 		return stock;
 	}
 
-	public void setStock(int stock) {
+	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
 
