@@ -42,7 +42,22 @@ public class ProductService implements ProductServiceInterface {
         Product existingProduct = productDao.findById(product.getId()).orElse(null);
 
         if (existingProduct != null) {
-            productDao.save(product);
+            if (product.getName() != null) {
+                existingProduct.setName(product.getName());
+            }
+            if (product.getBrand() != null) {
+                existingProduct.setBrand(product.getBrand());
+            }
+            if (product.getStock() != null) {
+                existingProduct.setStock(product.getStock());
+            }
+            if (product.getPrice() != null) {
+                existingProduct.setPrice(product.getPrice());
+            }
+            if (product.getDescription() != null) {
+                existingProduct.setDescription(product.getDescription());
+            }
+            productDao.save(existingProduct);
             return new Response(true, "Product updated successfully.");
         } else {
             return new Response(false, "Product not found.");

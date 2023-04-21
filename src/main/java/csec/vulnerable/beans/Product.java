@@ -39,11 +39,11 @@ public class Product {
 	private String brand;
 	@NotNull
 	@Positive
-	private double price;
+	private Double price;
 	@Column
 	@NotNull
 	@PositiveOrZero
-	private int stock;
+	private Integer stock;
 	@Column
 	private String image;
 	@Column(length = 2000)
@@ -112,22 +112,18 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public @NotNull @Positive double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-
-	public void setPrice(double d) {
-		this.price = d;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
-
-	public int getStock() {
+	public Integer getStock() {
 		return stock;
 	}
-
-	public void setStock(int stock) {
+	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
-
 	public String getImage() {
 		return image;
 	}
