@@ -79,11 +79,11 @@
                     </div>
                     <div class="col-md-8 col-6">
                         <label class="btn-label form-label d-block">Stock:</label>
-                        <button (click)="getStock()" class="btn btn-warning">
+                        <button (click)="getProductStock()" class="btn btn-warning">
                             Check Stock
                         </button>
-                        <span *ngIf="showStock" class="text-success">
-                            Current Stock: {{product.stock}}
+                        <span *ngIf="stockNum" class="text-success">
+                            Current Stock: {{stockNum}}
                         </span>
                     </div>
                     <span class="mt-4">

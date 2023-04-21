@@ -30,7 +30,8 @@ export class ProductComponent implements OnInit {
 
   // Display Variables
   getProductError: boolean = false;
-  showStock: boolean = false;
+  getProductStockError: boolean = false;
+  stockNum: number | null = null;
   showCartMessage: boolean = false;
   toCartMessage: string | undefined;
 
@@ -110,6 +111,26 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  // Fetch the Stock
+  public getProductStock(): void {
+    this.productService.getProductStock(this.id).subscribe({
+      // If Successful
+      next: (res) => {
+        if (res.length == 4) {
+          this.getProductStockError = true;
+          return;
+        }
+        this.stockNum = +res.slice(12);
+        this.getProductStockError = false;
+      },
+      // If fails at server
+      error: () => {
+        this.getProductStockError = true;
+        return;
+      }
+    });
+  }
+
   // Add to Cart
   public addToCart(): void {
     this.shoppingCartService.addToCart(CartItemSend.forAdd(this.id, this.quantity, this.product.price)).subscribe({
@@ -128,12 +149,6 @@ export class ProductComponent implements OnInit {
         this.toCartMessage = "Internal Server Error";
       }}
     );
-  }
-
-  // Fetch the Stock for this Product
-  // For FIXED SHOULD ONLY JUST CHANGE BOOLEAN
-  public getStock(): void {
-    this.showStock = true;
   }
 
   // Adding 1 to Quantity

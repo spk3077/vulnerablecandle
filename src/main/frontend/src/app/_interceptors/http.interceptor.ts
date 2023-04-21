@@ -16,6 +16,9 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
         catchError((error) => 
           {
+            if(error.status === 200) {
+              return throwError(() => (error.error.text));
+            }
             console.log("Error response status: ", error.status);
             if(error.status === 403) {
               // this.userService.setLoggedUser(null);
