@@ -76,7 +76,7 @@ export class ProductService {
         );
     }
 
-    // Retrieve Single Product
+    // Delete Single Product
     public deleteProduct(productID: number): Observable<any> {
         return this.http.delete(this.product_endpoint + "/" + productID)
             .pipe(

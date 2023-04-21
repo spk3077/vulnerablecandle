@@ -1,4 +1,63 @@
 <main>
     <app-submenu [activePage]="'Admin User Panel'" [firstPage]="'Admin'" [firstPage_URL]="'/admin'"[secondPage]="'Admin User Panel'"></app-submenu>
+    <div class="container">
+        <div class="row">
+            <div class="card mb-4">
+                <!-- ========================= USER VIEW LIST ========================= -->
+                <!-- === SUCCESSES/ERRORS END// === -->
+                <div class="text-success" [hidden]="!deleteUserSuccess">
+                    Deleted user!
+                </div>
+                <div class="alert-message" [hidden]="!deleteUserError">
+                    Deleting user failed! Try again later
+                </div>
+                <div class="alert-message" [hidden]="!getUserDataError">
+                    Retrieve users failed! Try again later
+                </div>
+                <!-- === SUCCESSES/ERRORS END// === -->
 
-</main>>
+                <article class="light-borders row gy-3 pt-4" *ngFor="let user of users">
+                    <div class="col-lg-3 mt-0">
+                        <figure class="itemside me-lg-5">
+                        <div class="aside">
+                            <img src={{user.userInfo.picture}} [attr.src]="user.userInfo.picture ? user.userInfo.picture 
+                                : 'assets/images/defaultprofiledark.png'" class="avatar avatar-lg p-0">
+                        </div>
+                        <figcaption class="info">
+                            <div class="vertical-center">
+                                <p class="title mb-0">{{user.username}}</p>
+                                <p class="text-muted mb-0">{{user.userInfo.name ? user.userInfo.name : '-'}}</p>
+                            </div>
+                        </figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-2 mt-0">
+                        <div class="vertical-center">
+                            <var class="fst-normal price-bold h6">{{user.profiles[0].type}}</var>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-4 col-6 mt-0">
+                        <div class="vertical-center lh-sm"> 
+                            <var class="fst-normal price-bold h6">Contact Info:</var>
+                            <br>
+                            <small class="text-muted">{{user.userInfo.email ? user.userInfo.email : '-'}}</small>
+                            <br>
+                            <small class="text-muted">{{user.userInfo.phone ? user.userInfo.phone : '-'}}</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-4 col-6 mt-0">
+                        <div class="vertical-center lh-sm"> 
+                            <var class="text-muted">Created {{user.userInfo.create_date}}</var>
+                        </div>
+                    </div>
+                    <div class="col-lg col-sm-4 mt-0">
+                        <div class="vertical-center float-lg-end">
+                            <button (click)="deleteUser(user.id)"class="btn btn-light text-danger borderBtn me-2">Remove</button>
+                        </div>
+                    </div>
+                </article>
+                <!-- ========================= USER VIEW LIST END// ========================= -->
+            </div>
+        </div>
+    </div>
+</main>
