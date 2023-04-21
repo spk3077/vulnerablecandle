@@ -25,7 +25,7 @@ INSERT INTO c_user_c_user_profile (user_id, user_profile_id) VALUES ((SELECT id 
 INSERT INTO ecom_user (id, password, username) VALUES (5, 'AppleJacks', 'computerScienceBrofish');
 INSERT INTO ecom_user_info (id, address, city, create_date, email, name, picture, phone, state, zip, user_id) VALUES (5, '1831 6th St', 'Brookings', '2019-12-03', 'cs.brofish@earthlink.net', 'George Smith', '/assets/sql/georgePFP.jpg', '(605)692-2289', 'South Dakota', '57006', (SELECT id FROM ecom_user WHERE id=5));
 INSERT INTO ecom_payment (id, card_number, expiry_month, expiry_year, owner_name, sec_code, user_id) VALUES (5, '4556625627296399', '11', '31', 'George Smith', '384', (SELECT id FROM ecom_user WHERE id=5));
-INSERT INTO c_user_c_user_profile (user_id, user_profile_id) VALUES ((SELECT id FROM ecom_user WHERE id=4), (SELECT id FROM ecom_user_profile WHERE id=2));
+INSERT INTO c_user_c_user_profile (user_id, user_profile_id) VALUES ((SELECT id FROM ecom_user WHERE id=5), (SELECT id FROM ecom_user_profile WHERE id=2));
 
 INSERT INTO ecom_user (id, password, username) VALUES (6, 'password987', 'GrandmaCarolLovesCandles');
 INSERT INTO ecom_user_info (id, address, city, create_date, email, name, picture, phone, state, zip, user_id) VALUES (6, '329 Warren Ave', 'East Providence', '2020-01-17', 'GrandmaCarolBell@yahoo.com', 'Carol Bellbird', '/assets/sql/carolPFP.png', '(401)438-4653', 'Rhode Island', '02914', (SELECT id FROM ecom_user WHERE id=6));

@@ -124,4 +124,17 @@ export class UserService {
                 })
             );
     }
+
+    // Delete Single User
+    public deleteUser(userID: number): Observable<any> {
+        return this.http.delete(this.users_endpoint + "/" + userID)
+            .pipe(
+                map(res => {
+                    return res;
+                }),
+                catchError(error => {
+                    return of(error);
+                })
+            );
+    }
 }

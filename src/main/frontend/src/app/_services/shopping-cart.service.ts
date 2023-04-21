@@ -60,7 +60,7 @@ export class ShoppingCartService {
         );
     }
 
-    // Delete CartItem
+  // Delete CartItem
   public removeCartItem(cartID: number): Observable<any> {
     return this.http.delete(this.cart_endpoint + "/remove/" + cartID)
       .pipe(
