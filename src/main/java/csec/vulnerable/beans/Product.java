@@ -39,11 +39,11 @@ public class Product {
 	private String brand;
 	@NotNull
 	@Positive
-	private double price;
+	private Double price;
 	@Column
 	@NotNull
 	@PositiveOrZero
-	private int stock;
+	private Integer stock;
 	@Column
 	private String image;
 	@Column(length = 2000)
