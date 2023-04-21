@@ -85,7 +85,7 @@ export class ShopComponent implements OnInit {
     );
   }
 
-  // Retrieve Products
+  // Retrieve Tags
   private getTags(): void {
     this.tagService.getTags().subscribe({
       next: (res) => {

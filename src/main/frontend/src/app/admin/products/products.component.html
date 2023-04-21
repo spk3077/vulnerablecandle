@@ -3,58 +3,213 @@
     <section class="bg-light mt-5">
         <div class="container">
             <div class="row">
+
+                <!-- ========================= TABS ========================= -->
                 <div class="card">
                     <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs">
                         <li class="nav-item">
-                            <a href="#" data-bs-target="#tab_products" data-bs-toggle="tab" class="nav-link active">Products</a>
+                            <a href="#" data-bs-target="#tab_addProducts" data-bs-toggle="tab" class="nav-link active">Add Product</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" data-bs-target="#tab_addProducts" data-bs-toggle="tab" class="nav-link">Add Product</a>
+                            <a href="#" data-bs-target="#tab_editProducts" data-bs-toggle="tab" class="nav-link">Edit Products</a>
                         </li>
                     </ul>
                 </div>
+                <!-- ========================= TABS END// ========================= -->
+
                     <div class="tab-content">
-                        <article id="tab_products" class="tab-pane show active card-body">
-                            <p>With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-                            <ul>
-                                <li>Some great feature name here </li>
-                                <li>Lorem ipsum dolor sit amet, consectetur </li>
-                                <li>Duis aute irure dolor in reprehenderit </li>
-                                <li>Optical heart sensor </li>
-                                <li>Easy fast and ver good </li>
-                                <li>Some great feature name here </li>
-                                <li>Modern style and design</li>
-                            </ul>
-                            <table class="table border table-hover">
-                                <tr>
-                                    <th>  Display: </th> <td> 13.3-inch LED-backlit display with IPS </td>
-                                </tr>
-                                <tr>
-                                    <th>  Processor capacity: </th> <td> 2.3GHz dual-core Intel Core i5 </td>
-                                </tr>
-                                <tr>
-                                    <th>  Camera quality: </th> <td>720p FaceTime HD camera  </td>
-                                </tr>
-                                <tr>
-                                    <th>  Memory </th> <td> 8 GB RAM or 16 GB RAM </td>
-                                </tr>
-                                <tr>
-                                    <th>  Graphics </th> <td> Intel Iris Plus Graphics 640 </td>
-                                </tr>
-                            </table>
+
+                        <!-- ========================= ADDPRODUCT ARTICLE ========================= -->
+                        <article id="tab_addProducts" class="tab-pane show active card-body">
+                            <form [formGroup]="addForm" (ngSubmit)="addProduct()" class="mb-4">
+                                <!-- === SUCCESSES/ERRORS === -->
+                                <div class="alert-message mb-3" [hidden]="!addProductError">
+                                    Adding Product Failed! Try again later!
+                                </div>
+                                <div class="text-success mb-3" [hidden]="!addProductSuccess">
+                                    Adding Product Successful!
+                                </div>
+                                <!-- === SUCCESSES/ERRORS END// === -->
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-5">
+                                        <div class="mb-4">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" class="form-control" formControlName="name" placeholder="Name" [ngClass]="{ 'is-invalid': addSubmitted && fAdd.name.errors }">
+                                            <div *ngIf="addSubmitted && fAdd.name.errors" class="invalid-feedback">
+                                                <div *ngIf="fAdd.name.errors.required">Name is required</div>
+                                                <div *ngIf="fAdd.name.errors.minlength">Name must be at least 4 characters</div>
+                                                <div *ngIf="fAdd.name.errors.maxlength">Name cannot be greater than 50 characters</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-5">
+                                        <div class="mb-4">
+                                            <label class="form-label">Brand</label>
+                                            <input type="text" class="form-control" formControlName="brand" placeholder="Brand" [ngClass]="{ 'is-invalid': addSubmitted && fAdd.brand.errors }">
+                                            <div *ngIf="addSubmitted && fAdd.brand.errors" class="invalid-feedback">
+                                                <div *ngIf="fAdd.brand.errors.required">Brand is required</div>
+                                                <div *ngIf="fAdd.brand.errors.minlength">Brand must be at least 4 characters</div>
+                                                <div *ngIf="fAdd.brand.errors.maxlength">Brand cannot be greater than 50 characters</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-5">
+                                        <div class="mb-4">
+                                            <label class="form-label">Price</label>
+                                            <input type="number" class="form-control" formControlName="price" placeholder="Price" [ngClass]="{ 'is-invalid': addSubmitted && fAdd.price.errors }">
+                                            <div *ngIf="addSubmitted && fAdd.price.errors" class="invalid-feedback">
+                                                <div *ngIf="fAdd.price.errors.required">Price is required</div>
+                                                <div *ngIf="fAdd.price.errors.min">Price must be at least $0.01</div>
+                                                <div *ngIf="fAdd.price.errors.max">Price cannot be greater than $99.99</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-5">
+                                        <div class="mb-4">
+                                            <label class="form-label">Stock</label>
+                                            <input type="number" class="form-control" formControlName="stock" placeholder="Stock" [ngClass]="{ 'is-invalid': addSubmitted && fAdd.stock.errors }">
+                                            <div *ngIf="addSubmitted && fAdd.stock.errors" class="invalid-feedback">
+                                                <div *ngIf="fAdd.stock.errors.required">Stock is required</div>
+                                                <div *ngIf="fAdd.stock.errors.min">Stock must be at least 1</div>
+                                                <div *ngIf="fAdd.stock.errors.pattern">Stock must be a positive integer</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="mb-4">
+                                            <label class="form-label">Description</label>
+                                            <textarea class="form-control" formControlName="description" placeholder="Description" [ngClass]="{ 'is-invalid': addSubmitted && fAdd.description.errors }"></textarea>
+                                            <div *ngIf="addSubmitted && fAdd.description.errors" class="invalid-feedback">
+                                                <div *ngIf="fAdd.description.errors.required">Description is required</div>
+                                                <div *ngIf="fAdd.description.errors.minlength">Description must be at least 3 characters</div>
+                                                <div *ngIf="fAdd.description.errors.maxlength">Description cannot be greater than 2000 characters</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" (click)="addForm.reset();" class="btn btn-dark">Clear</button>
+                                    <button class="btn btn-success ms-2" type="submit">Save</button>
+                                </div>
+                            </form>
                         </article>
-                        <article id="tab_addProducts" class="tab-pane card-body">
-                            Tab content or sample information now <br>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                            proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        <!-- ========================= ADDPRODUCT ARTICLE END// ========================= -->
+                        
+                        <!-- ========================= PRODUCTS ARTICLE ========================= -->
+                        <article id="tab_editProducts" class="tab-pane card-body">
+
+                            <!-- =================== PRODUCT VIEW =================== -->
+                            <div *ngIf="!displayEditForm" class="container px-4 px-lg-5 mt-4">
+                                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                                    <div class="alert-message" [hidden]="!getProductsError">
+                                        Retrieving Failed! No Products. Try again later
+                                    </div>
+                                    <div class="col mb-5" *ngFor="let product of products">
+                                        <div class="card h-97">
+                                            <img class="card-img-top" src={{product.getFirstImage()}} alt="...">
+                                            <div class="card-body pt-0 p-4">
+                                                <div class="text-center">
+                                                    <h5 class="fw-bolder">{{product.name}}</h5>
+                                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                                        <ngb-rating class="main-rating" [max]="5" [(rate)]="product.averageReviewGrade" [readonly]="true"></ngb-rating>
+                                                    </div>
+                                                    ${{product.price.toFixed(2)}}
+                                                </div>
+                                            </div>
+                                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                                <div (click)="openEditForm(product.id)" class="text-center"><a class="btn btn-outline-dark px-4 mt-auto">Edit</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- =================== PRODUCT VIEW END// =================== -->
+
+                            <!-- =================== EDIT FORM =================== -->
+                            <form *ngIf="displayEditForm" [formGroup]="editForm" (ngSubmit)="editProduct()" class="mb-4">
+                                <!-- === SUCCESSES/ERRORS === -->
+                                <div class="alert-message mb-3" [hidden]="!editProductError">
+                                    Editing Product Failed! Try again later!
+                                </div>
+                                <!-- === SUCCESSES/ERRORS END// === -->
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-5">
+                                        <div class="mb-4">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" class="form-control" formControlName="name" placeholder="Name" [ngClass]="{ 'is-invalid': editSubmitted && fEdit.name.errors }">
+                                            <div *ngIf="editSubmitted && fEdit.name.errors" class="invalid-feedback">
+                                                <div *ngIf="fEdit.name.errors.required">Name is required</div>
+                                                <div *ngIf="fEdit.name.errors.minlength">Name must be at least 4 characters</div>
+                                                <div *ngIf="fEdit.name.errors.maxlength">Name cannot be greater than 50 characters</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-5">
+                                        <div class="mb-4">
+                                            <label class="form-label">Brand</label>
+                                            <input type="text" class="form-control" formControlName="brand" placeholder="Brand" [ngClass]="{ 'is-invalid': editSubmitted && fEdit.brand.errors }">
+                                            <div *ngIf="editSubmitted && fEdit.brand.errors" class="invalid-feedback">
+                                                <div *ngIf="fEdit.brand.errors.required">Brand is required</div>
+                                                <div *ngIf="fEdit.brand.errors.minlength">Brand must be at least 4 characters</div>
+                                                <div *ngIf="fEdit.brand.errors.maxlength">Brand cannot be greater than 50 characters</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-5">
+                                        <div class="mb-4">
+                                            <label class="form-label">Price</label>
+                                            <input type="number" class="form-control" formControlName="price" placeholder="Price" [ngClass]="{ 'is-invalid': editSubmitted && fEdit.price.errors }">
+                                            <div *ngIf="editSubmitted && fEdit.price.errors" class="invalid-feedback">
+                                                <div *ngIf="fEdit.price.errors.required">Price is required</div>
+                                                <div *ngIf="fEdit.price.errors.min">Price must be at least $0.01</div>
+                                                <div *ngIf="fEdit.price.errors.max">Price cannot be greater than $99.99</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-5">
+                                        <div class="mb-4">
+                                            <label class="form-label">Stock</label>
+                                            <input type="number" class="form-control" formControlName="stock" placeholder="Stock" [ngClass]="{ 'is-invalid': editSubmitted && fEdit.stock.errors }">
+                                            <div *ngIf="editSubmitted && fEdit.stock.errors" class="invalid-feedback">
+                                                <div *ngIf="fEdit.stock.errors.required">Stock is required</div>
+                                                <div *ngIf="fEdit.stock.errors.min">Stock must be at least 1</div>
+                                                <div *ngIf="fEdit.stock.errors.pattern">Stock must be a positive integer</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="mb-4">
+                                            <label class="form-label">Description</label>
+                                            <textarea class="form-control" formControlName="description" placeholder="Description" [ngClass]="{ 'is-invalid': editSubmitted && fEdit.description.errors }"></textarea>
+                                            <div *ngIf="editSubmitted && fEdit.description.errors" class="invalid-feedback">
+                                                <div *ngIf="fEdit.description.errors.required">Description is required</div>
+                                                <div *ngIf="fEdit.description.errors.minlength">Description must be at least 3 characters</div>
+                                                <div *ngIf="fEdit.description.errors.maxlength">Description cannot be greater than 2000 characters</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" (click)="displayEditForm = false;" class="btn btn-dark">Cancel</button>
+                                    <button class="btn btn-success ms-2" type="submit">Save</button>
+                                </div>
+                            </form>
+                            <!-- =================== EDIT FORM END// =================== -->
+
                         </article>
+                        <!-- ========================= PRODUCTS ARTICLE END// ========================= -->
+
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { ProductReceive, ProductSend } from '@app/_core/product';
+import { ProductSend } from '@app/_core/product';
 import { environment } from  '@environments/environment';
 
 @Injectable({
@@ -41,18 +41,29 @@ export class ProductService {
             );
     }
 
-    // Add Tag
+    // Add Product
     public addProduct(product: ProductSend): Observable<any> {
-        let tags: any = [];
-        return this.http.post(this.product_endpoint, 
+        return this.http.post(this.product_endpoint, product)
+        .pipe(
+            map(res => {
+                return res;
+            }),
+            catchError(error => {
+                return throwError(() => (new Error(error)));
+            })
+        );
+    }
+    
+    // Update existing product
+    public updateProduct(product: ProductSend): Observable<any> {
+        return this.http.put(this.product_endpoint, 
         {
+            id: product.id,
             name : product.name,
             brand : product.brand,
             price : product.price,
             stock : product.stock,
-            image : product.image,
-            description : product.description,
-            tags : [{id : 4}]
+            description : product.description
         }
         )
         .pipe(
