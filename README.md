@@ -6,6 +6,9 @@ Mom and Pop's Candle Shop" or vulnerablecandle is a realistic, modern, vulnerabl
 ## How does it Work?
 ![Alt text](docs/images/appDesign.png?raw=true "Title")
 
+## Exploitation Documentation
+[Vulnerabilities](https://github.com/spk3077/vulnerablecandle/tree/main/docs/vulnerabilities)
+
 ## Install
 Instructions provided are oriented to Debian distributions such as Ubuntu.  Other operating systems and Linux distributions can be used to run, but may require additional or different utilities and commands.
     # Clone our repository
@@ -17,3 +20,8 @@ Instructions provided are oriented to Debian distributions such as Ubuntu.  Othe
 ## Running
 Docker commands here
 
+## Contact Us
+Have questions or advice feel free to email us at our university email addresses:
+* Sean Kells (Angular Dev) [spk3077](spk3077@g.rit.edu)
+* Hancheng Cao (SpringBoot Dev) [hc6674@g.rit.edu](hc6674@g.rit.edu)
+* Cameron MacDonald (Assets & Docker) [hc6674@g.rit.edu](hc6674@g.rit.edu)
