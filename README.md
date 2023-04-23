@@ -6,13 +6,16 @@ Mom and Pop's Candle Shop" or vulnerablecandle is a realistic, modern, vulnerabl
 ## How does it Work?
 
 
+![Alt text](docs/appDesign.png?raw=true "Title")
 
 ## Install
+Instructions provided are oriented to Debian distributions such as Ubuntu.  Other operating systems and Linux distributions can be used to run, but may require additional or different utilities and commands.
+    # Clone our repository
+    git clone https://github.com/spk3077/vulnerablecandle
 
-
-Python3.6.8 or above
-git clone https://github.com/spk3077/BLEPDoS
+    # Install required packages
+    sudo apt install docker docker-compose 
 
 ## Running
-sudo python3 BLEPDOS.py (optional arguments)
+Docker commands here
 
