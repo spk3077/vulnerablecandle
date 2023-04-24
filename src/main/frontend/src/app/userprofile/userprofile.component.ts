@@ -116,6 +116,7 @@ export class UserProfileComponent implements OnInit {
         // User Info Form Update
         this.infoForm.patchValue({
           email: info.email,
+          phone: info.phone,
           address: info.address,
           city: info.city,
           state: info.state,

@@ -219,7 +219,7 @@
                 <div class="mb-4">
                   <label class="form-label">Phone number</label>
                   <input type="text" class="form-control" formControlName="phone" placeholder="###-###-####" [ngClass]="{ 'is-invalid': infoSubmitted && fInfo.phone.errors }">
-                <div *ngIf="infoSubmitted && fInfo.phone.errors" class="invalid-feedback">
+                  <div *ngIf="infoSubmitted && fInfo.phone.errors" class="invalid-feedback">
                     <div *ngIf="fInfo.phone.errors.minlength">Phone number must be at least 10 characters</div>
                     <div *ngIf="fInfo.phone.errors.maxlength">Phone number cannot be greater than 15 characters</div>
                   </div>
