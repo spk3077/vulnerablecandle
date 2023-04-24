@@ -22,7 +22,7 @@ Instructions provided are oriented to Debian distributions such as Ubuntu.  Othe
 Docker commands here
 
 ## Contact Us
-Have questions or advice feel free to email us at our university email addresses:
+Have any questions or advice?  Email us at our university email addresses:
 * Sean Kells (Angular Dev) [spk3077@g.rit.edu](mailto:spk3077@g.rit.edu)
 * Hancheng Cao (SpringBoot Dev) [hc6674@g.rit.edu](mailto:hc6674@g.rit.edu)
 * Cameron MacDonald (Assets & Docker) [hc6674@g.rit.edu](mailto:hc6674@g.rit.edu)
