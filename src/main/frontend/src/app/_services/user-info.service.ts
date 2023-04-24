@@ -54,7 +54,16 @@ export class UserInfoService {
 
     // Add user info to account (keeps unincluded)
     public changeUserInfo(userInfo: UserInfoSend): Observable<any> {
-      return this.http.put(this.userinfo_endpoint, userInfo)
+      // Loop through userInfo to only send non-null & non-empty properties
+      const infoSend: any = {};
+      for (const [key, value] of Object.entries(userInfo)) {
+        if (value == null || value.length == 0) {
+          continue;
+        }
+
+        infoSend[key] = value;
+      }
+      return this.http.put(this.userinfo_endpoint, infoSend)
         .pipe(
           map(res => {
               return res;
