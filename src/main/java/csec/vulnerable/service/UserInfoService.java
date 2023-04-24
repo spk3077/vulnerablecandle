@@ -76,18 +76,56 @@ public class UserInfoService {
 	}
 
 	public Response changeUserInfo(UserInfo userInfo, Authentication authentication) {
-		UserInfo ui = userInfoDao.findByUser(userDao.findByUsername(authentication.getName()));
-		ui.setAddress(userInfo.getAddress());
-		ui.setCity(userInfo.getCity());
-		ui.setEmail(userInfo.getEmail());
-		ui.setName(userInfo.getName());
-		ui.setPhone(userInfo.getPhone());
-		ui.setState(userInfo.getState());
-		ui.setZip(userInfo.getZip());
-		ui.setPicture(userInfo.getPicture());
+		// Check if user information being passed in is null or empty
+		if(userInfo == null || userInfo.getName() == null || userInfo.getName().isEmpty() || 
+			userInfo.getEmail() == null || userInfo.getEmail().isEmpty() || 
+			userInfo.getPhone() == null || userInfo.getPhone().isEmpty()) {
+			return new Response(false, "Invalid user information.");
+		}
+		
+		User user = userDao.findByUsername(authentication.getName());
+		
+		if(user == null) {
+			return new Response(false, "User not found.");
+		}
+		
+		UserInfo ui = userInfoDao.findByUser(user);
+		
+		if(ui == null) {
+			return new Response(false, "User information not found.");
+		}
+		
+		// Update user information with validated data
+		if(userInfo.getAddress() != null) {
+			ui.setAddress(userInfo.getAddress());
+		}
+		if(userInfo.getCity() != null) {
+			ui.setCity(userInfo.getCity());
+		}
+		if(userInfo.getEmail() != null) {
+			ui.setEmail(userInfo.getEmail());
+		}
+		if(userInfo.getName() != null) {
+			ui.setName(userInfo.getName());
+		}
+		if(userInfo.getPhone() != null) {
+			ui.setPhone(userInfo.getPhone());
+		}
+		if(userInfo.getState() != null) {
+			ui.setState(userInfo.getState());
+		}
+		if(userInfo.getZip() != null) {
+			ui.setZip(userInfo.getZip());
+		}
+		if(userInfo.getPicture() != null) {
+			ui.setPicture(userInfo.getPicture());
+		}
+		
 		userInfoDao.save(ui);
+		
 		return new Response(true);
 	}
+
 
 	public Response deleteUserInfo(int id) {
 		if (userInfoDao.findById(id) != null) {
