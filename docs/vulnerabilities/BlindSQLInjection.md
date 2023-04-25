@@ -3,6 +3,7 @@ A variant of SQL injection, a database query manipulation attack against structu
 
 ## Exploitation
 **Location** _PUT /users_
+
 Blind SQL Injection present within SpringBoot code for changing password.  Can be escaped to, for example, change the passwords of other users in addition to itself.  Below is an exploitation example:
 
     PUT /users

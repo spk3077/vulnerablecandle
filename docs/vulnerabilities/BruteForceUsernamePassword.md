@@ -3,6 +3,7 @@ A type of brute force attack that cracks valid user credentials not belonging to
 
 ## Exploitation
 **Location** _POST /login_
+
 Brute-Force username and password present within SpringBoot code by not blocking access after consecutive failed login attempts in a short period of time (or other alternative controls).  Below is an exploitation example:
 
     POST /login
