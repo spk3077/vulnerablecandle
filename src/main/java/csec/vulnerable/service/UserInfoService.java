@@ -76,13 +76,6 @@ public class UserInfoService {
 	}
 
 	public Response changeUserInfo(UserInfo userInfo, Authentication authentication) {
-		// Check if user information being passed in is null or empty
-		if(userInfo == null || userInfo.getName() == null || userInfo.getName().isEmpty() || 
-			userInfo.getEmail() == null || userInfo.getEmail().isEmpty() || 
-			userInfo.getPhone() == null || userInfo.getPhone().isEmpty()) {
-			return new Response(false, "Invalid user information.");
-		}
-		
 		User user = userDao.findByUsername(authentication.getName());
 		
 		if(user == null) {
