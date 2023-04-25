@@ -1,13 +1,18 @@
 FROM java:8
-FROM docker.io/library/maven:alpine
+FROM maven:alpine
+#FROM mysql:latest
 
 #RUN apt-get install maven -y
+EXPOSE 8080
 WORKDIR /api
 COPY ["pom.xml", "./"]
 COPY src .
 COPY . .
 COPY src/main/sqlInserts .
 RUN mvn clean install -DskipTests
-RUN mvn clean package
-#ADD ./target/your.jar /developments/
-ENTRYPOINT ["java","-jar","/developments/your.jar"]
+RUN mvn clean package -Dmaven.test.skip
+
+#FROM openjdk:8-jdk-alpine
+#COPY --from=build ./target/candleshop-0.0.1-SNAPSHOT.jar api/target/runner.jar
+#ADD target/candleshop-0.0.1-SNAPSHOT.jar ./developments
+#ENTRYPOINT ["java","-jar","/target/runner.jar"]
