@@ -1,0 +1,10 @@
+FROM mysql:latest
+
+ENV MYSQL_ROOT_PASSWORD csec77499981
+ENV MYSQL_DATABASE csec
+ENV MYSQL_USER root
+ENV MYSQL_PASSWORD: csec77499981
+
+MAINTAINER vulnerablecandle.com
+
+RUN chown -R mysql:root /var/lib/mysql
