@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.header.HeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
@@ -66,10 +67,8 @@ public class SecurityConfig {
 
     @Bean
     public CsrfTokenRepository csrfTokenRepository() {
-        /* HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-        repository.setHeaderName("X-XSRF-TOKEN"); */
-        CookieCsrfTokenRepository repository = new CookieCsrfTokenRepository();
-        repository.setCookieHttpOnly(false);
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
         return repository;
     }
 
@@ -84,7 +83,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()
-            .csrf().csrfTokenRepository(csrfTokenRepository())// attach XSRF-TOKEN cookie to requests
+            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())// attach XSRF-TOKEN cookie to requests
             .and()
             .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
             .and()
