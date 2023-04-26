@@ -1,18 +1,16 @@
-FROM java:8
-FROM maven:alpine
-#FROM mysql:latest
 
 #RUN apt-get install maven -y
+FROM maven:latest AS build
 EXPOSE 8080
 WORKDIR /api
 COPY ["pom.xml", "./"]
 COPY src .
 COPY . .
-COPY src/main/sqlInserts .
-RUN mvn clean install -DskipTests
-RUN mvn clean package -Dmaven.test.skip
+#COPY src/main/sqlInserts .
+#RUN mvn clean install -DskipTests
+RUN mvn -f /api/pom.xml clean package -Dmaven.test.skip
 
-#FROM openjdk:8-jdk-alpine
-#COPY --from=build ./target/candleshop-0.0.1-SNAPSHOT.jar api/target/runner.jar
-#ADD target/candleshop-0.0.1-SNAPSHOT.jar ./developments
-#ENTRYPOINT ["java","-jar","/target/runner.jar"]
+FROM openjdk:latest
+COPY --from=build /api/target/candleshop-0.0.1-SNAPSHOT.jar /usr/local/lib/candle.jar
+#ENTRYPOINT ["java","-jar","/usr/local/lib/candle.jar"]
+CMD java -jar /usr/local/lib/candle.jar

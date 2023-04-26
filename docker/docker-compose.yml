@@ -1,8 +1,20 @@
 # Main Docker-Compose File
 # Authors: Sean Kells <spk3077@rit.edu>, Cameron MacDonald <chm7374@rit.edu>
-version: "3"
+version: "2.4"
 
 services:
+  # Maven SpringBoot
+  api:
+    build:
+      context: ../
+      dockerfile: API_Dockerfile
+    hostname: api
+    #command: java -jar /usr/local/lib/candle.jar
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+
   # Database
   db:
     image: mysql
@@ -11,35 +23,29 @@ services:
     environment:
        MYSQL_ROOT_PASSWORD: csec77499981
        MYSQL_DATABASE: csec
-       # MYSQL_USER: root
-       # MYSQL_PASSWORD: csec77499981
+       #MYSQL_ROOT_USER: root
+       #MYSQL_USER: root
+       #MYSQL_PASSWORD: csec77499981
+       #MYSQL_TCP_PORT: 3307
     healthcheck:
-      test: "/usr/bin/mysql --user=root --password=csec77499981 --execute \"SHOW DATABASES;\""
+      test: ["CMD", "mysqladmin", 'ping', '-h', 'localhost', '-u', 'root', '-p=csec77499981']
       interval: 2s
       timeout: 20s
       retries: 15
     ports:
        - 3306:3306
 
-  # Maven SpringBoot (Complete)
-  api:
-    hostname: api
-    build:
-      context: ../
-      dockerfile: API_Dockerfile
-
   # Web Server (Complete)
   node_app:
     hostname: node_app
+    container_name: node_app
     build:
       context: ../src/main/frontend
       dockerfile: Dockerfile
-    command: ng serve --ssl true --open
     ports:
-      - 80:80
-      - 443:443
+      - 4200:4200
    
-  # PHPMYADMIN Interface
+  # PHPMYADMIN Interface (Complete)
   phpmyadmin:
     hostname: phpmyadmin
     image: phpmyadmin/phpmyadmin
