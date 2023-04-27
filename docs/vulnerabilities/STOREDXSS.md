@@ -2,7 +2,8 @@
 The stored variant XSS, like other variations, inject scripts into benign, non-attacker controlled websites.  The distinction is stored XSS  _stores_ the injected scripts/code on the server, resulting in the script persisting beyond the current HTTP session.
 
 ## Exploitation
-**Prerequisites:** Authenticated, Ordered the Product
+**Prerequisites:** _Authenticated, Ordered the Product_
+
 **Location:** _POST /productreviews_
 
 While posting reviews HTML tags, including script, can be specified in the _comment_ parameter. The Angular application is configured to bypass Angular's two primary protections: encoding all interpolated variables and auto-removal of script tags which prevent Stored XSS (or any other XSS).  Below is an exploitation example:

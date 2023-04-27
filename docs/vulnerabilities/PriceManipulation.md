@@ -2,7 +2,8 @@
 Some e-commerce applications mistakenly accept the price of a product as a user input rather than use the database stored value.  vulnerablecandle possesses this vulnerability.
 
 ## Exploitation
-**Prerequisites:** Authenticated
+**Prerequisites:** _Authenticated_
+
 **Location:** _POST /shoppingcarts/add/PRODUCTID/QUANTITY_
 
 Price manipulation involves the Angular application sending an _itemPrice_ POST parameter that specifies the price used to purchase the candle at.  While this price is usually set as the database value, the attacker can manipulate it.  SpringBoot then uses this manipulated price throughout the checkout process.  Below is an exploitation example:

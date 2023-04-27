@@ -2,7 +2,8 @@
 This attack tricks users into clicking on a button, link, or other interactable on an attacker controlled/compromised website that performs an unintendded action on an authenticated and/or trusted site.
 
 ## Exploitation
-**Prerequisites:** Authenticated
+**Prerequisites:** _Authenticated_
+
 **Location:** _Entire Application_
 
 Clickjacking is present since the X-Frame-Options / Content-Security-Policy: frame-ancestors directive are both not properly implemented on the application.  For exploitation a more intricately designed website can be made to simulate a realistic attacker website meant to scam users authenticated to vulnerablecandle, the attack can be tested through this example HTML text:
