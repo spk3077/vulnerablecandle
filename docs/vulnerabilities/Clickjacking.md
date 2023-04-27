@@ -6,7 +6,7 @@ This attack tricks users into clicking on a button, link, or other interactable 
 
 **Location:** _Entire Application_
 
-Clickjacking is present since the X-Frame-Options / Content-Security-Policy: frame-ancestors directive are both not properly implemented on the application.  For exploitation a more intricately designed website can be made to simulate a realistic attacker website meant to scam users authenticated to vulnerablecandle, the attack can be tested through this example HTML text:
+Clickjacking is present since the X-Frame-Options / Content-Security-Policy: frame-ancestors directive are both not properly implemented on the application.  For realistic exploitation a more intricately designed website meant to scam vulnerablecandle authenticated users, such an attack would abuse the z-index CSS property like this example HTML:
 
     # HTML
     <button style="z-index: 2; position: absolute; margin-left: 100px; margin-top: 30px;" class="button"> Remove Ads</button>
@@ -32,7 +32,9 @@ For the sake of simplcity the recommended way to test for Clickjacking is simply
 
     <html>
         <body>
-            <iframe src="http://localhost:4200/checkout"></iframe>
+            <iframe src="http://localhost:4200/checkout" style="width: 100%; height: 1000px;"></iframe>
         </body>
     </html>
     
+Successful exploitation looks like:
+![Alt text](../images/clickjack.png?raw=true "Clickjacking Exploitation")

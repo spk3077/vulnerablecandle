@@ -11,8 +11,9 @@ CSRF is present since the application doesn't have cryptographically random valu
     # HTML
     <html>
         <body>
-  
+            <iframe src="http://localhost:8081/products/stock?url=http://localhost:8081/products/1"></iframe>
         </body>
     </html>
 
-
+Successful exploitation looks like:
+![Alt text](../images/csrf.png?raw=true "CSRF Exploitation")
