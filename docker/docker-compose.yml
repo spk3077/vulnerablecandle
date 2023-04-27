@@ -11,27 +11,38 @@ services:
     hostname: api
     #command: java -jar /usr/local/lib/candle.jar
     restart: on-failure
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/csec?testdbautoReconnect=true&failOverReadOnly=false&maxReconnects=10
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: csec77499981
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - backend
+      - frontend
 
-  # Database
+  # Database (Complete)
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    hostname: db
     environment:
        MYSQL_ROOT_PASSWORD: csec77499981
        MYSQL_DATABASE: csec
-       #MYSQL_ROOT_USER: root
-       #MYSQL_USER: root
-       #MYSQL_PASSWORD: csec77499981
-       #MYSQL_TCP_PORT: 3307
+       MYSQL_ROOT_USER: root
+       MYSQL_USER: csec
+       MYSQL_PASSWORD: csec77499981
+       #MYSQL_TCP_PORT: 3306
     healthcheck:
-      test: ["CMD", "mysqladmin", 'ping', '-h', 'localhost', '-u', 'root', '-p=csec77499981']
+      test: ["CMD", "mysqladmin", 'ping', '-h', 'localhost', '-u', 'csec', '-p=csec77499981']
       interval: 2s
       timeout: 20s
       retries: 15
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
     ports:
        - 3306:3306
 
@@ -44,6 +55,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 4200:4200
+    networks:
+      - frontend
    
   # PHPMYADMIN Interface (Complete)
   phpmyadmin:
@@ -54,7 +67,22 @@ services:
       PMA_HOST: db
     ports:
       - 8080:80
+    networks:
+      - backend
+
+  # Fill out the sql database
+  #sql_filler:
+  #  build:
+  #    context: ../src/main/sqlInserts
+  #    dockerfile: Dockerfile
+  #  depends_on:
+  #    db:
+  #      condition: service_healthy
 
 
+volumes:
+  db-data:
 
- 
+networks:
+  backend:
+  frontend:

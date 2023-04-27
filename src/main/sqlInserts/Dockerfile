@@ -1,5 +1,4 @@
 FROM ubuntu:latest
 
 ADD . /temp
-RUN cd /temp && ls -la
-RUN ["/temp/executeAll_Docker.sh"]
+CMD ["/temp/executeAll_Docker.sh"]
