@@ -2,6 +2,7 @@
 It is widely acknowledged that for users to change a password they ought to be questioned for their current password.  This prevents session hijacks from changing the user's password after gaining control.
 
 ## Exploitation
+**Prerequisites:** Authenticated
 **Location:** _PUT /users_
 
 SpringBoot and Angular code lack any validating parameter for the current password. To exploit simply means to change the password as this is exactly what a session hijacker would do.  Below is an exploitation example:

@@ -2,6 +2,7 @@
 SQL injection is a database query manipulation attack against structured query language (SQL) that allows attackers to escape the intended query to perform unintended/malicious actions.
 
 ## Exploitation
+**Prerequisites:** None
 **Location:** _GET /products/ID_
 
 The ID parameter of GET /products/ID can be escaped since SpringBoot on this endpoint does not implement any protects filtering or isolating for clause fields.  Below is an exploitation example:

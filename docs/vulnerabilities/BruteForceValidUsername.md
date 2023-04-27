@@ -2,6 +2,7 @@
 A type of brute force attack that finds valid usernames (usernames of existing accounts) not belonging to the attacker.
 
 ## Exploitation
+**Prerequisites:** None
 **Location:** _POST /users_
 
 Brute-Force valid username present within SpringBoot code by application returning if the username belongs to an existing account.  Below is an exploitation example:
