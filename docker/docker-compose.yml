@@ -9,6 +9,7 @@ services:
       context: ../
       dockerfile: API_Dockerfile
     hostname: api
+    container_name: api
     #command: java -jar /usr/local/lib/candle.jar
     restart: on-failure
     environment:
@@ -24,13 +25,15 @@ services:
 
   # Database (Complete)
   db:
-    image: mysql
+    image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     hostname: db
+    container_name: db
+    restart: always
     environment:
        MYSQL_ROOT_PASSWORD: csec77499981
        MYSQL_DATABASE: csec
-       MYSQL_ROOT_USER: root
+       #MYSQL_ROOT_USER: root
        MYSQL_USER: csec
        MYSQL_PASSWORD: csec77499981
        #MYSQL_TCP_PORT: 3306
@@ -39,8 +42,6 @@ services:
       interval: 2s
       timeout: 20s
       retries: 15
-    volumes:
-      - db-data:/var/lib/mysql
     networks:
       - backend
     ports:
@@ -61,8 +62,12 @@ services:
   # PHPMYADMIN Interface (Complete)
   phpmyadmin:
     hostname: phpmyadmin
+    container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
     restart: always
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       PMA_HOST: db
     ports:
