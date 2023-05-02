@@ -66,13 +66,16 @@ services:
       dbbackend:
 
   # Fill out the sql database
-  #sql_filler:
-  #  build:
-  #    context: ../src/main/sqlInserts
-  #    dockerfile: Dockerfile
-  #  depends_on:
-  #    my_db:
-  #      condition: service_healthy
+  sql_filler:
+    build:
+      context: ../src/main/sqlInserts
+      dockerfile: Dockerfile
+    depends_on:
+      - mydb
+      - api
+    restart: on-failure
+    networks:
+      dbbackend:
 
 networks:
   dbbackend:
