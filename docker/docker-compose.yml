@@ -12,7 +12,6 @@ services:
     container_name: api
     restart: always
     environment:
-      #SPRING_DATASOURCE_URL: jdbc:mysql://10.89.2.15:3306/csec?useSSL=false
       SPRING_DATASOURCE_URL: jdbc:mysql://172.28.1.2:3306/csec?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: csec
       SPRING_DATASOURCE_PASSWORD: csec77499981
