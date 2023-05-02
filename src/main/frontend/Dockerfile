@@ -6,8 +6,9 @@ WORKDIR /nodeapp
 COPY ["package.json", "./"]
 RUN npm install
 RUN npm install --save-dev @angular-devkit/build-angular
-RUN npm install -g @angular/cli
-RUN npm install -g @angular/core
+RUN npm install @angular/cli
+RUN npm install @angular/core
+COPY . .
 
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 18
@@ -18,4 +19,4 @@ COPY . /nodeapp
 EXPOSE 80
 EXPOSE 443
 EXPOSE 4200
-CMD ng serve --ssl true --open --host 0.0.0.0
+CMD node_modules/.bin/ng serve --ssl true --open --host 0.0.0.0

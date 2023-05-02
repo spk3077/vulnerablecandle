@@ -1,6 +1,6 @@
 # Main Docker-Compose File
 # Authors: Sean Kells <spk3077@rit.edu>, Cameron MacDonald <chm7374@rit.edu>
-version: "2.4"
+version: "3.7"
 
 services:
   # Maven SpringBoot
@@ -10,42 +10,34 @@ services:
       dockerfile: API_Dockerfile
     hostname: api
     container_name: api
-    #command: java -jar /usr/local/lib/candle.jar
-    restart: on-failure
+    restart: always
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/csec?testdbautoReconnect=true&failOverReadOnly=false&maxReconnects=10
-      SPRING_DATASOURCE_USERNAME: root
+      #SPRING_DATASOURCE_URL: jdbc:mysql://10.89.2.15:3306/csec?useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://172.28.1.2:3306/csec?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: csec
       SPRING_DATASOURCE_PASSWORD: csec77499981
     depends_on:
-      db:
-        condition: service_healthy
+      - mydb
     networks:
-      - backend
-      - frontend
+      dbbackend:
 
   # Database (Complete)
-  db:
+  mydb:
     image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
-    hostname: db
-    container_name: db
+    #command: --default-authentication-plugin=mysql_native_password
+    hostname: mydb
+    container_name: mydb
     restart: always
     environment:
        MYSQL_ROOT_PASSWORD: csec77499981
        MYSQL_DATABASE: csec
-       #MYSQL_ROOT_USER: root
        MYSQL_USER: csec
        MYSQL_PASSWORD: csec77499981
-       #MYSQL_TCP_PORT: 3306
-    healthcheck:
-      test: ["CMD", "mysqladmin", 'ping', '-h', 'localhost', '-u', 'csec', '-p=csec77499981']
-      interval: 2s
-      timeout: 20s
-      retries: 15
     networks:
-      - backend
+      dbbackend:
+        ipv4_address: 172.28.1.2
     ports:
-       - 3306:3306
+       - 3307:3306
 
   # Web Server (Complete)
   node_app:
@@ -57,7 +49,7 @@ services:
     ports:
       - 4200:4200
     networks:
-      - frontend
+      dbbackend:
    
   # PHPMYADMIN Interface (Complete)
   phpmyadmin:
@@ -65,15 +57,14 @@ services:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
     restart: always
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
-      PMA_HOST: db
+      PMA_HOST: mydb
+    depends_on:
+      - mydb
     ports:
       - 8080:80
     networks:
-      - backend
+      dbbackend:
 
   # Fill out the sql database
   #sql_filler:
@@ -81,13 +72,12 @@ services:
   #    context: ../src/main/sqlInserts
   #    dockerfile: Dockerfile
   #  depends_on:
-  #    db:
+  #    my_db:
   #      condition: service_healthy
 
-
-volumes:
-  db-data:
-
 networks:
-  backend:
-  frontend:
+  dbbackend:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
