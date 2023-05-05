@@ -17,7 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
-import org.springframework.security.web.header.HeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -72,12 +71,12 @@ public class SecurityConfig {
         return repository;
     }
 
-    @Bean
+    /* @Bean
     public HeaderWriter headerWriter() {
         return (request, response) -> {
             response.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self'");
         };
-    }
+    } */
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -86,9 +85,9 @@ public class SecurityConfig {
             .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())// attach XSRF-TOKEN cookie to requests
             .and()
             .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
+            .xssProtection().block(false)
             .and()
-            .httpBasic().disable().headers().addHeaderWriter(headerWriter())// prevent cross-site scripting (XSS) attack
-            .and()
+            .defaultsDisabled().disable()
             .authorizeRequests()
                 .antMatchers("/index.html", "/products", "/products/*","/tags").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll() // allow unauthenticated access to POST /users
