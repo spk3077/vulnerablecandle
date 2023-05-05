@@ -1,5 +1,11 @@
 package csec.vulnerable.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import csec.vulnerable.beans.Product;
@@ -53,5 +60,46 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public Response deleteProduct(@PathVariable int id) {
         return productService.deleteProduct(id);
+    }
+
+    @GetMapping("/stock")
+    public String getProductStock(@RequestParam(name = "id", required = false) Integer id, @RequestParam(name = "url", required = false) String url) {
+        if(id == null && url == null){
+            return null;
+        }
+        String response = null;
+        try {
+            Integer stock = null;
+            if(id != null){
+                stock = 0;
+                ProductDTO product = productService.findById(id);
+                if (product != null) {
+                    stock =  product.getStock();
+                    if(url == null){
+                        return "Stock: " + String.valueOf(stock);
+                    }
+            }
+            }
+            URL u = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+            conn.setRequestMethod("GET");
+            conn.connect();
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+
+            response = String.valueOf(stock) + " " + content.toString();
+        } catch (MalformedURLException e) {
+            // Handle malformed URL exception
+            e.printStackTrace();
+        } catch (IOException e) {
+            // Handle IO exception
+            e.printStackTrace();
+        }
+        return response;
     }
 }
