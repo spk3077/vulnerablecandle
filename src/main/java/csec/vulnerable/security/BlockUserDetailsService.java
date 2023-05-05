@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,9 +16,9 @@ import csec.vulnerable.dao.UserDao;
 @Service
 public class BlockUserDetailsService implements UserDetailsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BlockUserDetailsService.class);
+    /* private static final Logger LOGGER = LoggerFactory.getLogger(BlockUserDetailsService.class);
     private static final int MAX_FAILED_ATTEMPTS = 3;
-    private static final int BLOCK_DURATION_MINUTES = 30;
+    private static final int BLOCK_DURATION_MINUTES = 30; */
 
     private final Map<String, LocalDateTime> blockedUsers = new HashMap<>();
     private final Map<String, Integer> failedAttempts = new HashMap<>();
@@ -42,14 +40,14 @@ public class BlockUserDetailsService implements UserDetailsService {
 	}
 
     public void increaseFailedAttempts(String username) {
-        int attempts = failedAttempts.getOrDefault(username, 0);
+        /* int attempts = failedAttempts.getOrDefault(username, 0);
         failedAttempts.put(username, attempts + 1);
 
         LOGGER.info("Failed login attempts for user {}: {}", username, attempts + 1);
 
         if (attempts + 1 >= MAX_FAILED_ATTEMPTS) {
             blockUser(username);
-        }
+        } */
     }
 
     public boolean isBlocked(String username) {
@@ -61,21 +59,22 @@ public class BlockUserDetailsService implements UserDetailsService {
 
         boolean blocked = LocalDateTime.now().isBefore(blockedUntil);
 
-        LOGGER.info("User {} is{}blocked", username, blocked ? " " : " not ");
+        //LOGGER.info("User {} is{}blocked", username, blocked ? " " : " not ");
 
         if (!blocked) {
             blockedUsers.remove(username);
             resetFailedAttempts(username);
         }
 
-        return blocked;
+        //return blocked;
+        return false;
     }
 
     public void resetFailedAttempts(String username) {
         failedAttempts.remove(username);
     }
 
-    private void blockUser(String username) {
+    /* private void blockUser(String username) {
         blockedUsers.put(username, LocalDateTime.now().plusMinutes(BLOCK_DURATION_MINUTES));
-    }
+    } */
 }
