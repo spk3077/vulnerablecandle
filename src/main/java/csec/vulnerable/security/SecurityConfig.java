@@ -14,9 +14,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.security.web.header.HeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
@@ -65,12 +62,12 @@ public class SecurityConfig {
         return authConfiguration.getAuthenticationManager();
     }
 
-    @Bean
+    /* @Bean
     public CsrfTokenRepository csrfTokenRepository() {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName("X-XSRF-TOKEN");
         return repository;
-    }
+    } */
 
     @Bean
     public HeaderWriter headerWriter() {
@@ -83,8 +80,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()
-            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())// attach XSRF-TOKEN cookie to requests
-            .and()
+            .csrf().disable()/* csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())// attach XSRF-TOKEN cookie to requests
+            .and() */
             .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
             .and()
             .httpBasic().disable().headers().addHeaderWriter(headerWriter())// prevent cross-site scripting (XSS) attack
@@ -114,7 +111,7 @@ public class SecurityConfig {
                 .and()
             .rememberMe();
     
-        http.csrf().ignoringAntMatchers("/users","/login"); // ignore CSRF
+        //http.csrf().ignoringAntMatchers("/users","/login"); // ignore CSRF
         http.authenticationProvider(authenticationProvider());
     
         return http.build();
