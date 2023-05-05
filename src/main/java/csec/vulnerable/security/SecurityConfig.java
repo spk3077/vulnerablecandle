@@ -82,7 +82,7 @@ public class SecurityConfig {
             .cors().and()
             .csrf().disable()/* csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())// attach XSRF-TOKEN cookie to requests
             .and() */
-            .headers().frameOptions().deny() // add X-Frame-Options header to prevent clickjacking
+            .headers().frameOptions().disable() // add X-Frame-Options header to prevent clickjacking
             .and()
             .httpBasic().disable().headers().addHeaderWriter(headerWriter())// prevent cross-site scripting (XSS) attack
             .and()
