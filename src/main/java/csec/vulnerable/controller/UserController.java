@@ -37,6 +37,7 @@ public class UserController {
     @Value("${spring.datasource.password}")
     private String password;
 	
+	
 	@Autowired
 	UserService userService;
 
