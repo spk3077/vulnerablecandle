@@ -16,6 +16,12 @@ public class ProductDTO {
     private List<String> tagNames;
     private String image;
 
+    
+    public ProductDTO() {
+    }
+
+
+
     public ProductDTO(int id, String name, String description, double price, List<ProductReviewDTO> productReviews, double averageReviewGrade, List<String> tagNames) {
         this.id = id;
         this.name = name;

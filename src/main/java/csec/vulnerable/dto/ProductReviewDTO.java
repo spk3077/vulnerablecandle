@@ -11,6 +11,11 @@ public class ProductReviewDTO {
     private Date review_date;
     private int productId;
 
+    
+    public ProductReviewDTO() {
+    }
+
+
     public ProductReviewDTO(int id, String username, String title, int grade, String comment, Date review_date, int productId) {
         this.id = id;
         this.username = username;
@@ -20,21 +25,21 @@ public class ProductReviewDTO {
         this.review_date = review_date;
         this.productId = productId;
     }
-    
-
-    public ProductReviewDTO(int id, String username, String title, int grade, String comment, Date review_date) {
-        this.id = id;
-        this.username = username;
-        this.title = title;
-        this.grade = grade;
-        this.comment = comment;
-        this.review_date = review_date;
-    }
 
 
     public int getId() {
         return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    public void setReview_date(Date review_date) {
+        this.review_date = review_date;
+    }
+
 
     public String getUsername() {
         return username;
