@@ -65,6 +65,8 @@ public class CartItem {
         this.quantity = quantity;
     }
 
+    
+
     public int getId() {
         return id;
     }
@@ -77,6 +79,10 @@ public class CartItem {
         return product;
     }
 
+
+    public void setItemPrice(double itemPrice) {
+        this.itemPrice = itemPrice;
+    }
 
     public void setProduct(Product product) {
         this.product = product;
