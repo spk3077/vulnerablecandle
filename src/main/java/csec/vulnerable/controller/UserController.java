@@ -1,10 +1,16 @@
 package csec.vulnerable.controller;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +32,13 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	@Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+
 	@GetMapping
 	public List<UserDTO> getUsers(Authentication authentication) {
 		List<User> users = userService.getusers(authentication);
@@ -41,12 +54,23 @@ public class UserController {
 		return userService.register(user);
 	}
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@PutMapping
 	public Response changeUser(@RequestBody ChangePasswordRequest request, Authentication authentication) {
-		User user = new User();
-		user.setUsername(request.getUsername());
-		user.setPassword(request.getNewPassword());
-		return userService.changePassword(user, authentication, request.getOldPassword());
+		try (Connection conn = DriverManager.getConnection(url, username, password)) {
+			
+			String newPasswordHash = passwordEncoder.encode(request.getNewPassword());
+			String sqlUpdatePassword = "UPDATE ecom_user SET password = '" + newPasswordHash + "' WHERE username = '" + request.getUsername() + "'";
+			try (Statement stmtUpdate = conn.createStatement()) {
+				stmtUpdate.executeUpdate(sqlUpdatePassword);
+				return new Response(true, "Password updated successfully.");
+			}
+				
+		} catch (SQLException e) {
+			return new Response(false, "Error updating password.");
+		}
 	}
 	
 	@DeleteMapping("/{id}")
