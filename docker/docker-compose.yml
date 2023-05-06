@@ -17,8 +17,11 @@ services:
       SPRING_DATASOURCE_PASSWORD: csec77499981
     depends_on:
       - mydb
+    ports:
+      - 8081:8081
     networks:
       dbbackend:
+        ipv4_address: 172.28.1.5
 
   # Database (Complete)
   mydb:
@@ -47,6 +50,7 @@ services:
       - 4200:4200
     networks:
       dbbackend:
+        ipv4_address: 172.28.1.10
    
   # PHPMYADMIN Interface (Complete)
   phpmyadmin:
