@@ -104,16 +104,6 @@
             </div>
             <!-- === ERRORS END// === -->
             <div class="mb-3"> 
-              <label class="form-label">Current Password</label>
-              <input type="password" class="form-control" formControlName="oldPassword" placeholder="Password" [ngClass]="{ 'is-invalid': passSubmitted && fPass.oldPassword.errors }">
-              <div *ngIf="passSubmitted && fPass.oldPassword.errors" class="invalid-feedback">
-                <div *ngIf="fPass.oldPassword.errors.required">Current password is required</div>
-                <div *ngIf="fPass.oldPassword.errors.minlength">Current password must be at least 8 characters</div>
-                <div *ngIf="fPass.oldPassword.errors.maxlength">Current password cannot be greater than 35 characters</div>
-              </div>
-            </div>
-
-            <div class="mb-3"> 
               <label class="form-label">New Password</label>
               <input type="password" class="form-control" formControlName="newPassword" placeholder="Password" [ngClass]="{ 'is-invalid': passSubmitted && fPass.newPassword.errors }">
               <div *ngIf="passSubmitted && fPass.newPassword.errors" class="invalid-feedback">
