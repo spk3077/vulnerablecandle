@@ -4,7 +4,7 @@ FROM node:18.10.0
 #ENV PATH /src/app/node_modules/.bin:$PATH
 WORKDIR /nodeapp
 COPY ["package.json", "./"]
-RUN npm install --save-dev
+RUN npm install --save-dev -g @angular/cli @angular-devkit/build-angular && npm install
 COPY . .
 
 ENV NVM_DIR /usr/local/nvm
@@ -16,4 +16,5 @@ COPY . /nodeapp
 EXPOSE 80
 EXPOSE 443
 EXPOSE 4200
-CMD node_modules/.bin/ng serve --ssl true --open --host 0.0.0.0
+CMD npm start
+#CMD node_modules/.bin/ng serve --ssl true --open --host 0.0.0.0 --port 4200
