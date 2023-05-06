@@ -4,10 +4,7 @@ FROM node:18.10.0
 #ENV PATH /src/app/node_modules/.bin:$PATH
 WORKDIR /nodeapp
 COPY ["package.json", "./"]
-RUN npm install
-RUN npm install --save-dev @angular-devkit/build-angular
-RUN npm install @angular/cli
-RUN npm install @angular/core
+RUN npm install --save-dev
 COPY . .
 
 ENV NVM_DIR /usr/local/nvm
