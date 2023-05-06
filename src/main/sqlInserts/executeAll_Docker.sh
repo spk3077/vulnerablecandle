@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPTS_DIR=./temp
+SCRIPTS_DIR=/temp
 pswd="csec77499981"
 
 #waiting for mysql to boot
