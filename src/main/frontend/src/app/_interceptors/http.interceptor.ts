@@ -4,27 +4,15 @@ import { Router } from "@angular/router";
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { CookieService } from 'ngx-cookie';
-
-import { CSRFCOOKIE, CSRFHEADER } from '@app/_core/constants';
-
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
   constructor(
-    private cookieService: CookieService, 
     private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
       withCredentials: true,
     });
-
-    const xsrfToken = this.cookieService.get(CSRFCOOKIE);
-    if (xsrfToken) {
-      req = req.clone({
-        headers: req.headers.set(CSRFHEADER, xsrfToken),
-      });
-    }
 
     return next.handle(req).pipe(
         catchError((error) => 

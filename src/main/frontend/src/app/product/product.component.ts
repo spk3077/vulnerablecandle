@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartItemSend } from '@app/_core/cartItem';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 
 import { ProductReceive } from '@app/_core/product';
+import { ProductReviewReceive } from '@app/_core/productReview';
 import { ProductService } from '@app/_services/product.service';
 import { ShoppingCartService } from '@app/_services/shopping-cart.service';
 import { UserService } from '@app/_services/user.service';
@@ -21,12 +22,16 @@ export class ProductComponent implements OnInit {
   id!: number;
   product: ProductReceive = ProductReceive.forProduct(0, '', '', '', [], 0, 0, '', 0, []);
 
+  // For replacing comments with scripts upon reception
+  @ViewChildren('review') elements!: QueryList<any>;
+
   // Purchase Variables
   quantity: number = 1;
 
   // Display Variables
   getProductError: boolean = false;
-  showStock: boolean = false;
+  getProductStockError: boolean = false;
+  stockNum: number | null = null;
   showCartMessage: boolean = false;
   toCartMessage: string | undefined;
 
@@ -41,7 +46,8 @@ export class ProductComponent implements OnInit {
     private shoppingCartService: ShoppingCartService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private _elementRef : ElementRef
     ) {}
   
   // Font Awesome Exports
@@ -52,6 +58,17 @@ export class ProductComponent implements OnInit {
     this.id = parseInt(this.route.snapshot.paramMap.get('productid')!);
     this.userService.loggedInUser$.subscribe(x => this.currentUser = x);
     this.getProduct();
+  }
+
+  ngAfterViewInit() {
+    this.elements.changes.subscribe( () => {
+      // Add exploitable scripts to DOM
+      this.product.productReviews.forEach((review: ProductReviewReceive) => {
+        let domElement : any = this._elementRef.nativeElement.querySelector("#review-" + review.id);
+        let fragment = document.createRange().createContextualFragment(review.comment);
+        domElement.appendChild(fragment);
+      });
+    })
   }
   
   // Fetch the Product to Fillout Page
@@ -94,6 +111,26 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  // Fetch the Stock
+  public getProductStock(): void {
+    this.productService.getProductStock(this.id).subscribe({
+      // If Successful
+      next: (res) => {
+        if (res.length == 4) {
+          this.getProductStockError = true;
+          return;
+        }
+        this.stockNum = +res.slice(12);
+        this.getProductStockError = false;
+      },
+      // If fails at server
+      error: () => {
+        this.getProductStockError = true;
+        return;
+      }
+    });
+  }
+
   // Add to Cart
   public addToCart(): void {
     this.shoppingCartService.addToCart(new CartItemSend(this.id, this.quantity)).subscribe({
@@ -112,12 +149,6 @@ export class ProductComponent implements OnInit {
         this.toCartMessage = "Internal Server Error";
       }}
     );
-  }
-
-  // Fetch the Stock for this Product
-  // For FIXED SHOULD ONLY JUST CHANGE BOOLEAN
-  public getStock(): void {
-    this.showStock = true;
   }
 
   // Adding 1 to Quantity

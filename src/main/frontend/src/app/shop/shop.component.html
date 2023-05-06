@@ -14,7 +14,7 @@
                         </header>
                         <div class="filter-content collapse show" id="collapse_1">
                             <div class="card-body">
-                                <input class="form-control" type="text" placeholder="Search" [(ngModel)]="filterSearch">
+                                <input class="form-control" type="text" placeholder="Search" (ngModelChange)="updateFilterText()" [(ngModel)]="filterSearch">
                             </div>
                         </div>
                     </article>
@@ -79,6 +79,7 @@
                 <div class="alert-message" [hidden]="!getTagsError">
                     Retrieving Failed! No Tags. Try again later
                 </div>
+                <h5 [hidden]="!filterSearch">Results for <b #searchText id="searchText" [innerHtml]="filterSearch | safe: 'html'"></b></h5>
                 <div class="row">
                 <div class="col-lg-4 col-md-6" *ngFor="let product of (products |slice:0:42 | products:filters) | filter:filterSearch">
                     <article class="card card-product-grid">
