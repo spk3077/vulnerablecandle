@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 WORKDIR /sql
-ADD ../src/main/sqlinserts ./
+COPY ../src/main/sqlInserts ./
 RUN apt-get update
 RUN apt-get -y install mysql-client
 CMD ["/sql/executeAll_Docker.sh"]
