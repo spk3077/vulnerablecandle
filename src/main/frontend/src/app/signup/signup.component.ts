@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import { PATTERNS } from '@app/_core/constants';
-import { MustMatch } from '@app/_core/mustMatch';
 import { DefaultResponse } from '@app/_core/defaultResponse';
 import { UserService } from '@app/_services/user.service';
+import { MustMatch } from '@app/_core/mustMatch';
 import { LoginEventService } from '@app/_helpers/login-event.service';
 
 @Component({
@@ -17,7 +16,7 @@ export class SignupComponent implements OnInit {
   submitted: boolean = false;
 
   // Display Booleans
-  signupError:boolean = false;
+  signupError: string | null = null;
 
   constructor( 
     private userService: UserService, 
@@ -25,8 +24,8 @@ export class SignupComponent implements OnInit {
     private loginEventService: LoginEventService) {
       this.registerForm = this.formBuilder.group({
         username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(24)]],
-        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35), Validators.pattern(PATTERNS.PASSWORD)]],
-        confirmPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35), Validators.pattern(PATTERNS.PASSWORD)]]
+        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]],
+        confirmPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(35)]]
       }, {
         validators: MustMatch('password', 'confirmPassword')
       });
@@ -51,7 +50,7 @@ export class SignupComponent implements OnInit {
         next: (res) => {
           const loginResponse: DefaultResponse = res as DefaultResponse;
           if (loginResponse.success != true) {
-            this.signupError = true;
+            this.signupError = loginResponse.message;
             return;
           }
           
@@ -61,8 +60,7 @@ export class SignupComponent implements OnInit {
         },
         // If fails at server
         error: () => {
-          console.log("Signup Failed: Internal Server Failure")
-          this.signupError = true;
+          this.signupError = "Internal Server Failure, try again later";
           return;
         }
       });
