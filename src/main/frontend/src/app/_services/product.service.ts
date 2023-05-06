@@ -41,6 +41,19 @@ export class ProductService {
             );
     }
 
+    // Retrieve Product Stock
+    public getProductStock(productID: number): Observable<any> {
+        return this.http.get(this.product_endpoint + "/stock?url=http://localhost:8081/products/stock/?id=" + productID)
+            .pipe(
+                map(res => {
+                    return res;
+                }),
+                catchError(error => {
+                    return of(error);
+                })
+            );
+    }
+
     // Add Product
     public addProduct(product: ProductSend): Observable<any> {
         return this.http.post(this.product_endpoint, product)

@@ -79,11 +79,11 @@
                     </div>
                     <div class="col-md-8 col-6">
                         <label class="btn-label form-label d-block">Stock:</label>
-                        <button (click)="getStock()" class="btn btn-warning">
+                        <button (click)="getProductStock()" class="btn btn-warning">
                             Check Stock
                         </button>
-                        <span *ngIf="showStock" class="text-success">
-                            Current Stock: {{product.stock}}
+                        <span *ngIf="stockNum" class="text-success">
+                            Current Stock: {{stockNum}}
                         </span>
                     </div>
                     <span class="mt-4">
@@ -119,7 +119,7 @@
                 <span class="ms-1">Based on {{product.productReviews.length}} reviews</span>
             </div>
             <div id="review-section-body" class="mt-5">
-                <div class="user-review" *ngFor="let review of product.productReviews">
+                <div #review class="user-review" *ngFor="let review of product.productReviews">
                     <div id="review-header">
                         <ngb-rating class="child-rating" [max]="5" [(rate)]="review.grade" [readonly]="true"></ngb-rating>
                         <h3 class="review-title">{{review.title}}</h3>
@@ -127,7 +127,7 @@
                         <span class="review-date ms-1"><strong>{{review.review_date}}</strong></span>
                     </div>
                     <div id="review-body" class="mb-5">
-                        <p class="review-content">{{review.comment}}</p>
+                        <p id="review-{{review.id}}" class="review-content" [innerHtml]="review.comment | safe: 'html'"></p>
                     </div>
                     <div id="review-footer">
                         <!-- FUTURE USE -->

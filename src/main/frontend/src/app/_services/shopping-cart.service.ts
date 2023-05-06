@@ -32,7 +32,10 @@ export class ShoppingCartService {
   // Adding to Cart | cartitem.id is productID
   public addToCart(cartItem: CartItemSend): Observable<any> {
     return this.http.post(this.cart_endpoint + "/add/" + cartItem.id + "/" + cartItem.quantity,
-      {})
+      {
+        itemPrice: cartItem.itemPrice
+      }
+      )
       .pipe(
           map(res => {
               return res;
@@ -41,7 +44,7 @@ export class ShoppingCartService {
               return throwError(() => (new Error(error)));
           })
       );
-  }
+}
 
     // Updating existing cart item | cartitem.id is cartitemID
     public updateCartItem(cartItem: CartItemSend): Observable<any> {
