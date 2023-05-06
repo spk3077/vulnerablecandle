@@ -19,7 +19,12 @@ Instructions provided are oriented to Debian distributions such as Ubuntu.  Othe
     sudo apt install docker docker-compose 
 
 ## Running
-Docker commands here
+
+    # Enter cloned directory
+    cd vulnerablecandle
+
+    # Run Docker-Compose and wait!
+    sudo docker-compose up
 
 ## Contact Us
 Have any questions or advice?  Email us at our university email addresses:
