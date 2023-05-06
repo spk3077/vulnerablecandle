@@ -6,8 +6,8 @@ services:
   # Maven SpringBoot
   api:
     build:
-      context: ../
-      dockerfile: API_Dockerfile
+      context: ./
+      dockerfile: ./docker/API_Dockerfile
     hostname: api
     container_name: api
     restart: always
@@ -44,8 +44,8 @@ services:
   # Web Server (Complete)
   node_app:
     build:
-      context: ../src/main/frontend
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./docker/node_Dockerfile
     ports:
       - 4200:4200
     networks:
@@ -70,8 +70,8 @@ services:
   # Fill out the sql database
   sql_filler:
     build:
-      context: ../src/main/sqlInserts
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./docker/inserts_Dockerfile
     depends_on:
       - mydb
       - api

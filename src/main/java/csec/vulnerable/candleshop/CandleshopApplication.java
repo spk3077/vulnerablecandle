@@ -27,7 +27,7 @@ public class CandleshopApplication {
 						.allowedOriginPatterns("*")
 						.allowedMethods("GET", "POST", "PUT", "DELETE")
 						.allowedHeaders("*")
-						.allowCredentials(true)
+						.allowCredentials(true);
 			}
 		};
 	}
