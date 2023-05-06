@@ -1,0 +1,87 @@
+# Main Docker-Compose File
+# Authors: Sean Kells <spk3077@rit.edu>, Cameron MacDonald <chm7374@rit.edu>
+version: "3.7"
+
+services:
+  # Maven SpringBoot
+  api:
+    build:
+      context: ./
+      dockerfile: ./docker/API_Dockerfile
+    hostname: api
+    container_name: api
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://172.28.1.2:3306/csec?useSSL=false&allowPublicKeyRetrieval=true&useTimezone=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: csec77499981
+    depends_on:
+      - mydb
+    ports:
+      - 8081:8081
+    networks:
+      dbbackend:
+        ipv4_address: 172.28.1.5
+
+  # Database (Complete)
+  mydb:
+    image: mysql:8.0
+    #command: --default-authentication-plugin=mysql_native_password
+    hostname: mydb
+    container_name: mydb
+    restart: always
+    environment:
+       MYSQL_ROOT_PASSWORD: csec77499981
+       MYSQL_DATABASE: csec
+       MYSQL_USER: csec
+       MYSQL_PASSWORD: csec77499981
+    networks:
+      dbbackend:
+        ipv4_address: 172.28.1.2
+    ports:
+       - 3307:3306
+
+  # Web Server (Complete)
+  node_app:
+    build:
+      context: ./
+      dockerfile: ./docker/node_Dockerfile
+    ports:
+      - 4200:4200
+    networks:
+      dbbackend:
+        ipv4_address: 172.28.1.10
+   
+  # PHPMYADMIN Interface (Complete)
+  phpmyadmin:
+    hostname: phpmyadmin
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mydb
+    depends_on:
+      - mydb
+    ports:
+      - 8080:80
+    networks:
+      dbbackend:
+
+  # Fill out the sql database
+  sql_filler:
+    build:
+      context: ./
+      dockerfile: ./docker/inserts_Dockerfile
+    depends_on:
+      - mydb
+      - api
+    restart: on-failure
+    networks:
+      dbbackend:
+
+networks:
+  dbbackend:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
