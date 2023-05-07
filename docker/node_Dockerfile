@@ -1,7 +1,7 @@
 FROM node:18.10.0
 
 WORKDIR /nodeapp
-COPY ["../src/main/frontend/", "./"]
+COPY ["./src/main/frontend/", "./"]
 RUN npm install --save-dev -g @angular/cli @angular-devkit/build-angular && npm install
 
 ENV NVM_DIR /usr/local/nvm
