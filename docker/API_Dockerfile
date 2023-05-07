@@ -1,9 +1,9 @@
 FROM maven:latest AS build
 EXPOSE 8081
 WORKDIR /api
-COPY ["../pom.xml", "./"]
-COPY ../src .
-COPY ../. .
+COPY ["./pom.xml", "./"]
+COPY ./src .
+COPY ./. .
 RUN mvn -f /api/pom.xml clean package -Dmaven.test.skip
 
 FROM openjdk:latest
