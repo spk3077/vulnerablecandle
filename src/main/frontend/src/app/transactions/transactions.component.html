@@ -33,34 +33,10 @@
       <td mat-cell *matCellDef="let element"> {{element.address}} </td>
     </ng-container>
 
-    <!-- City Column -->
-    <ng-container matColumnDef="city">
-      <th mat-header-cell *matHeaderCellDef> City </th>
-      <td mat-cell *matCellDef="let element"> {{element.city}} </td>
-    </ng-container>
-
-    <!-- State Column -->
-    <ng-container matColumnDef="state">
-      <th mat-header-cell *matHeaderCellDef> State </th>
-      <td mat-cell *matCellDef="let element"> {{element.state}} </td>
-    </ng-container>
-
-    <!-- ZIP Column -->
-    <ng-container matColumnDef="zip">
-      <th mat-header-cell *matHeaderCellDef> ZIP Code </th>
-      <td mat-cell *matCellDef="let element"> {{element.zip}} </td>
-    </ng-container>
-
     <!-- Card # Column -->
     <ng-container matColumnDef="card_number">
       <th mat-header-cell *matHeaderCellDef> Card Number </th>
       <td mat-cell *matCellDef="let element"> {{element.card_number}} </td>
-    </ng-container>
-
-    <!-- Card Owner Column -->
-    <ng-container matColumnDef="payment_owner_name">
-      <th mat-header-cell *matHeaderCellDef> Card Owner's Name </th>
-      <td mat-cell *matCellDef="let element"> {{element.payment_owner_name}} </td>
     </ng-container>
   
     <!-- Name Column -->
@@ -75,69 +51,63 @@
       <td mat-cell *matCellDef="let element"> {{element.email}} </td>
     </ng-container>
 
-    <!-- Product Column -->
+    <!-- Price Column -->
+    <ng-container matColumnDef="totalPrice">
+      <th mat-header-cell *matHeaderCellDef> Total Price </th>
+      <td mat-cell *matCellDef="let element"> {{element.totalPrice}} </td>
+    </ng-container>
+
+    <!-- items Column -->
     <ng-container matColumnDef="orderItems">
       <th mat-header-cell *matHeaderCellDef> order Items </th>
       <td mat-cell *matCellDef="let element"> {{element.orderItems}} </td>
     </ng-container>
  
-    <!-- Product Column -->
-    <ng-container matColumnDef="user_id">
-      <th mat-header-cell *matHeaderCellDef> User ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.user_id}} </td>
+    <!-- true items Column -->
+    <ng-container matColumnDef="items">
+      <th mat-header-cell *matHeaderCellDef> Items </th>
+      <td mat-cell *matCellDef="let element"> 
+        <table mat-table [dataSource]="dataSource2" class="elements-table mat-elevation-z8">
+          <!-- ID Column -->
+          <ng-container matColumnDef="itemOrderId">
+            <th mat-header-cell *matHeaderCellDef> Product ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.itemId}} </td>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="itemName">
+            <th mat-header-cell *matHeaderCellDef> Product Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+          </ng-container>
+          <!-- Price Column -->
+            <ng-container matColumnDef="itemPrice">
+              <th mat-header-cell *matHeaderCellDef> Price </th>
+              <td mat-cell *matCellDef="let element"> {{element.itemPrice}} </td>
+            </ng-container>
+            <!-- Quantity Column -->
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef> Quantity </th>
+              <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+        </table> 
+      </td>
+    </ng-container>
+
+    <!-- Review Button -->
+    <ng-container matColumnDef="totalPrice">
+      <th mat-header-cell *matHeaderCellDef> Review </th>
+      <td mat-cell *matCellDef="let roew"> 
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
+          Write a review!
+        </button>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   
-
-  <!-- Products from the order table -->
-  <table mat-table [dataSource]="dataSource2" class="elements-table mat-elevation-z8">
-
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-  
-    <!-- Order ID Column -->
-    <ng-container matColumnDef="orderId">
-      <th mat-header-cell *matHeaderCellDef> Order ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.orderId}} </td>
-    </ng-container>
-
-    <!-- ID Column -->
-    <ng-container matColumnDef="itemOrderId">
-      <th mat-header-cell *matHeaderCellDef> Product ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.itemOrderId}} </td>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="itemName">
-      <th mat-header-cell *matHeaderCellDef> Product Name</th>
-      <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
-    </ng-container>
-
-    <!-- Brand Column -->
-    <ng-container matColumnDef="itemBrand">
-      <th mat-header-cell *matHeaderCellDef> Brand </th>
-      <td mat-cell *matCellDef="let element"> {{element.itemBrand}} </td>
-    </ng-container>
-
-    <!-- Price Column -->
-    <ng-container matColumnDef="itemPrice">
-      <th mat-header-cell *matHeaderCellDef> Price </th>
-      <td mat-cell *matCellDef="let element"> {{element.itemPrice}} </td>
-    </ng-container>
-
-    <!-- Quantity Column -->
-    <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef> Quantity </th>
-      <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
-  </table>
-
 
 
   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
