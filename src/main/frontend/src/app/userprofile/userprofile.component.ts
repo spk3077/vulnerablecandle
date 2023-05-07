@@ -109,7 +109,7 @@ export class UserProfileComponent implements OnInit {
 
         // Pic Form Update
         this.picForm.patchValue({
-          fullName: info.fullName
+          fullName: info.name
         });
 
         // User Info Form Update
