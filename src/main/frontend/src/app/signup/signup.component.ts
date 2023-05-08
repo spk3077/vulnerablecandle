@@ -17,7 +17,7 @@ export class SignupComponent implements OnInit {
   submitted: boolean = false;
 
   // Display Booleans
-  signupError:boolean = false;
+  signupError: string | null = null;
 
   constructor( 
     private userService: UserService, 
@@ -51,7 +51,7 @@ export class SignupComponent implements OnInit {
         next: (res) => {
           const loginResponse: DefaultResponse = res as DefaultResponse;
           if (loginResponse.success != true) {
-            this.signupError = true;
+            this.signupError = loginResponse.message;
             return;
           }
           
@@ -61,8 +61,7 @@ export class SignupComponent implements OnInit {
         },
         // If fails at server
         error: () => {
-          console.log("Signup Failed: Internal Server Failure")
-          this.signupError = true;
+          this.signupError = "Internal Server Failure, try again later";
           return;
         }
       });
