@@ -18,3 +18,11 @@ While the Angular application by default fetches the product stock by using the 
 Successful exploitation looks like:
 
     null ...
+
+## Burp Suite Example Exploitation
+
+    # First Request
+
+
+
+    # Second Request
