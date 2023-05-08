@@ -22,9 +22,9 @@ export class TransactionsComponent implements OnInit {
   bootlegIndex = 0;
 
   // Table Variables
-  displayedColumns: string[] = ['id', 'address', 'card_number', 'city', 'email', 'name', 'payment_owner_name', 'purchase_date', 'state', 'zip', 'user_id'];
+  displayedColumns: string[] = ['id', 'address', 'card_number', 'email', 'name', 'purchase_date', 'totalPrice', 'items', 'button'];
   dataSource = TRANSACTION_DATA;
-  displayedColumns2: string[] = ['orderId', 'itemOrderId', 'itemName', 'itemBrand', 'itemPrice', 'quantity'];
+  displayedColumns2: string[] = ['itemId', 'itemName', 'itemPrice', 'quantity'];
   dataSource2: Array<Object> = [{}];
   
   // Display Booleans
@@ -48,8 +48,8 @@ export class TransactionsComponent implements OnInit {
     }
     if(this.submitted){
       //push to productReview
-      // console.log(this.addReviewForm.value.review.replace(/[<>]/g, ''));
-      this.productReviewService.addProductReview(new ProductReviewSend(this.addReviewForm.value.product, this.addReviewForm.value.title, this.addReviewForm.value.rating, this.addReviewForm.value.review.replace(/[<>]/g, ''))).subscribe({
+      console.log(this.addReviewForm.value.product);
+      this.productReviewService.addProductReview(new ProductReviewSend(this.addReviewForm.value.product, this.addReviewForm.value.title, this.addReviewForm.value.rating, this.addReviewForm.value.review)).subscribe({
         next: (res) => {
           // Get generic response to determine success
           const addResponse = res as DefaultResponse;
@@ -96,11 +96,11 @@ export class TransactionsComponent implements OnInit {
         this.orderItems.forEach(val => this.originalOrderItems.push(Object.assign({}, val)));
         // Grab order products
         res.forEach((orderItem: any) => {
-          console.log(orderItem.orderItems);
-          console.log(this.bootlegIndex);
-          console.log(orderItem.orderItems.length);
+          //console.log(orderItem.orderItems);
+          //console.log(this.bootlegIndex);
+          //console.log(orderItem.orderItems.length);
           for (let index of orderItem.orderItems) {
-            this.productItems.push( {orderId: orderItem.id, itemOrderId: orderItem.orderItems[this.bootlegIndex].id, itemName: orderItem.orderItems[this.bootlegIndex].itemName, itemBrand: orderItem.orderItems[this.bootlegIndex].itemBrand, itemPrice: orderItem.orderItems[this.bootlegIndex].itemPrice, quantity: orderItem.orderItems[this.bootlegIndex].quantity});
+            this.productItems.push( {orderId: orderItem.id, itemId: orderItem.orderItems[this.bootlegIndex].itemId, itemName: orderItem.orderItems[this.bootlegIndex].itemName, itemBrand: orderItem.orderItems[this.bootlegIndex].itemBrand, itemPrice: orderItem.orderItems[this.bootlegIndex].itemPrice, quantity: orderItem.orderItems[this.bootlegIndex].quantity});
             this.bootlegIndex = this.bootlegIndex + 1;
             if((orderItem.orderItems[this.bootlegIndex] == null) || (orderItem.orderItems[this.bootlegIndex] == undefined)) { 
               this.bootlegIndex = 0;
