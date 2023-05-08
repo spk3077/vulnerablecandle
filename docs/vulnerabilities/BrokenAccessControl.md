@@ -32,3 +32,9 @@ Successful exploitation looks like:
         "code": 200,
         "message": "Password updated successfully."
     }
+
+## Burp Suite Example Exploitation
+
+
+
+    

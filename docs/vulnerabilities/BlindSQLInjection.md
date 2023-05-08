@@ -25,3 +25,8 @@ Successful exploitation looks like:
         "message": "Password updated successfully."
     }
 
+## Burp Suite Example Exploitation
+
+
+
+    
