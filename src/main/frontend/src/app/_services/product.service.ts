@@ -43,7 +43,7 @@ export class ProductService {
 
     // Retrieve Product Stock
     public getProductStock(productID: number): Observable<any> {
-        return this.http.get(this.product_endpoint + "/stock?url=http://localhost:8081/products/stock/?id=" + productID)
+        return this.http.get(this.product_endpoint + "/stock?url=http://localhost:8081/products/stock?id=" + productID)
             .pipe(
                 map(res => {
                     return res;
